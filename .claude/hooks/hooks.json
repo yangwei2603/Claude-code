@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/fox/Claude Code/.claude/hooks/session-start.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}

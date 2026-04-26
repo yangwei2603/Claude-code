@@ -1,3 +1,3 @@
 #!/bin/bash
-cd "/Users/fox/Claude Code/AI-Factory"
+cd "/Users/fox/Claude Code"
 claude

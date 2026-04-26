@@ -1,0 +1,12 @@
+# agent-skill-system 依赖
+# 安装：pip install -r requirements.txt
+
+requests>=2.28.0
+pyyaml>=6.0
+
+# 可选：生产环境建议加入 requests 断路器
+# pip install pybreaker
+
+# 环境变量配置（需在 .env 或 shell 中设置）
+# MINIMAX_API_KEY=your_minimax_key_here
+# DEEPSEEK_API_KEY=your_deepseek_key_here
