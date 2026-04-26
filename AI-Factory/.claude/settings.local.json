@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git clone *)"
+      "Bash(git clone *)",
+      "Bash(chmod +x *)",
+      "Bash(./build.sh all *)",
+      "Bash(pip install *)",
+      "Bash(pyinstaller file-organizer-agent.spec --noconfirm)",
+      "Bash(zip -r \"file-organizer-agent-macos-arm64.zip\" file-organizer-agent)"
     ]
   }
 }
