@@ -4,7 +4,7 @@
 llm:
   # 当前使用提供商：minimax | deepseek | local | auto
   # auto 模式：简单任务→MiniMax，复杂推理→DeepSeek，涉密/内部数据→本地模型
-  provider: "minimax"
+  provider: "deepseek"
 
   minimax:
     api_key: "${MINIMAX_API_KEY}"
