@@ -1,6 +1,8 @@
 # CLAUDE.md
+<!-- Last updated: 2026-04-29 -->
+<!-- Version: 1.1 -->
 
-This file provides guidance to Claude Code when working in this workspace.
+This file provides guidance to Claude Code when working with code in this repository.
 
 ## Workspace Structure
 
@@ -10,27 +12,50 @@ Claude Code/
 ├── .claude/
 │   ├── commands/                      # Slash commands (/spec /plan /build /test /review /ship)
 │   └── hooks/                         # Session lifecycle hooks (auto-injected on startup)
-├── skills/                            # 三层结构：skills（工程+领域技能）
-│   ├── engineering/                   # 21个工程 Skill（spec-driven、code-review 等）
-│   └── domain/                        # 领域 Skill
-│       ├── financial-analysis/       # 航司财务分析（年报、CASK、六大航司对比）
-│       └── sql-generation/           # SQL 生成（YonBIP/iuap 合同系统）
-├── agents/                            # 三层结构：agents（Persona + 编排框架）
-│   ├── personas/                     # 可复用角色：code-reviewer、test-engineer、security-auditor
-│   └── orchestration/               # Python 多 Agent 编排框架（9个Agent + llm_client）
-│       ├── llm_client.py             # MiniMax + DeepSeek 统一 LLM 客户端
-│       ├── agents/                   # 9个Agent：pm/task/dev/test/fix/review/git/deploy/monitor
-│       ├── config/settings.yaml      # LLM 配置（provider 切换：minimax / deepseek）
+├── skills/                            # Skills layer: engineering + domain skills
+│   ├── engineering/                   # 21 engineering skills (spec-driven, code-review, etc.)
+│   └── domain/                        # Domain skills
+│       ├── financial-analysis/       # Airline financial analysis (annual reports, CASK, six airlines)
+│       └── sql-generation/           # SQL generation (YonBIP/iuap contract system)
+├── agents/                            # Agents layer: personas + orchestration framework
+│   ├── personas/                     # Reusable personas: code-reviewer, test-engineer, security-auditor
+│   └── orchestration/               # Python multi-agent framework (9 agents + llm_client)
+│       ├── llm_client.py           # MiniMax + DeepSeek unified LLM client
+│       ├── agents/                 # 9 agents: pm/task/dev/test/fix/review/git/deploy/monitor
+│       ├── config/settings.yaml    # LLM config (provider switching: minimax / deepseek)
 │       └── workflows/
-├── projects/                          # 三层结构：projects（具体产品项目）
-│   ├── file-organizer/              # 智能文件分类 Agent（Python/macOS）
-│   └── fin-product-forecast/         # 金融产品预测预警系统（Python/SQLite/sklearn）
-├── AI-Factory/                       # 只读引用源（skills/agents/hooks 仍在原位）
-│   ├── agent-skills/                # Skills & Personas 原始位置
-│   ├── file-organizer-agent/        # [已迁移 → projects/file-organizer/]
-│   └── fin-product-forecast/         # [已迁移 → projects/fin-product-forecast/]
-└── 参考文件/                           # 架构参考文档
-```
+├── projects/                          # Projects layer: product implementations
+│   ├── file-organizer/              # Intelligent file classification agent (Python/macOS)
+│   └── fin-product-forecast/        # Financial product forecasting system (Python/sklearn/SQLite)
+├── AI-Factory/                       # Read-only reference source (sync from root skills/agents/hooks)
+│   ├── agent-skills/                # Origin — do not edit, synced to root
+│   ├── file-organizer-agent/        # [Migrated → projects/file-organizer/]
+│   └── fin-product-forecast/        # [Migrated → projects/fin-product-forecast/]
+└── 参考文件/                           # Architecture reference documents
+
+## Getting Started
+
+### Required Configuration
+
+| Config | Purpose |
+|--------|---------|
+| `.claude/settings.local.json` | API keys, LLM providers (MiniMax/DeepSeek) |
+| `.claude/commands/*.md` | 7 slash commands (spec, plan, build, test, review, code-simplify, ship) |
+
+### Verification
+
+Run `/help` to confirm slash commands are loaded. If commands are missing, check that `.claude/commands/` contains all 7 command files.
+
+### Hooks
+
+Session lifecycle hooks in `.claude/hooks/` and `hooks/`:
+
+| Hook | Trigger | Purpose |
+|------|---------|---------|
+| `session-start.sh` | On session start | Initialize workspace context |
+| `sdd-cache-pre.sh` | Before SDD skill | Cache preparation |
+| `sdd-cache-post.sh` | After SDD skill | Cache refresh |
+| `simplify-ignore.sh` | During simplify | Ignore patterns for refactoring |
 
 ## Skill System
 
@@ -194,12 +219,12 @@ These apply at all times, regardless of which skill is active:
 - **Tech**: Python, macOS
 - **Purpose**: Intelligent file classification and organization agent
 
-### fin-product-forecast（金融产品预测预警系统）
+### fin-product-forecast (Financial Product Forecasting System)
 - **Path**: `projects/fin-product-forecast/`
-- **Tech**: Python, 原生 HTTP, scikit-learn, SQLite
-- **Purpose**: 金融产品（汇率为主）的价格预测与风险预警，为交易决策提供科学依据
-- **核心模块**：fx_system（预测引擎）、tools/fx_quant_strategy.py（量化回测）、docs/（文档体系）
-- **文档入口**：`projects/fin-product-forecast/docs/GUIDE.md`
+- **Tech**: Python, native HTTP, scikit-learn, SQLite
+- **Purpose**: Price forecasting and risk alerting for financial products (primarily FX), supporting trading decisions
+- **Core modules**: fx_system (forecasting engine), tools/fx_quant_strategy.py (quant backtesting), docs/ (documentation)
+- **Doc entry**: `projects/fin-product-forecast/docs/GUIDE.md`
 
 ## Data Analysis Knowledge Base
 
@@ -210,7 +235,7 @@ These apply at all times, regardless of which skill is active:
 | `iuap_apdoc_coredoc.sql` | 1.4 GB | Core document table schema |
 | `yonbip_clm_contract.sql` | 76 MB | Contract module table schema |
 
-**Path**: `/Users/fox/Documents/Obsidian Vault/自动笔记/05-数据资产/01-数据治理/合同系统数据字典/`
+**Path**: See memory reference for SQL knowledge base location (not hardcoded for portability)
 **Use**: Extract contract and supplier data for data analysis. See `skills/domain/sql-generation/SKILL.md`.
 
 ## Memory System
