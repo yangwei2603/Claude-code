@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+# ================================================================
+# pre-push hook — 推送前自动化检查
+# 目标仓库: https://github.com/yangwei2603/Claude-code.git
+# ================================================================
+
+set -euo pipefail
+
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+REMOTE="$1"
+REMOTE_URL="$2"
+ERRORS=0
+
+echo ""
+echo -e "${CYAN}🚀 [pre-push] 推送前检查 → ${REMOTE} (${REMOTE_URL})${NC}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+
+# ----------------------------------------------------------------
+# 1. 读取推送的分支信息
+# ----------------------------------------------------------------
+while read local_ref local_sha remote_ref remote_sha; do
+  LOCAL_BRANCH=$(echo "$local_ref" | sed 's|refs/heads/||')
+  REMOTE_BRANCH=$(echo "$remote_ref" | sed 's|refs/heads/||')
+  
+  echo -e "${BLUE}📌 推送分支: ${LOCAL_BRANCH} → ${REMOTE_BRANCH}${NC}"
+  
+  # ----------------------------------------------------------------
+  # 2. 保护主分支：main/master 禁止直接强推（--force）
+  # ----------------------------------------------------------------
+  if [[ "$REMOTE_BRANCH" == "main" || "$REMOTE_BRANCH" == "master" ]]; then
+    echo -e "${CYAN}[1/3] 检查主分支保护规则...${NC}"
+    # 检测是否为 force push（remote_sha 为全0时是新分支，否则检查是否有 rebase）
+    if [ "$remote_sha" != "0000000000000000000000000000000000000000" ]; then
+      # 检查是否历史是否有回退（force push 会改变历史）
+      if ! git merge-base --is-ancestor "$remote_sha" "$local_sha" 2>/dev/null; then
+        echo -e "  ${RED}✗ 检测到 force push，禁止向 ${REMOTE_BRANCH} 强制推送！${NC}"
+        echo -e "  ${YELLOW}  提示: 请使用 PR/MR 流程合并代码${NC}"
+        ERRORS=$((ERRORS + 1))
+      else
+        echo -e "  ${GREEN}✓ 主分支保护检查通过${NC}"
+      fi
+    else
+      echo -e "  ${GREEN}✓ 新分支，跳过保护检查${NC}"
+    fi
+  fi
+
+  # ----------------------------------------------------------------
+  # 3. 检查待推送的提交数量
+  # ----------------------------------------------------------------
+  echo -e "${CYAN}[2/3] 检查待推送提交...${NC}"
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+    COMMIT_COUNT=$(git rev-list --count "$local_sha" 2>/dev/null || echo 0)
+    echo -e "  ${YELLOW}⚠  新分支，共 $COMMIT_COUNT 个提交${NC}"
+  else
+    COMMIT_COUNT=$(git rev-list --count "${remote_sha}..${local_sha}" 2>/dev/null || echo 0)
+    if [ "$COMMIT_COUNT" -gt 20 ]; then
+      echo -e "  ${YELLOW}⚠  待推送提交较多 ($COMMIT_COUNT 个)，请确认无误${NC}"
+    else
+      echo -e "  ${GREEN}✓ 待推送 $COMMIT_COUNT 个提交${NC}"
+    fi
+  fi
+
+  # ----------------------------------------------------------------
+  # 4. 检查待推送文件中是否有敏感信息
+  # ----------------------------------------------------------------
+  echo -e "${CYAN}[3/3] 扫描推送内容的敏感信息...${NC}"
+  SENSITIVE_PATTERNS=(
+    'sk-[a-zA-Z0-9]{20,}'
+    'ghp_[a-zA-Z0-9]{36}'
+    'AKIA[0-9A-Z]{16}'
+    '-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----'
+    'password\s*=\s*["\x27][^"\x27]{8,}'
+    'Authorization:\s*Bearer\s+[a-zA-Z0-9._-]{20,}'
+  )
+  
+  RANGE="${remote_sha}..${local_sha}"
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+    RANGE="$local_sha"
+  fi
+  
+  SENSITIVE_FOUND=0
+  for pattern in "${SENSITIVE_PATTERNS[@]}"; do
+    if git diff "$RANGE" -- 2>/dev/null | grep -qiE "$pattern" 2>/dev/null; then
+      echo -e "  ${RED}✗ 推送内容中疑似包含敏感信息！(匹配: $pattern)${NC}"
+      SENSITIVE_FOUND=1
+      ERRORS=$((ERRORS + 1))
+      break
+    fi
+  done
+  
+  if [ "$SENSITIVE_FOUND" -eq 0 ]; then
+    echo -e "  ${GREEN}✓ 未发现敏感信息${NC}"
+  fi
+
+done
+
+# ----------------------------------------------------------------
+# 汇总结果
+# ----------------------------------------------------------------
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+if [ "$ERRORS" -gt 0 ]; then
+  echo -e "${RED}❌ pre-push 检查失败，发现 $ERRORS 个问题，已阻止推送。${NC}"
+  echo -e "${YELLOW}   提示: 使用 git push --no-verify 可跳过检查（不推荐）${NC}"
+  exit 1
+else
+  echo -e "${GREEN}✅ pre-push 检查全部通过！开始推送...${NC}"
+  echo ""
+  exit 0
+fi

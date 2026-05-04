@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# ================================================================
+# commit-msg hook — 提交信息规范检查（Conventional Commits）
+# 格式: <type>(<scope>): <subject>
+# 示例: feat(auth): 添加 OAuth2 登录功能
+# ================================================================
+
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+MSG_FILE="$1"
+MSG=$(cat "$MSG_FILE")
+
+echo -e "${CYAN}📝 [commit-msg] 检查提交信息规范...${NC}"
+
+# 跳过 merge commit 和 revert commit
+if echo "$MSG" | grep -qE "^(Merge|Revert|fixup!|squash!)"; then
+  echo -e "${GREEN}✓ 特殊提交，跳过格式检查${NC}"
+  exit 0
+fi
+
+# Conventional Commits 规范
+# 支持中英文 subject
+TYPES="feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert"
+PATTERN="^(${TYPES})(\(.+\))?: .{1,100}$"
+
+if ! echo "$MSG" | head -1 | grep -qE "$PATTERN"; then
+  echo ""
+  echo -e "${RED}❌ 提交信息不符合 Conventional Commits 规范！${NC}"
+  echo ""
+  echo -e "${YELLOW}当前信息:${NC} $MSG"
+  echo ""
+  echo -e "${YELLOW}正确格式:${NC} <type>(<scope>): <subject>"
+  echo ""
+  echo -e "${YELLOW}可用类型:${NC}"
+  echo "  feat     — 新功能"
+  echo "  fix      — Bug 修复"
+  echo "  docs     — 文档变更"
+  echo "  style    — 代码格式（不影响逻辑）"
+  echo "  refactor — 重构代码"
+  echo "  test     — 测试相关"
+  echo "  chore    — 构建/工具链变更"
+  echo "  perf     — 性能优化"
+  echo "  ci       — CI/CD 配置"
+  echo "  build    — 构建系统变更"
+  echo "  revert   — 回退提交"
+  echo ""
+  echo -e "${YELLOW}示例:${NC}"
+  echo "  feat(hooks): 添加 pre-commit 自动化检查"
+  echo "  fix(auth): 修复 token 过期未刷新的问题"
+  echo "  docs: 更新 README 部署说明"
+  echo ""
+  exit 1
+fi
+
+# 检查 subject 长度（首行不超过 100 字符）
+FIRST_LINE=$(echo "$MSG" | head -1)
+if [ ${#FIRST_LINE} -gt 100 ]; then
+  echo -e "${RED}❌ 提交信息首行过长（${#FIRST_LINE} 字符，建议不超过 100）${NC}"
+  exit 1
+fi
+
+echo -e "${GREEN}✅ 提交信息格式正确！${NC}"
+exit 0
