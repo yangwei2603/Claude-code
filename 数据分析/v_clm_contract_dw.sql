@@ -256,7 +256,7 @@ SELECT
     cp.sign_sort AS sign_order,
 
     -- ----------------------------
-    -- 供应商主档案信息（从aa_vendor）
+    -- 供应商主档案信息（从iuap_apdoc_coredoc.aa_vendor，通过base_businesspartner关联）
     -- ----------------------------
     v.id AS vendor_id,
     v.code AS vendor_code,
@@ -281,9 +281,10 @@ SELECT
     v.service_range AS vendor_service_range
 
 FROM
-    clm_contract c
-    LEFT JOIN clm_contract_counterpart cp ON c.id = cp.clm_contract_id AND cp.dr = 0
-    LEFT JOIN aa_vendor v ON cp.supplier_id = v.id
+    yonbip_clm_contract.clm_contract c
+    LEFT JOIN yonbip_clm_contract.clm_contract_counterpart cp ON c.id = cp.clm_contract_id AND cp.dr = 0
+    LEFT JOIN iuap_apdoc_coredoc.base_businesspartner bp ON cp.supplier_id = bp.id
+    LEFT JOIN iuap_apdoc_coredoc.aa_vendor v ON bp.id = v.id
 WHERE
     c.dr = 0;
 
