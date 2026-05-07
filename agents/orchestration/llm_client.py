@@ -278,9 +278,10 @@ class LocalClient:
     temperature: float = _cfg.get("local_temperature", 0.7)
 
     def __init__(self, api_key: str = ""):
-        self.api_key = api_key or LOCAL_API_KEY
+        self.api_key = api_key or LOCAL_API_KEY or ""
         if not self.api_key:
-            raise ValueError("LOCAL_API_KEY 环境变量未设置（公司本地大模型 API 密钥）")
+            import warnings
+            warnings.warn("LOCAL_API_KEY 环境变量未设置，将以无密钥模式调用（部分 API 可能不支持）")
 
     def chat(self,
              messages: Message,
