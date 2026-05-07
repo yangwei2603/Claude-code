@@ -1,6 +1,6 @@
 # CLAUDE.md
-<!-- Last updated: 2026-05-06 -->
-<!-- Version: 1.2 -->
+<!-- Last updated: 2026-05-07 -->
+<!-- Version: 1.3 -->
 
 This file provides guidance to Claude Code when working with code in this repository.
 
@@ -15,8 +15,9 @@ Claude Code/
 ├── skills/                            # Skills layer: engineering + domain skills
 │   ├── engineering/                   # 21 engineering skills (spec-driven, code-review, etc.)
 │   └── domain/                        # Domain skills
-│       ├── financial-analysis/       # Airline financial analysis (annual reports, CASK, six airlines)
-│       └── sql-generation/           # SQL generation (YonBIP/iuap contract system)
+│       ├── data-analysis/            # 通用数据分析流程（清洗→EDA→建模→可视化→报告）
+│       ├── financial-analysis/       # 春秋财务部通用分析（供应商、成本多维、报表发布、竞争情报）
+│       └── sql-generation/           # SQL生成：YonBIP全业务域（合同/税务/共享/资金）
 ├── agents/                            # Agents layer: personas + orchestration framework
 │   ├── personas/                     # Reusable personas: code-reviewer, test-engineer, security-auditor
 │   └── orchestration/               # Python multi-agent framework (9 agents + llm_client)
@@ -31,7 +32,14 @@ Claude Code/
 │   ├── agent-skills/                # Origin — do not edit, synced to root
 │   ├── file-organizer-agent/        # [Migrated → projects/file-organizer/]
 │   └── fin-product-forecast/        # [Migrated → projects/fin-product-forecast/]
-└── 参考文件/                           # Architecture reference documents
+├── 参考文件/                           # Architecture reference documents (Chinese)
+├── data-analysis-local/              # 本地数据分析工作区（Local data analysis workspace）
+│   └── <topic>-<YYYYMMDD>/          # Per-task analysis folder (SQL, reports, charts)
+└── WORKSPACE_ANALYSIS.md             # Workspace structure audit report
+```
+
+> **技能路径 (Skill Path):** Engineering skills are at `skills/engineering/<name>/SKILL.md`.
+> Domain skills are at `skills/domain/<name>/SKILL.md`.
 
 ## Getting Started
 
@@ -83,7 +91,15 @@ Task arrives
     ├── Committing / branching? ────────────→ git-workflow-and-versioning
     ├── CI/CD pipeline work? ───────────────→ ci-cd-and-automation
     ├── Writing docs / ADRs? ───────────────→ documentation-and-adrs
-    └── Deploying / launching? ─────────────→ shipping-and-launch
+    ├── Deploying / launching? ─────────────→ shipping-and-launch
+    │
+    │   ── 数据分析 / 自动化场景 (Data Analysis & Automation) ──
+    ├── 分析财务数据 / 报表解读? ──────────→ financial-analysis (domain)
+    ├── 生成/优化 SQL 查询? ────────────────→ sql-generation (domain)
+    ├── 通用数据分析流程? ──────────────────→ data-analysis (domain)
+    │   └── 航司财务专项? ─────────────────→ financial-analysis (domain)
+    ├── 流程自动化 / RPA / 定时任务? ───────→ ci-cd-and-automation
+    └── 技术文档优化 / ADR? ────────────────→ documentation-and-adrs
 ```
 
 ### Intent → Skill Mapping
@@ -100,34 +116,44 @@ Task arrives
 | Security review | `security-and-hardening` |
 | Performance issues | `performance-optimization` |
 | Shipping / deployment | `shipping-and-launch` |
+| **通用数据分析流程** | `data-analysis` (domain) |
+| **财务数据 / 报表解读 / 供应商分析** | `financial-analysis` (domain) |
+| **SQL 生成 / 数据查询** | `sql-generation` (domain) |
+| **流程自动化 / RPA / 定时任务** | `ci-cd-and-automation` |
+| **文档优化 / ADR / 技术写作** | `documentation-and-adrs` |
+| **系统设计 / 架构规划** | `spec-driven-development` → `api-and-interface-design` |
 
 ### All Available Skills
 
 Skills are located at `skills/engineering/<skill-name>/SKILL.md`.
+Domain skills are located at `skills/domain/<skill-name>/SKILL.md`.
 
-| Phase | Skill | Summary |
-|-------|-------|---------|
-| **Define** | `idea-refine` | Refine vague ideas through structured thinking |
-| **Define** | `spec-driven-development` | Requirements and acceptance criteria before code |
-| **Plan** | `planning-and-task-breakdown` | Decompose into small, verifiable tasks |
-| **Build** | `incremental-implementation` | Thin vertical slices, test each before expanding |
-| **Build** | `source-driven-development` | Verify against official docs before implementing |
-| **Build** | `context-engineering` | Right context at the right time |
-| **Build** | `frontend-ui-engineering` | Production-quality UI with accessibility |
-| **Build** | `api-and-interface-design` | Stable interfaces with clear contracts |
-| **Verify** | `test-driven-development` | Failing test first, then make it pass |
-| **Verify** | `browser-testing-with-devtools` | Chrome DevTools MCP for runtime verification |
-| **Verify** | `debugging-and-error-recovery` | Reproduce → localize → fix → guard |
-| **Review** | `code-review-and-quality` | Five-axis review with quality gates |
-| **Review** | `security-and-hardening` | OWASP prevention, input validation, least privilege |
-| **Review** | `performance-optimization` | Measure first, optimize only what matters |
-| **Review** | `code-simplification` | Eliminate complexity that doesn't earn its keep |
-| **Ship** | `git-workflow-and-versioning` | Atomic commits, clean history |
-| **Ship** | `ci-cd-and-automation` | Automated quality gates on every change |
-| **Ship** | `deprecation-and-migration` | Safe removal of old code and APIs |
-| **Ship** | `documentation-and-adrs` | Document the why, not just the what |
-| **Ship** | `shipping-and-launch` | Pre-launch checklist, monitoring, rollback plan |
-| **Meta** | `using-agent-skills` | Meta-skill: discover and invoke the right skill |
+| Phase | Skill | Path | Summary |
+|-------|-------|------|---------|
+| **Define** | `idea-refine` | engineering | Refine vague ideas through structured thinking |
+| **Define** | `spec-driven-development` | engineering | Requirements and acceptance criteria before code |
+| **Plan** | `planning-and-task-breakdown` | engineering | Decompose into small, verifiable tasks |
+| **Build** | `incremental-implementation` | engineering | Thin vertical slices, test each before expanding |
+| **Build** | `source-driven-development` | engineering | Verify against official docs before implementing |
+| **Build** | `context-engineering` | engineering | Right context at the right time |
+| **Build** | `frontend-ui-engineering` | engineering | Production-quality UI with accessibility |
+| **Build** | `api-and-interface-design` | engineering | Stable interfaces with clear contracts |
+| **Verify** | `test-driven-development` | engineering | Failing test first, then make it pass |
+| **Verify** | `browser-testing-with-devtools` | engineering | Chrome DevTools MCP for runtime verification |
+| **Verify** | `debugging-and-error-recovery` | engineering | Reproduce → localize → fix → guard |
+| **Review** | `code-review-and-quality` | engineering | Five-axis review with quality gates |
+| **Review** | `security-and-hardening` | engineering | OWASP prevention, input validation, least privilege |
+| **Review** | `performance-optimization` | engineering | Measure first, optimize only what matters |
+| **Review** | `code-simplification` | engineering | Eliminate complexity that doesn't earn its keep |
+| **Ship** | `git-workflow-and-versioning` | engineering | Atomic commits, clean history |
+| **Ship** | `ci-cd-and-automation` | engineering | Automated quality gates on every change |
+| **Ship** | `deprecation-and-migration` | engineering | Safe removal of old code and APIs |
+| **Ship** | `documentation-and-adrs` | engineering | Document the why, not just the what |
+| **Ship** | `shipping-and-launch` | engineering | Pre-launch checklist, monitoring, rollback plan |
+| **Meta** | `using-agent-skills` | engineering | Meta-skill: discover and invoke the right skill |
+| **数据分析** | `data-analysis` | domain | 通用数据分析流程：数据获取→清洗→EDA→建模→可视化→报告 |
+| **数据分析** | `financial-analysis` | domain | 春秋财务部通用分析：供应商评估、成本多维钻取、报表发布清单、竞争情报 |
+| **数据分析** | `sql-generation` | domain | SQL生成：YonBIP全业务域（合同/税务/共享/资金），含已验证视图v_clm_contract_dw |
 
 ### Skill Rules
 
@@ -200,6 +226,24 @@ Located at `agents/orchestration/`. A Python-based orchestration framework with 
 | Review | `/review` | Code quality review |
 | Simplify | `/code-simplify` | Remove unnecessary complexity |
 | Ship | `/ship` | Parallel review + launch |
+
+### New Project Setup (Mandatory)
+
+When creating a new project under `projects/`:
+
+1. **Create `CLAUDE.md` first** — Before any code, write the project-level `CLAUDE.md`
+2. **Follow Development Workflow** — All projects MUST go through: `/spec` → `/plan` → `/build` → `/test` → `/review` → `/ship`
+3. **Enforce Karpathy Guidelines** — All code must follow the Karpathy Coding Guidelines below (Think Before Coding → Simplicity First → Surgical Changes → Goal-Driven Execution)
+4. **Use spec-driven-development skill** — Non-trivial projects must start with a spec
+
+### Root vs Project CLAUDE.md Division
+
+| Scope | File | Responsibility |
+|-------|------|----------------|
+| **Global** | `/CLAUDE.md` | Workspace navigation, Skill routing, Agent system, Development workflow, Karpathy guidelines |
+| **Project** | `projects/<name>/CLAUDE.md` | Project overview, quick commands, architecture, known issues, code conventions, testing strategy |
+
+**Rule**: Project `CLAUDE.md` inherits all global rules (Karpathy guidelines, Core Operating Behaviors) by default. Project-specific overrides must be explicitly stated.
 
 ## Core Operating Behaviors
 
@@ -279,10 +323,11 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Projects
 
-### file-organizer-agent
+### file-organizer
 - **Path**: `projects/file-organizer/`
 - **Tech**: Python, macOS
 - **Purpose**: Intelligent file classification and organization agent
+- **Note**: v5.0 版本，旧版 `file-organizer-agent` 已迁移至此
 
 ### fin-product-forecast (Financial Product Forecasting System)
 - **Path**: `projects/fin-product-forecast/`
@@ -291,16 +336,55 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - **Core modules**: fx_system (forecasting engine), tools/fx_quant_strategy.py (quant backtesting), docs/ (documentation)
 - **Doc entry**: `projects/fin-product-forecast/docs/GUIDE.md`
 
+### Project CLAUDE.md Template
+
+When creating a new project, use this template for `projects/<name>/CLAUDE.md`:
+
+```markdown
+# CLAUDE.md — {项目名}
+
+## 项目概述
+1句话描述项目目标和核心价值。
+
+## 快速命令
+```bash
+# 常用CLI命令
+```
+
+## 架构
+| 模块 | 文件 | 职责 |
+|------|------|------|
+| | | |
+
+## 已知问题
+- 来自 SPEC.md 的已知技术债务
+
+## 代码规范
+- 项目特有的编码约定（继承全局 Karpathy 指南）
+
+## 测试策略
+- 测试框架、覆盖率目标、关键测试场景
+
+## 与全局 Skill 的关联
+| 场景 | 使用的 Skill |
+|------|-------------|
+| 新功能开发 | spec-driven-development → incremental-implementation |
+| Bug 修复 | debugging-and-error-recovery |
+| 代码审查 | code-review-and-quality |
+| 部署发布 | shipping-and-launch |
+```
+
 ## Data Analysis Knowledge Base
 
 ### SQL Table Schema
 
 | File | Size | Purpose |
 |------|------|---------|
+| `v_clm_contract_dw.sql` | ~12 KB | 合同数据宽表视图（已验证，推荐优先使用） |
 | `iuap_apdoc_coredoc.sql` | 1.4 GB | Core document table schema |
 | `yonbip_clm_contract.sql` | 76 MB | Contract module table schema |
 
-**Path**: See memory reference for SQL knowledge base location (not hardcoded for portability)
+**Path**: `data-analysis-local/`
 **Use**: Extract contract and supplier data for data analysis. See `skills/domain/sql-generation/SKILL.md`.
 
 ## Memory System
@@ -341,10 +425,45 @@ Persists information across sessions via `.claude/memory/`:
 
 ## Quick Reference
 
-- Skills are at `skills/engineering/<name>/SKILL.md`
-- Domain skills: `skills/domain/financial-analysis/` | `skills/domain/sql-generation/`
+- Engineering skills: `skills/engineering/<name>/SKILL.md`
+- Domain skills: `skills/domain/data-analysis/` | `skills/domain/financial-analysis/` | `skills/domain/sql-generation/`
+- Data analysis workspace: `data-analysis-local/<topic>-<YYYYMMDD>/`
 - Slash commands: `/spec` `/plan` `/build` `/test` `/review` `/code-simplify` `/ship`
 - Agent personas: `agents/personas/`
 - Multi-agent system: `agents/orchestration/main.py`
 - LLM client: `agents/orchestration/llm_client.py` (MiniMax + DeepSeek)
 - Edit this file to customize Claude Code behavior
+
+---
+
+## Document Optimization Guide
+
+When optimizing technical documents, follow these principles:
+
+### 1. Structure First
+- Use clear hierarchy: H1 → H2 → H3
+- Table of contents for documents > 1000 words
+- Consistent formatting throughout
+
+### 2. Content Quality
+- One idea per paragraph
+- Bullet points for lists (max 7 items)
+- Tables for comparisons and specifications
+- Code blocks for technical examples
+
+### 3. Cross-References
+- Link to related skills and documents
+- Use relative paths for internal links
+- Version references for external dependencies
+
+### 4. Maintenance
+- Update date in header
+- Changelog for significant revisions
+- Deprecated content marked with ~~strikethrough~~
+
+### 5. Review Checklist
+- [ ] Technical accuracy verified
+- [ ] All links working
+- [ ] Code examples tested
+- [ ] Consistent terminology
+- [ ] Accessible language (avoid unnecessary jargon)
