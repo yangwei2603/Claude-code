@@ -78,7 +78,7 @@ Task arrives
     ├── New project / feature / change? ────→ spec-driven-development
     ├── Have a spec, need tasks? ───────────→ planning-and-task-breakdown
     ├── Implementing code? ─────────────────→ incremental-implementation
-    │   ├── UI work? ──────────────────────→ frontend-ui-engineering
+    │   ├── UI work? ──────────────────────→ frontend-ui-engineering + frontend-design
     │   ├── API work? ─────────────────────→ api-and-interface-design
     │   ├── Need better context? ───────────→ context-engineering
     │   └── Need doc-verified code? ────────→ source-driven-development
@@ -112,7 +112,7 @@ Task arrives
 | Code review | `code-review-and-quality` |
 | Refactoring / simplification | `code-simplification` |
 | API or interface design | `api-and-interface-design` |
-| UI work | `frontend-ui-engineering` |
+| UI work | `frontend-ui-engineering` + `frontend-design` (aesthetics) |
 | Security review | `security-and-hardening` |
 | Performance issues | `performance-optimization` |
 | Shipping / deployment | `shipping-and-launch` |
@@ -136,7 +136,8 @@ Domain skills are located at `skills/domain/<skill-name>/SKILL.md`.
 | **Build** | `incremental-implementation` | engineering | Thin vertical slices, test each before expanding |
 | **Build** | `source-driven-development` | engineering | Verify against official docs before implementing |
 | **Build** | `context-engineering` | engineering | Right context at the right time |
-| **Build** | `frontend-ui-engineering` | engineering | Production-quality UI with accessibility |
+| **Build** | `frontend-ui-engineering` | engineering | Production-quality UI (component architecture, responsive CSS) |
+| **Build** | `frontend-design` | plugin (claude-plugins-official) | Distinctive aesthetics (typography, color, motion, visual details) |
 | **Build** | `api-and-interface-design` | engineering | Stable interfaces with clear contracts |
 | **Verify** | `test-driven-development` | engineering | Failing test first, then make it pass |
 | **Verify** | `browser-testing-with-devtools` | engineering | Chrome DevTools MCP for runtime verification |

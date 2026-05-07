@@ -112,14 +112,16 @@ plt.savefig("charts/trend.png", dpi=150)
 
 输出到：`数据分析-local/<主题>-<YYYYMMDD>/report_analysis_<YYYYMMDD>.md`
 
+**报告格式选择**：生成报告前，必须询问用户选择输出格式（Markdown / PDF / Word）。
+
 报告结构模板：
 
 ```markdown
 # <分析主题> 分析报告
 
 **分析日期**：YYYY-MM-DD
-**数据范围**：YYYY-MM ~ YYYY-MM
-**分析人**：fox
+**数据来源**：<原始数据文件名>
+**分析人**：数字化办公室-AI
 
 ## 执行摘要
 
@@ -139,7 +141,13 @@ plt.savefig("charts/trend.png", dpi=150)
 
 ## 建议
 
-## 附录：数据来源 & SQL
+---
+
+**报告信息**
+- 数据来源：<原始数据文件名>
+- 分析模型：Qwen3-VL-235B-A22B-Instruct-AWQ（本地私有化部署）
+- 分析人：数字化办公室-AI
+- 分析日期：YYYY-MM-DD
 ```
 
 ---

@@ -198,15 +198,11 @@ df.groupby('vendor_name').agg(
 
 **Obsidian Vault 路径**（优先参考）
 ```
-05-数据资产/
-├── 01-数据治理/
-│   ├── 指标体系/
-│   ├── 数据字典/
-│   └── SQL脚本/
-├── 02-业务分析/
-│   ├── 成本费用/
-│   └── 供应商管理/
-└── 03-数据质量/
+/Users/fox/Documents/Obsidian Vault/自动笔记/05-数据资产/01-数据治理/
+├── 合同系统数据字典/
+├── 税务系统数据字典/
+├── 财务共享数据字典/
+└── 资金系统数据字典/
 ```
 
 ---
@@ -216,6 +212,12 @@ df.groupby('vendor_name').agg(
 ### 分析报告模板
 ```markdown
 # <分析主题>
+
+**分析日期**：YYYY-MM-DD
+**数据来源**：<原始数据文件名>
+**分析人**：数字化办公室-AI
+
+---
 
 ## 执行摘要
 （1-2句话核心结论）
@@ -237,10 +239,13 @@ df.groupby('vendor_name').agg(
 | 机会 | ... | ... |
 | 风险 | ... | ... |
 
-## 数据来源
-- SQL视图：v_clm_contract_dw
-- 数据日期：YYYY-MM-DD
-- 报告生成：[Claude Code] + data-analysis-local skill
+---
+
+**报告信息**
+- 数据来源：<原始数据文件名>
+- 分析模型：Qwen3-VL-235B-A22B-Instruct-AWQ（本地私有化部署）
+- 分析人：数字化办公室-AI
+- 分析日期：YYYY-MM-DD
 ```
 
 ---

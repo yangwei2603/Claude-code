@@ -287,17 +287,13 @@ WHERE t.dr = 0;
 
 ## 五、数据字典位置
 
-**Obsidian Vault**：`05-数据资产/01-数据治理/数据字典/`
-
-**目录规划**:
+**Obsidian Vault**（优先参考）：
 ```
-05-数据资产/
-└── 01-数据治理/
-    └── 数据字典/
-        ├── v_clm_contract_dw.sql        ✅ 已验证
-        ├── v_tax_transaction_dw.sql      🔜 待实现
-        ├── v_fss_dw.sql                  🔜 待实现
-        └── v_cms_cashflow_dw.sql         🔜 待实现
+/Users/fox/Documents/Obsidian Vault/自动笔记/05-数据资产/01-数据治理/
+├── 合同系统数据字典/
+├── 税务系统数据字典/
+├── 财务共享数据字典/
+└── 资金系统数据字典/
 ```
 
 ---
