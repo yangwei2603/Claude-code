@@ -377,6 +377,196 @@ jobs:
 - Secrets stored in code or CI config files (not secrets manager)
 - Long CI times with no optimization effort
 
+## RPA and Scheduled Automation
+
+Beyond CI/CD pipelines, automate repetitive business processes with scheduled tasks and robotic process automation (RPA).
+
+### Scheduled Tasks (Cron / Scheduler)
+
+Use for periodic data processing, report generation, and system maintenance:
+
+```python
+# scheduler.py — Task scheduling framework
+import schedule
+import time
+from datetime import datetime
+
+class TaskScheduler:
+    def __init__(self):
+        self.jobs = []
+    
+    def add_daily(self, task_func, hour=9, minute=0):
+        """Add daily recurring task"""
+        job = schedule.every().day.at(f"{hour:02d}:{minute:02d}").do(task_func)
+        self.jobs.append(job)
+        return job
+    
+    def add_weekly(self, task_func, day_of_week='monday', hour=9):
+        """Add weekly recurring task"""
+        day_map = {
+            'monday': schedule.every().monday,
+            'tuesday': schedule.every().tuesday,
+            'wednesday': schedule.every().wednesday,
+            'thursday': schedule.every().thursday,
+            'friday': schedule.every().friday,
+        }
+        job = day_map[day_of_week].at(f"{hour:02d}:00").do(task_func)
+        self.jobs.append(job)
+        return job
+    
+    def run_pending(self):
+        """Check and run pending jobs"""
+        schedule.run_pending()
+    
+    def run_continuously(self, interval=60):
+        """Run scheduler loop"""
+        while True:
+            self.run_pending()
+            time.sleep(interval)
+
+# Usage example
+def generate_daily_report():
+    """Generate daily financial report"""
+    print(f"[{datetime.now()}] Generating daily report...")
+    # Call data-analysis skill or financial-analysis skill
+    # Save to data-analysis-local/daily-report-<YYYYMMDD>/
+
+scheduler = TaskScheduler()
+scheduler.add_daily(generate_daily_report, hour=8, minute=30)
+# scheduler.run_continuously()
+```
+
+### Data Synchronization Pipeline
+
+Automate data extraction, transformation, and loading (ETL):
+
+```python
+# etl_pipeline.py
+class DataSyncPipeline:
+    """
+    Automated data synchronization pipeline
+    Stages: Extract → Transform → Validate → Load → Notify
+    """
+    
+    def extract(self, source: str, query: str = None):
+        """Extract data from source (DB, API, file)"""
+        pass
+    
+    def transform(self, data, rules: list):
+        """Apply transformation rules (cleaning, aggregation)"""
+        pass
+    
+    def validate(self, data, schema: dict):
+        """Validate data against schema"""
+        pass
+    
+    def load(self, data, destination: str):
+        """Load data to destination (DB, file, API)"""
+        pass
+    
+    def notify(self, status: str, details: dict):
+        """Send notification (Feishu, email, log)"""
+        pass
+    
+    def run(self, config: dict):
+        """Execute full pipeline"""
+        try:
+            data = self.extract(config['source'], config.get('query'))
+            data = self.transform(data, config.get('rules', []))
+            self.validate(data, config.get('schema', {}))
+            self.load(data, config['destination'])
+            self.notify('success', {'records': len(data)})
+        except Exception as e:
+            self.notify('failure', {'error': str(e)})
+            raise
+```
+
+### Automated Report Generation
+
+Generate periodic reports with data analysis skills:
+
+```python
+# report_generator.py
+class AutomatedReport:
+    """
+    Automated report generation
+    - Fetch data using sql-generation skill
+    - Analyze using financial-analysis or data-analysis skill
+    - Generate charts and markdown report
+    - Sync to Obsidian Vault
+    """
+    
+    def __init__(self, topic: str, output_dir: str):
+        self.topic = topic
+        self.output_dir = output_dir
+        self.date_str = datetime.now().strftime('%Y%m%d')
+    
+    def create_task_directory(self):
+        """Create <topic>-<YYYYMMDD> structure"""
+        task_dir = f"{self.output_dir}/{self.topic}-{self.date_str}"
+        os.makedirs(f"{task_dir}/raw", exist_ok=True)
+        os.makedirs(f"{task_dir}/charts", exist_ok=True)
+        return task_dir
+    
+    def generate(self, sql_queries: list, analysis_config: dict):
+        """
+        Generate complete analysis report
+        1. Execute SQL queries (sql-generation skill)
+        2. Run analysis (data-analysis skill)
+        3. Generate charts
+        4. Write markdown report
+        5. Sync to Obsidian
+        """
+        task_dir = self.create_task_directory()
+        
+        # Step 1: Extract data
+        raw_data = []
+        for query in sql_queries:
+            # Execute via sql-generation skill
+            raw_data.append(self.execute_sql(query))
+        
+        # Step 2: Analyze
+        analysis_result = self.run_analysis(raw_data, analysis_config)
+        
+        # Step 3: Generate charts
+        charts = self.generate_charts(analysis_result)
+        
+        # Step 4: Write report
+        report_path = f"{task_dir}/report_{self.date_str}.md"
+        self.write_report(report_path, analysis_result, charts)
+        
+        # Step 5: Sync to Obsidian
+        self.sync_to_obsidian(report_path)
+        
+        return report_path
+```
+
+### RPA Implementation Patterns
+
+| Pattern | Use Case | Implementation |
+|---------|----------|----------------|
+| **Scheduled SQL + Report** | Daily/weekly financial reports | Cron + sql-generation + data-analysis |
+| **Data Sync** | Cross-system data synchronization | ETL pipeline + validation + notification |
+| **File Watch** | Auto-process dropped files | Watchdog + file-organizer skill |
+| **API Polling** | Monitor external data sources | Scheduled HTTP requests + alerting |
+| **Batch Processing** | Monthly reconciliation | Scheduled batch job + report generation |
+
+### RPA Task Checklist
+
+When implementing RPA automation:
+
+- [ ] Define trigger (schedule / event / file watch / API webhook)
+- [ ] Define input source (DB / API / file / message queue)
+- [ ] Define transformation rules (cleaning, aggregation, enrichment)
+- [ ] Define validation rules (schema, range, referential integrity)
+- [ ] Define output destination (DB / file / API / notification)
+- [ ] Define error handling (retry, fallback, alert)
+- [ ] Define monitoring (success rate, latency, data quality)
+- [ ] Test in staging before production deployment
+- [ ] Document in `data-analysis-local/<topic>-<YYYYMMDD>/report_*.md`
+
+---
+
 ## Verification
 
 After setting up or modifying CI:
