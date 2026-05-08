@@ -162,7 +162,6 @@ Domain skills are located at `skills/domain/<skill-name>/SKILL.md`.
 3. **Multiple skills can apply.** Sequence them: `spec` → `planning` → `impl` → `test` → `review` → `ship`.
 4. **When in doubt, start with a spec.** If the task is non-trivial and there's no spec, begin with `spec-driven-development`.
 5. **Mandatory workflow for ALL code changes.** Every code change — new feature, bug fix, refactor — MUST follow the closed-loop workflow: `/spec` → `/plan` → `/build` → `/test` → `/review` → `/ship`. `spec-driven-development` and `incremental-implementation` are MANDATORY for any non-trivial change. Skipping steps is not allowed.
-5. **Mandatory workflow for ALL code changes.** Every code change — new feature, bug fix, refactor — MUST follow the closed-loop workflow: `/spec` → `/plan` → `/build` → `/test` → `/review` → `/ship`. `spec-driven-development` and `incremental-implementation` are MANDATORY for any non-trivial change. Skipping steps is not allowed.
 
 ## Slash Commands
 
