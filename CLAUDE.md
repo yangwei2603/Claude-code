@@ -1,6 +1,6 @@
 # CLAUDE.md
-<!-- Last updated: 2026-05-07 -->
-<!-- Version: 1.3 -->
+<!-- Last updated: 2026-05-09 -->
+<!-- Version: 1.4 -->
 
 This file provides guidance to Claude Code when working with code in this repository.
 
@@ -17,23 +17,20 @@ Claude Code/
 │   └── domain/                        # Domain skills
 │       ├── data-analysis/            # 通用数据分析流程（清洗→EDA→建模→可视化→报告）
 │       ├── financial-analysis/       # 春秋财务部通用分析（供应商、成本多维、报表发布、竞争情报）
-│       └── sql-generation/           # SQL生成：YonBIP全业务域（合同/税务/共享/资金）
+│       └── sql-generation/           # SQL生成：公司内部系统全业务域（合同/税务/共享/资金）
 ├── agents/                            # Agents layer: personas + orchestration framework
 │   ├── personas/                     # Reusable personas: code-reviewer, test-engineer, security-auditor
 │   └── orchestration/               # Python multi-agent framework (9 agents + llm_client)
-│       ├── llm_client.py           # MiniMax + DeepSeek unified LLM client
+│       ├── llm_client.py           # MiniMax + DeepSeek + 本地大模型 统一 LLM 客户端
 │       ├── agents/                 # 9 agents: pm/task/dev/test/fix/review/git/deploy/monitor
 │       ├── config/settings.yaml    # LLM config (provider switching: minimax / deepseek)
 │       └── workflows/
-├── projects/                          # Projects layer: product implementations
-│   ├── file-organizer/              # Intelligent file classification agent (Python/macOS)
-│   └── fin-product-forecast/        # Financial product forecasting system (Python/sklearn/SQLite)
+├── projects/                          # Projects layer: 各项目独立目录
+│   └── <project-name>/              # 每个项目含独立 CLAUDE.md，项目会持续增加
 ├── AI-Factory/                       # Read-only reference source (sync from root skills/agents/hooks)
-│   ├── agent-skills/                # Origin — do not edit, synced to root
-│   ├── file-organizer-agent/        # [Migrated → projects/file-organizer/]
-│   └── fin-product-forecast/        # [Migrated → projects/fin-product-forecast/]
+│   └── agent-skills/                # Origin — do not edit, synced to root
 ├── 参考文件/                           # Architecture reference documents (Chinese)
-├── data-analysis-local/              # 本地数据分析工作区（Local data analysis workspace）
+├── data-analysis-local/              # 本地数据分析工作区（详见该目录 CLAUDE.md）
 │   └── <topic>-<YYYYMMDD>/          # Per-task analysis folder (SQL, reports, charts)
 ```
 
@@ -55,14 +52,18 @@ Run `/help` to confirm slash commands are loaded. If commands are missing, check
 
 ### Hooks
 
-Session lifecycle hooks in `.claude/hooks/` and `hooks/`:
+Hooks 分布在两个目录：`.claude/hooks/`（轻量启动钩子）和 `hooks/`（完整钩子集）。
 
-| Hook | Trigger | Purpose |
-|------|---------|---------|
-| `session-start.sh` | On session start | Initialize workspace context |
-| `sdd-cache-pre.sh` | Before SDD skill | Cache preparation |
-| `sdd-cache-post.sh` | After SDD skill | Cache refresh |
-| `simplify-ignore.sh` | During simplify | Ignore patterns for refactoring |
+| Hook | 目录 | Trigger | Purpose |
+|------|------|---------|----------|
+| `session-start.sh` | `.claude/hooks/` + `hooks/` | On session start | Initialize workspace context |
+| `sdd-cache-pre.sh` | `hooks/` | Before SDD skill | Cache preparation |
+| `sdd-cache-post.sh` | `hooks/` | After SDD skill | Cache refresh |
+| `simplify-ignore.sh` | `hooks/` | During simplify | Ignore patterns for refactoring |
+| `simplify-ignore-test.sh` | `hooks/` | During simplify | Ignore patterns (test mode) |
+| `git-hooks/` | `hooks/` | Git events | Git lifecycle hooks |
+| `SDD-CACHE.md` / `SIMPLIFY-IGNORE.md` | `hooks/` | — | Hook 配置文档 |
+| `hooks.json` | 两个目录各一份 | — | Hook 注册配置 |
 
 ## Skill System
 
@@ -153,7 +154,7 @@ Domain skills are located at `skills/domain/<skill-name>/SKILL.md`.
 | **Meta** | `using-agent-skills` | engineering | Meta-skill: discover and invoke the right skill |
 | **数据分析** | `data-analysis` | domain | 通用数据分析流程：数据获取→清洗→EDA→建模→可视化→报告 |
 | **数据分析** | `financial-analysis` | domain | 春秋财务部通用分析：供应商评估、成本多维钻取、报表发布清单、竞争情报 |
-| **数据分析** | `sql-generation` | domain | SQL生成：根据/Users/fox/Documents/Obsidian Vault/自动笔记/05-数据资产/数据字典（合同/税务/共享/资金）|
+| **数据分析** | `sql-generation` | domain | SQL生成：根据数据字典生成查询（合同/税务/共享/资金），字典路径见 `data-analysis-local/CLAUDE.md` |
 
 ### Skill Rules
 
@@ -324,18 +325,14 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Projects
 
-### file-organizer
-- **Path**: `projects/file-organizer/`
-- **Tech**: Python, macOS
-- **Purpose**: Intelligent file classification and organization agent
-- **Note**: v5.0 版本，旧版 `file-organizer-agent` 已迁移至此
+各项目位于 `projects/` 下，每个项目含独立 `CLAUDE.md`。项目会持续增加，不在此逐一列举。
 
-### fin-product-forecast (Financial Product Forecasting System)
-- **Path**: `projects/fin-product-forecast/`
-- **Tech**: Python, native HTTP, scikit-learn, SQLite
-- **Purpose**: Price forecasting and risk alerting for financial products (primarily FX), supporting trading decisions
-- **Core modules**: fx_system (forecasting engine), tools/fx_quant_strategy.py (quant backtesting), docs/ (documentation)
-- **Doc entry**: `projects/fin-product-forecast/docs/GUIDE.md`
+当前项目目录：
+- `projects/file-organizer/` — 智能文件分类 Agent（Python/macOS）
+- `projects/fin-product-forecast/` — 金融产品价格预测系统（Python/sklearn/SQLite）
+- `projects/futures-signal/` — 期货信号系统（Python）
+
+> 项目详情（架构、模块、已知问题等）见各项目目录下的 `CLAUDE.md`。
 
 ### Project CLAUDE.md Template
 
@@ -375,71 +372,11 @@ When creating a new project, use this template for `projects/<name>/CLAUDE.md`:
 | 部署发布 | shipping-and-launch |
 ```
 
-## Data Analysis Knowledge Base
+## Data Analysis
 
-### SQL Table Schema
+数据分析工作的详细约束（本地模型要求、输出规范、报告格式等）见 `data-analysis-local/CLAUDE.md`。
 
-| File | Size | Purpose |
-|------|------|---------|
-| `v_clm_contract_dw.sql` | ~12 KB | 合同数据宽表视图（已验证，推荐优先使用） |
-| `iuap_apdoc_coredoc.sql` | 1.4 GB | Core document table schema |
-| `yonbip_clm_contract.sql` | 76 MB | Contract module table schema |
-
-**Path**: `data-analysis-local/`
-**Use**: Extract contract and supplier data for data analysis. See `skills/domain/sql-generation/SKILL.md`.
-
-## Data Analysis Workflow (Mandatory — Hard Constraint)
-
-All data analysis tasks involving internal/private/financial data **must** follow this workflow. No exceptions.
-
-### 1. Local Model Requirement (Strict)
-
-**Trigger keywords** (any of): 本地模型、本地数据、内部数据、私有化、涉密、财务数据、航班收益、供应商、成本、合同
-
-When any trigger keyword appears:
-- **MUST** call `llm.chat(prompt, model="local")` via `agents/orchestration/llm_client.py`
-- **FORBIDDEN**: Hardcoding analysis text, insights, conclusions, or recommendations
-- Internal financial data **MUST** use local model, **never** cloud APIs
-
-**Required import**:
-```python
-from agents.orchestration.llm_client import llm
-response = llm.chat(prompt, model="local")
-```
-
-**Strict prohibition**: Analysis content (摘要、发现、风险、建议等) must be generated by the local model — never write it manually or copy-paste previous reports.
-
-### 2. Output Location
-- Fixed pattern: `data-analysis-local/<主题>-<YYYYMMDD>/`
-- Always create new folder per analysis task; never reuse old folders
-
-### 3. Report Output Format
-- **ASK user** before generating: Markdown / PDF / Word
-- Report must include header:
-  ```
-  作者：数字化办公室-AI
-  日期：YYYY-MM-DD
-  数据来源：
-  分析模型：Qwen3-VL-235B-A22B-Instruct-AWQ（本地私有化大模型）
-  ```
-
-### 4. Workflow Sequence
-```
-1. Detect trigger keyword → mandatory local model call
-2. Output dir: data-analysis-local/<topic>-<YYYYMMDD>/
-3. Ask user for report format (Markdown/PDF/Word)
-4. Data analysis → call llm.chat(prompt, model="local") for all analysis content
-5. Generate report → save to output folder
-```
-
-### 5. Memory System
-
-Persists information across sessions via `.claude/memory/`:
-
-- **User**: Role, preferences, knowledge
-- **Feedback**: Guidance on approach, what to avoid
-- **Project**: Current work, goals, deadlines
-- **Reference**: External systems, resources
+相关 Skills：`data-analysis` / `financial-analysis` / `sql-generation`（均在 `skills/domain/` 下）。
 
 ## Capability Domains
 
@@ -472,11 +409,10 @@ Persists information across sessions via `.claude/memory/`:
 
 - Engineering skills: `skills/engineering/<name>/SKILL.md`
 - Domain skills: `skills/domain/data-analysis/` | `skills/domain/financial-analysis/` | `skills/domain/sql-generation/`
-- Data analysis workspace: `data-analysis-local/<topic>-<YYYYMMDD>/`
 - Slash commands: `/spec` `/plan` `/build` `/test` `/review` `/code-simplify` `/ship`
 - Agent personas: `agents/personas/`
 - Multi-agent system: `agents/orchestration/main.py`
-- LLM client: `agents/orchestration/llm_client.py` (MiniMax + DeepSeek)
+- LLM client: `agents/orchestration/llm_client.py` (MiniMax + DeepSeek + 本地模型)
 - Edit this file to customize Claude Code behavior
 
 ---
