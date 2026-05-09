@@ -1,0 +1,248 @@
+"""
+规则加载器 - 加载和管理分类规则
+"""
+
+import json
+import os
+from pathlib import Path
+from typing import Dict, List, Optional
+
+
+class RuleLoader:
+    """规则加载器，支持从 JSON 文件和内置规则加载"""
+
+    def __init__(self, rules_dir: Optional[Path] = None):
+        self.rules_dir = rules_dir or Path(__file__).parent / "rules"
+        self._business_rules: List[Dict] = []
+        self._keyword_rules: List[Dict] = []
+        self._extension_rules: Dict[str, str] = {}
+        self._standard_dirs: List[str] = []
+        self._load_all_rules()
+
+    def _load_all_rules(self):
+        """加载所有规则文件"""
+        self._load_business_rules()
+        self._load_keyword_rules()
+        self._load_extension_rules()
+        self._load_standard_dirs()
+
+    def _load_business_rules(self):
+        """加载业务领域规则"""
+        path = self.rules_dir / "business_rules.json"
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                self._business_rules = data.get("rules", [])
+        else:
+            self._business_rules = self._get_default_business_rules()
+
+    def _load_keyword_rules(self):
+        """加载关键词规则"""
+        path = self.rules_dir / "keyword_rules.json"
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                self._keyword_rules = data.get("rules", [])
+        else:
+            self._keyword_rules = self._get_default_keyword_rules()
+
+    def _load_extension_rules(self):
+        """加载扩展名规则"""
+        path = self.rules_dir / "extension_rules.json"
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                self._extension_rules = json.load(f)
+        else:
+            self._extension_rules = self._get_default_extension_rules()
+
+    def _load_standard_dirs(self):
+        """加载标准目录结构"""
+        path = self.rules_dir / "standard_dirs.json"
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                self._standard_dirs = data.get("dirs", [])
+        else:
+            self._standard_dirs = self._get_default_standard_dirs()
+
+    @property
+    def business_rules(self) -> List[Dict]:
+        return self._business_rules
+
+    @property
+    def keyword_rules(self) -> List[Dict]:
+        return self._keyword_rules
+
+    @property
+    def extension_rules(self) -> Dict[str, str]:
+        return self._extension_rules
+
+    @property
+    def standard_dirs(self) -> List[str]:
+        return self._standard_dirs
+
+    def reload(self):
+        """重新加载所有规则（热更新）"""
+        self._load_all_rules()
+
+    def _get_default_business_rules(self) -> List[Dict]:
+        """默认业务领域规则"""
+        return [
+            {"keywords": ["客舱"], "target": "03-数字化项目/00-客舱数字化"},
+            {"keywords": ["飞行"], "target": "03-数字化项目/01-飞行数字化"},
+            {"keywords": ["维修"], "target": "03-数字化项目/02-维修数字化"},
+            {"keywords": ["司库"], "target": "03-数字化项目/03-司库管理数字化"},
+            {"keywords": ["共享"], "target": "03-数字化项目/04-共享数字化"},
+            {"keywords": ["核算"], "target": "03-数字化项目/05-核算与报告数字化"},
+            {"keywords": ["机供品"], "target": "03-数字化项目/06-机供品数字化"},
+            {"keywords": ["起降"], "target": "03-数字化项目/07-起降数字化"},
+            {"keywords": ["经营分析", "成本分析", "收益分析"], "target": "03-数字化项目/08-数据分析报告/00-经营分析"},
+            {"keywords": ["专题分析", "专题报告"], "target": "03-数字化项目/08-数据分析报告/01-专题分析"},
+            {"keywords": ["数据报表", "BI报表", "Dashboard"], "target": "03-数字化项目/08-数据分析报告/02-数据报表"},
+            {"keywords": ["ERP"], "target": "02-信息化项目"},
+            {"keywords": ["OA"], "target": "02-信息化项目"},
+            {"keywords": ["HR", "人力资源"], "target": "02-信息化项目"},
+            {"keywords": ["报销"], "target": "02-信息化项目"},
+            {"keywords": ["财务共享"], "target": "02-信息化项目"},
+        ]
+
+    def _get_default_keyword_rules(self) -> List[Dict]:
+        """默认关键词规则"""
+        return [
+            {"keywords": ["数字化战略", "转型战略", "战略规划", "数字化转型", "成本策略", "策略"], "target": "00-战略与架构/00-数字化战略"},
+            {"keywords": ["业务架构", "应用架构", "技术架构", "架构设计"], "target": "00-战略与架构/01-业务架构"},
+            {"keywords": ["培训", "教程", "课程", "学习资料", "学习方法", "学习指南", "学习手册", "数据清洗", "数据处理", "数据整理", "数据预处理", "数据入门", "数据教程", "ETL", "数据仓库", "数仓", "数据建模", "数据开发"], "target": "01-知识库管理/02-培训学习"},
+            {"keywords": ["管理制度", "管理办法", "操作规范", "规章制度", "流程制度", "制度", "规范", "标准", "合同", "协议", "采购", "招投标", "招标", "投标", "中标", "报价", "招聘", "入职", "离职", "转正", "调动", "考勤", "请假", "加班", "出差", "休假", "薪酬", "工资", "薪资", "福利", "社保", "公积金", "变更", "需求变更", "范围变更"], "target": "01-知识库管理/03-规章制度"},
+            {"keywords": ["最佳实践", "案例", "经验总结", "复盘", "供应商", "外包", "外包商", "服务商", "合作方"], "target": "01-知识库管理/01-最佳实践"},
+            {"keywords": ["FAQ", "问答", "Q&A", "常见问题"], "target": "01-知识库管理/04-问答知识库"},
+            {"keywords": ["概念", "术语", "知识体系", "业务流程", "业务规则"], "target": "01-知识库管理/00-知识体系"},
+            {"keywords": ["经营分析", "成本分析", "收益分析", "经营报告", "成本报告", "预算", "决算", "结算", "里程碑", "验收", "交付", "上线", "发布", "甘特图", "进度计划", "里程碑计划", "WBS"], "target": "03-数字化项目/08-数据分析报告/00-经营分析"},
+            {"keywords": ["专题分析", "专题报告", "评审", "评审会", "技术评审", "方案评审"], "target": "03-数字化项目/08-数据分析报告/01-专题分析"},
+            {"keywords": ["数据报表", "BI报表", "Dashboard"], "target": "03-数字化项目/08-数据分析报告/02-数据报表"},
+            {"keywords": ["核算", "财务共享", "报销", "发票", "票据", "收据", "报销单", "费用", "付款", "收款", "对账", "账户", "资金"], "target": "03-数字化项目/05-核算与报告数字化"},
+            {"keywords": ["Agent", "智能体", "机器人", "Bot"], "target": "04-创新应用/00-Agent智能体"},
+            {"keywords": ["RPA", "自动化流程", "自动化脚本"], "target": "04-创新应用/01-流程自动化"},
+            {"keywords": ["机器学习", "ML", "算法", "预测", "训练模型", "深度学习"], "target": "04-创新应用/02-智能分析"},
+            {"keywords": ["数据标准", "数据字典", "元数据", "指标", "KPI"], "target": "05-数据资产/00-数据标准"},
+            {"keywords": ["数据治理", "数据质量"], "target": "05-数据资产/01-数据治理"},
+            {"keywords": ["数据迁移", "数据同步", "数据接入", "数据采集"], "target": "05-数据资产/03-数据集成"},
+            {"keywords": ["数据备份", "灾备", "恢复方案", "数据安全"], "target": "05-数据资产/04-数据安全"},
+            {"keywords": ["周报", "月报", "日报", "进度报告", "汇报"], "target": "06-团队与运营/01-沟通协作/周报月报"},
+            {"keywords": ["会议纪要", "会议记录", "会议", "研讨会", "座谈会"], "target": "06-团队与运营/01-沟通协作/会议纪要"},
+            {"keywords": ["团建", "团队活动", "团队建设"], "target": "06-团队与运营/00-团队建设"},
+            {"keywords": ["工具", "模板", "资源", "清单", "列表", "checklist"], "target": "06-团队与运营/02-资源库"},
+            {"keywords": ["通知", "公告", "通报", "简报", "通讯"], "target": "06-团队与运营/03-通知公告"},
+            {"keywords": ["访谈", "调研", "问卷", "反馈", "满意度"], "target": "06-团队与运营/04-调研访谈"},
+        ]
+
+    def _get_default_extension_rules(self) -> Dict[str, str]:
+        """默认扩展名规则"""
+        return {
+            ".doc": "00-文档/Word文档",
+            ".docx": "00-文档/Word文档",
+            ".pdf": "00-文档/PDF文档",
+            ".txt": "00-文档/文本文件",
+            ".md": "00-文档/文本文件",
+            ".xls": "01-表格/Excel表格",
+            ".xlsx": "01-表格/Excel表格",
+            ".csv": "01-表格/CSV数据",
+            ".ppt": "02-演示/PPT演示",
+            ".pptx": "02-演示/PPT演示",
+            ".py": "03-代码/Python",
+            ".sql": "03-代码/SQL脚本",
+            ".js": "03-代码/Web前端",
+            ".ts": "03-代码/Web前端",
+            ".html": "03-代码/Web前端",
+            ".css": "03-代码/Web前端",
+            ".java": "03-代码/Java",
+            ".json": "04-配置/配置文件",
+            ".xml": "04-配置/配置文件",
+            ".yaml": "04-配置/配置文件",
+            ".yml": "04-配置/配置文件",
+            ".png": "06-媒体/图片",
+            ".jpg": "06-媒体/图片",
+            ".jpeg": "06-媒体/图片",
+            ".gif": "06-媒体/图片",
+            ".svg": "06-媒体/矢量图",
+            ".mp4": "06-媒体/视频",
+            ".avi": "06-媒体/视频",
+            ".mp3": "06-媒体/音频",
+            ".zip": "99-其他/压缩包",
+            ".rar": "99-其他/压缩包",
+            ".7z": "99-其他/压缩包",
+        }
+
+    def _get_default_standard_dirs(self) -> List[str]:
+        """默认标准目录"""
+        return [
+            "00-战略与架构/00-数字化战略",
+            "00-战略与架构/01-业务架构",
+            "01-知识库管理/00-知识体系",
+            "01-知识库管理/01-最佳实践",
+            "01-知识库管理/02-培训学习",
+            "01-知识库管理/03-规章制度",
+            "01-知识库管理/04-问答知识库",
+            "02-信息化项目",
+            "02-信息化项目/00-项目立项",
+            "02-信息化项目/01-需求文档/BRD",
+            "02-信息化项目/01-需求文档/PRD",
+            "02-信息化项目/02-设计文档",
+            "02-信息化项目/03-运维文档",
+            "02-信息化项目/04-测试文档",
+            "03-数字化项目/00-客舱数字化",
+            "03-数字化项目/01-飞行数字化",
+            "03-数字化项目/02-维修数字化",
+            "03-数字化项目/03-司库管理数字化",
+            "03-数字化项目/04-共享数字化",
+            "03-数字化项目/05-核算与报告数字化",
+            "03-数字化项目/06-机供品数字化",
+            "03-数字化项目/07-起降数字化",
+            "03-数字化项目/08-数据分析报告/00-经营分析",
+            "03-数字化项目/08-数据分析报告/01-专题分析",
+            "03-数字化项目/08-数据分析报告/02-数据报表",
+            "04-创新应用/00-Agent智能体",
+            "04-创新应用/01-流程自动化",
+            "04-创新应用/02-智能分析",
+            "05-数据资产/00-数据标准",
+            "05-数据资产/01-数据治理",
+            "05-数据资产/02-数据开发",
+            "05-数据资产/03-数据集成",
+            "05-数据资产/04-数据安全",
+            "06-团队与运营/00-团队建设",
+            "06-团队与运营/01-沟通协作/周报月报",
+            "06-团队与运营/01-沟通协作/会议纪要",
+            "06-团队与运营/02-资源库",
+            "06-团队与运营/03-通知公告",
+            "06-团队与运营/04-调研访谈",
+            "99-归档/00-历史项目",
+            "99-归档/01-临时文件/备份文件",
+            "99-归档/01-临时文件/大文件待处理",
+        ]
+
+    def save_business_rules(self, rules: List[Dict]):
+        """保存业务规则到文件"""
+        path = self.rules_dir / "business_rules.json"
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"rules": rules}, f, ensure_ascii=False, indent=2)
+        self._business_rules = rules
+
+    def save_keyword_rules(self, rules: List[Dict]):
+        """保存关键词规则到文件"""
+        path = self.rules_dir / "keyword_rules.json"
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"rules": rules}, f, ensure_ascii=False, indent=2)
+        self._keyword_rules = rules
+
+    def save_extension_rules(self, rules: Dict[str, str]):
+        """保存扩展名规则到文件"""
+        path = self.rules_dir / "extension_rules.json"
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(rules, f, ensure_ascii=False, indent=2)
+        self._extension_rules = rules
+
+    def save_standard_dirs(self, dirs: List[str]):
+        """保存标准目录到文件"""
+        path = self.rules_dir / "standard_dirs.json"
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"dirs": dirs}, f, ensure_ascii=False, indent=2)
+        self._standard_dirs = dirs

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FX 预测系统</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 18px; background:#0b1020; color:#e9eef7; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+    button, select, input, textarea { padding:8px 10px; border-radius:8px; border:1px solid #355; background:#15203a; color:#e9eef7; }
+    .card { border:1px solid #2a3c63; border-radius:12px; padding:12px; margin-top:10px; background:#111a2e; }
+    pre { white-space:pre-wrap; background:#060a15; padding:10px; border-radius:8px; }
+    textarea { width:100%; min-height:120px; }
+  </style>
+</head>
+<body>
+  <h2>外汇预测系统（监督 + 无监督）</h2>
+  <div class="row">
+    <button id="btn-ingest">1) 拉取官网数据并入库</button>
+    <select id="pair">
+      <option value="USDCNY">USDCNY</option>
+      <option value="USDCAD">USDCAD</option>
+    </select>
+    <input id="horizon" type="number" value="5" min="1" max="30" />
+    <button id="btn-train">2) 训练并预测</button>
+    <button id="btn-rates">3) 查看最新行情</button>
+    <button id="btn-model">4) 查看最新模型</button>
+  </div>
+
+  <div class="card">
+    <strong>离线导入（网络受限时使用）</strong>
+    <div style="margin:6px 0; opacity:.85">粘贴 CSV：timestamp,rate（首行可为表头）</div>
+    <textarea id="csv-input" placeholder="timestamp,rate&#10;2026-04-01,7.22&#10;2026-04-02,7.21"></textarea>
+    <div class="row" style="margin-top:8px">
+      <button id="btn-import">导入本地CSV到数据库</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <strong>状态与输出</strong>
+    <pre id="out">Ready.</pre>
+  </div>
+
+<script>
+const out = document.getElementById('out');
+const pairEl = document.getElementById('pair');
+const hEl = document.getElementById('horizon');
+const csvInput = document.getElementById('csv-input');
+
+const show = (x) => out.textContent = typeof x === 'string' ? x : JSON.stringify(x, null, 2);
+
+async function j(url, opts) {
+  const r = await fetch(url, opts);
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || 'request failed');
+  return data;
+}
+
+function parseLocalCsv(raw) {
+  const lines = raw.trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+  if (!lines.length) return [];
+  const data = [];
+  for (const line of lines) {
+    if (line.toLowerCase().startsWith('timestamp')) continue;
+    const [ts, rate] = line.split(',');
+    if (!ts || !rate) continue;
+    data.push({ ts: ts.trim(), rate: Number(rate.trim()) });
+  }
+  return data.filter(r => Number.isFinite(r.rate));
+}
+
+document.getElementById('btn-ingest').onclick = async () => {
+  show('ingesting...');
+  try { show(await j('/api/ingest', { method: 'POST' })); }
+  catch (e) { show(String(e)); }
+};
+
+document.getElementById('btn-import').onclick = async () => {
+  const rows = parseLocalCsv(csvInput.value);
+  if (!rows.length) return show('CSV为空或格式不正确');
+  show(`importing ${rows.length} rows...`);
+  try {
+    show(await j('/api/import-csv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pair: pairEl.value, source: 'LOCAL', rows })
+    }));
+  } catch (e) { show(String(e)); }
+};
+
+document.getElementById('btn-train').onclick = async () => {
+  show('training...');
+  try {
+    show(await j('/api/train', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pair: pairEl.value, horizon: Number(hEl.value) })
+    }));
+  } catch (e) { show(String(e)); }
+};
+
+document.getElementById('btn-rates').onclick = async () => {
+  try { show(await j('/api/rates?pair=' + pairEl.value + '&limit=20')); }
+  catch (e) { show(String(e)); }
+};
+
+document.getElementById('btn-model').onclick = async () => {
+  try { show(await j('/api/model/latest?pair=' + pairEl.value)); }
+  catch (e) { show(String(e)); }
+};
+</script>
+</body>
+</html>

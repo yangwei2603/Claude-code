@@ -1,0 +1,80 @@
+{
+  "providers": {
+    "deepseek": {
+      "baseUrl": "https://api.deepseek.com",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "deepseek-chat",
+          "name": "DeepSeek Chat",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 131072,
+          "maxTokens": 8192,
+          "cost": {
+            "input": 0.28,
+            "output": 0.42,
+            "cacheRead": 0.028,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsUsageInStreaming": true
+          },
+          "api": "openai-completions"
+        },
+        {
+          "id": "deepseek-reasoner",
+          "name": "DeepSeek Reasoner",
+          "reasoning": true,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 131072,
+          "maxTokens": 65536,
+          "cost": {
+            "input": 0.28,
+            "output": 0.42,
+            "cacheRead": 0.028,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "supportsUsageInStreaming": true
+          },
+          "api": "openai-completions"
+        }
+      ],
+      "apiKey": "sk-3b042eacb6ec4e53a02a7b89330790f3"
+    },
+    "openai-codex": {
+      "baseUrl": "https://chatgpt.com/backend-api",
+      "api": "openai-codex-responses",
+      "models": []
+    },
+    "cherry-deepseek": {
+      "baseUrl": "https://api.deepseek.com/v1",
+      "apiKey": "sk-319a4d13062143359c04703630ddb838",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "deepseek-chat",
+          "name": "deepseek-chat",
+          "contextWindow": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "maxTokens": 8192,
+          "api": "openai-completions"
+        }
+      ]
+    }
+  }
+}

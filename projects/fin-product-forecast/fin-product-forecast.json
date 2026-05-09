@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.14",
+    "lastTouchedAt": "2026-04-12T14:01:29.084Z"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "cherry-deepseek": {
+        "baseUrl": "https://api.deepseek.com/v1",
+        "apiKey": "sk-0a40dd7e061f46bb914be577e5c",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "deepseek-chat",
+            "name": "deepseek-chat",
+            "contextWindow": 128000
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "cherry-deepseek/deepseek-chat"
+      }
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "coder",
+        "name": "coder",
+        "workspace": "/Users/fox/.openclaw/workspace-coder",
+        "agentDir": "/Users/fox/.openclaw/agents/coder/agent"
+      },
+      {
+        "id": "finops-expert",
+        "name": "finops-expert",
+        "workspace": "/Users/fox/.openclaw/workspace-finops",
+        "agentDir": "/Users/fox/.openclaw/agents/finops-expert/agent",
+        "skills": [
+          "ima"
+        ]
+      }
+    ]
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "defaults": {
+        "enabled": true,
+        "appId": "cli_a927cd536378dbd9",
+        "appSecret": "m3rvmuWFhLjyqVx99kpgNggTfafqBUfm",
+        "verificationToken": "GxJCWJOeq7T4dhLy7iRq6b300k4xvXWr",
+        "encryptKey": "erQc2T1M2gt4iQXVhDQSVdUFk5xF5ZiB"
+      },
+      "allowFrom": [
+        "finops-expert"
+      ],
+      "dmPolicy": "allowlist",
+      "groupPolicy": "allowlist",
+      "groupAllowFrom": [
+        "finops-expert"
+      ]
+    }
+  },
+  "gateway": {
+    "port": 18790,
+    "mode": "local",
+    "auth": {
+      "token": "kJ63TBijYyTKXuDQ9__9Mzk5pdBy1_0-"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "feishu": {
+        "enabled": true
+      }
+    }
+  }
+}

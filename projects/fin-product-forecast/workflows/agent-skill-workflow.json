@@ -1,0 +1,67 @@
+{
+  "name": "Agent-Skill Development Workflow",
+  "version": "1.0.0",
+  "description": "闭环开发工作流: Plan → Explore → Implement → Review → Simplify",
+  "triggers": ["manual", "git-commit", "scheduled"],
+  "stages": [
+    {
+      "id": "plan",
+      "name": "Plan (规划)",
+      "skill": "EnterPlanMode",
+      "description": "复杂任务的设计和方案确认",
+      "when": "新功能开发、架构调整、重大重构"
+    },
+    {
+      "id": "explore",
+      "name": "Explore (探索)",
+      "skill": "Agent (Explore)",
+      "description": "代码库调研、架构分析",
+      "when": "需要理解现有代码、调研技术方案"
+    },
+    {
+      "id": "implement",
+      "name": "Implement (实现)",
+      "skill": null,
+      "description": "功能和代码实现",
+      "when": "编码阶段"
+    },
+    {
+      "id": "review",
+      "name": "Review (审查)",
+      "skill": "review",
+      "description": "代码审查、PR 审查、安全审查",
+      "when": "代码提交后、PR 创建时"
+    },
+    {
+      "id": "simplify",
+      "name": "Simplify (优化)",
+      "skill": "simplify",
+      "description": "代码优化、重构、清理",
+      "when": "功能完成后、发布前"
+    }
+  ],
+  "tools": [
+    {
+      "name": "desktop_organizer",
+      "path": "tools/desktop_organizer.py",
+      "description": "桌面文件整理工具"
+    },
+    {
+      "name": "fx_code_audit",
+      "path": "tools/fx_code_audit.py",
+      "description": "代码审计工具"
+    },
+    {
+      "name": "fx_quant_strategy",
+      "path": "tools/fx_quant_strategy.py",
+      "description": "量化策略工具"
+    }
+  ],
+  "automation": {
+    "loop": {
+      "description": "定时检查任务",
+      "interval": "10m",
+      "commands": ["/babysit-prs", "/check-deploy"]
+    }
+  }
+}

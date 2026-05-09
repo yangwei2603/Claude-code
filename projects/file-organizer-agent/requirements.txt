@@ -1,0 +1,10 @@
+flask>=3.0
+flask-cors>=4.0
+pyyaml>=6.0
+
+# 文件内容提取依赖（用于智能分类）
+python-docx>=0.8.11
+PyPDF2>=3.0.0
+openpyxl>=3.0.0
+python-pptx>=0.6.21
+striprtf>=0.0.26

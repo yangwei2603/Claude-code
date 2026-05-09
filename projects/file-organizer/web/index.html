@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Organizer — Web Console</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-base: #0c0d10;
+  --bg-surface: #13151a;
+  --bg-elevated: #1a1d24;
+  --bg-hover: #22262f;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-active: rgba(255, 255, 255, 0.12);
+  --accent-amber: #f59e0b;
+  --accent-amber-dim: rgba(245, 158, 11, 0.15);
+  --accent-teal: #14b8a6;
+  --accent-teal-dim: rgba(20, 184, 166, 0.15);
+  --accent-rose: #f43f5e;
+  --accent-violet: #8b5cf6;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-dim: #475569;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ambient glow */
+body::after {
+  content: '';
+  position: fixed;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(ellipse at 20% 20%, rgba(245, 158, 11, 0.04) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 70%, rgba(20, 184, 166, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(12, 13, 16, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent-amber) 0%, #d97706 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+}
+
+.logo-icon i { color: #1a1d24; font-size: 16px; }
+
+.logo-text h1 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.logo-text p {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+/* Navigation */
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-surface);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+}
+
+.nav-tab {
+  padding: 10px 20px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.nav-tab.active {
+  background: var(--bg-elevated);
+  color: var(--accent-amber);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.nav-tab i { font-size: 12px; }
+
+/* Connection badge */
+.conn-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.conn-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-teal);
+  box-shadow: 0 0 8px var(--accent-teal);
+}
+
+.conn-badge.disconnected .conn-dot {
+  background: var(--accent-rose);
+  box-shadow: 0 0 8px var(--accent-rose);
+}
+
+/* Main content */
+main {
+  position: relative;
+  z-index: 1;
+  padding: 96px 32px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Page transitions */
+.page { display: none; }
+.page.active { display: block; animation: fadeUp 0.3s ease; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+
+.card:hover { border-color: var(--border-active); }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-title i { color: var(--accent-amber); font-size: 13px; }
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.stat-card:hover {
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-amber), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.stat-card:hover::before { opacity: 1; }
+
+.stat-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.stat-value.teal { color: var(--accent-teal); }
+.stat-value.amber { color: var(--accent-amber); }
+.stat-value.rose { color: var(--accent-rose); }
+.stat-value.violet { color: var(--accent-violet); }
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Task list */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.task-item:hover {
+  border-color: var(--border-active);
+  background: var(--bg-elevated);
+}
+
+.task-item.running {
+  border-color: rgba(20, 184, 166, 0.3);
+  background: rgba(20, 184, 166, 0.03);
+}
+
+.task-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.task-icon i { color: var(--accent-amber); font-size: 16px; }
+
+.task-info { flex: 1; min-width: 0; }
+
+.task-name {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.task-meta span { display: flex; align-items: center; gap: 5px; }
+.task-meta i { font-size: 11px; }
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.btn {
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--accent-amber);
+  color: #0c0d10;
+}
+
+.btn-primary:hover {
+  background: #fbbf24;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-ghost:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-active);
+}
+
+.btn-sm { padding: 7px 12px; font-size: 12px; }
+
+/* Badge */
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-running {
+  background: var(--accent-teal-dim);
+  color: var(--accent-teal);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+}
+
+.badge-idle {
+  background: rgba(100, 116, 139, 0.15);
+  color: var(--text-muted);
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.badge-error {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--accent-rose);
+  border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+/* Forms */
+.form-group { margin-bottom: 18px; }
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input-field {
+  width: 100%;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: var(--accent-amber);
+  box-shadow: 0 0 0 3px var(--accent-amber-dim);
+}
+
+.input-field::placeholder { color: var(--text-dim); }
+
+select.input-field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2364748b' viewBox='0 0 20 20'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.toggle input { opacity: 0; width: 0; height: 0; }
+
+.toggle .slider {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-hover);
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.toggle .slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle input:checked + .slider { background: var(--accent-amber); }
+.toggle input:checked + .slider::before {
+  transform: translateX(20px);
+  background: #0c0d10;
+}
+
+/* Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.data-table td {
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.data-table tr:hover td { background: var(--bg-hover); }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.2s;
+}
+
+.modal-content {
+  max-width: 560px;
+  width: 95%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 28px;
+  animation: scaleIn 0.2s;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Terminal */
+.terminal {
+  background: #0a0a0a;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 16px;
+  max-height: 380px;
+  overflow-y: auto;
+  color: #a3e635;
+}
+
+/* Toast */
+.toast-container {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.toast-success { background: var(--bg-elevated); border: 1px solid rgba(20, 184, 166, 0.3); color: var(--accent-teal); }
+.toast-error { background: var(--bg-elevated); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--accent-rose); }
+.toast-info { background: var(--bg-elevated); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--accent-amber); }
+
+@keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fadeOut { to { opacity: 0; transform: translateY(-8px); } }
+
+/* Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-subtle);
+  border-top-color: var(--accent-amber);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Quick organize panel */
+.quick-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.quick-panel-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quick-panel-title i { color: var(--accent-amber); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-hover); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  main { padding: 88px 16px 32px; }
+  .header-inner { padding: 0 16px; }
+  .nav-tabs { display: none; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Modal Container -->
+<div id="modalContainer"></div>
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-folder-tree"></i>
+      </div>
+      <div class="logo-text">
+        <h1>File Organizer</h1>
+        <p>Web Console</p>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <div class="nav-tab active" data-page="dashboard" onclick="switchPage('dashboard')">
+        <i class="fas fa-chart-pie"></i> Dashboard
+      </div>
+      <div class="nav-tab" data-page="templates" onclick="switchPage('templates')">
+        <i class="fas fa-layer-group"></i> Templates
+      </div>
+      <div class="nav-tab" data-page="logs" onclick="switchPage('logs')">
+        <i class="fas fa-terminal"></i> Logs
+      </div>
+      <div class="nav-tab" data-page="settings" onclick="switchPage('settings')">
+        <i class="fas fa-sliders-h"></i> Settings
+      </div>
+    </nav>
+
+    <div class="conn-badge" id="connectionBadge">
+      <span class="conn-dot"></span>
+      <span id="connText">Connected</span>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main>
+
+  <!-- ============ Dashboard Page ============ -->
+  <div class="page active" id="page-dashboard">
+
+    <!-- Quick Organize Panel -->
+    <div class="quick-panel">
+      <div class="quick-panel-title">
+        <i class="fas fa-bolt"></i> Quick Organize
+      </div>
+
+      <div style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;">
+        <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 240px;">
+          <label class="form-label">Select Task</label>
+          <select id="quick-task-select" class="input-field" onchange="onQuickTaskChange()">
+            <option value="">— Choose a task —</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-ghost" onclick="quickPreview()">
+            <i class="fas fa-eye"></i> Preview
+          </button>
+          <button class="btn btn-primary" onclick="quickExecute()">
+            <i class="fas fa-play"></i> Execute
+          </button>
+        </div>
+      </div>
+
+      <div id="quick-task-info" style="margin-top: 16px; display: none; font-size: 13px; color: var(--text-muted);">
+        <span id="quick-source"></span>
+        <i class="fas fa-arrow-right" style="color: var(--accent-amber); margin: 0 10px;"></i>
+        <span id="quick-target"></span>
+      </div>
+
+      <div id="quick-result" class="task-list" style="margin-top: 16px; display: none;"></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="statsCards">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotalTasks">—</div>
+        <div class="stat-label">Total Tasks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value teal" id="statRunning">0</div>
+        <div class="stat-label">Running</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value amber" id="statActive">—</div>
+        <div class="stat-label">Active</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value violet" id="statTemplates">—</div>
+        <div class="stat-label">Templates</div>
+      </div>
+    </div>
+
+    <!-- Task List -->
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-folder-open"></i> All Tasks
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showCreateTaskModal()">
+          <i class="fas fa-plus"></i> New Task
+        </button>
+      </div>
+
+      <div class="task-list" id="taskList">
+        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+          <div class="spinner" style="margin: 0 auto 12px;"></div>
+          Loading...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Templates Page ============ -->
+  <div class="page" id="page-templates">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-layer-group"></i> Rule Templates
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-primary btn-sm" onclick="showCreateTemplateModal()">
+            <i class="fas fa-plus"></i> Create
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="showUploadModal()">
+            <i class="fas fa-upload"></i> Upload
+          </button>
+        </div>
+      </div>
+
+      <div class="data-table-wrapper" id="templateList">
+        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+          <div class="spinner" style="margin: 0 auto 12px;"></div>
+          Loading...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Logs Page ============ -->
+  <div class="page" id="page-logs">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-terminal"></i> Run Logs
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="loadLogs()">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </div>
+
+      <div id="logList">
+        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+          <div class="spinner" style="margin: 0 auto 12px;"></div>
+          Loading...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Settings Page ============ -->
+  <div class="page" id="page-settings">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-sliders-h"></i> LLM Settings
+        </div>
+      </div>
+
+      <form id="settingsForm" onsubmit="saveSettings(event)">
+        <div class="form-group">
+          <label class="form-label">Provider</label>
+          <select class="input-field" id="llmProvider">
+            <option value="deepseek">DeepSeek</option>
+            <option value="minimax">MiniMax</option>
+            <option value="openai">OpenAI</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">API Key</label>
+          <input type="password" class="input-field" id="llmApiKey" placeholder="sk-...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Model</label>
+          <input type="text" class="input-field" id="llmModel" placeholder="deepseek-chat">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="display: flex; align-items: center; gap: 10px;">
+            Enable LLM Classification
+            <label class="toggle">
+              <input type="checkbox" id="llmEnabled" checked>
+              <span class="slider"></span>
+            </label>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> Save Settings
+        </button>
+      </form>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ============================================================
+// API Helper
+// ============================================================
+const API_TIMEOUT_MS = 120000;
+const POLL_TIMEOUT_MS = 30000;
+
+const API = {
+  async _fetch(url, options = {}, timeoutMs = API_TIMEOUT_MS) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      clearTimeout(timer);
+      if (!res.ok) {
+        let errMsg = `HTTP ${res.status}`;
+        try { const body = await res.json(); if (body.error) errMsg = body.error; } catch (_) {}
+        throw new Error(errMsg);
+      }
+      const text = await res.text();
+      if (!text || !text.trim()) throw new Error('Empty response');
+      return JSON.parse(text);
+    } catch (e) {
+      clearTimeout(timer);
+      if (e.name === 'AbortError') throw new Error(`Timeout (${timeoutMs / 1000}s)`);
+      throw e;
+    }
+  },
+
+  async get(url, timeoutMs) { return this._fetch(url, {}, timeoutMs); },
+  async post(url, data, timeoutMs) {
+    return this._fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: data ? JSON.stringify(data) : undefined,
+    }, timeoutMs);
+  },
+  async put(url, data, timeoutMs) {
+    return this._fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }, timeoutMs);
+  },
+  async del(url, timeoutMs) {
+    return this._fetch(url, { method: 'DELETE' }, timeoutMs);
+  },
+};
+
+// ============================================================
+// Toast Notification
+// ============================================================
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+  toast.innerHTML = `<i class="fas fa-${icon}"></i> ${escapeHtml(msg)}`;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// ============================================================
+// Page Navigation
+// ============================================================
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active'));
+  document.getElementById(`page-${page}`).classList.add('active');
+  document.querySelector(`.nav-tab[data-page="${page}"]`).classList.add('active');
+
+  if (page === 'dashboard') loadDashboard();
+  else if (page === 'templates') loadTemplates();
+  else if (page === 'logs') loadLogs();
+  else if (page === 'settings') loadSettings();
+}
+
+// ============================================================
+// Dashboard
+// ============================================================
+let tasks = [];
+let runningStatus = {};
+
+async function loadDashboard() {
+  await Promise.all([loadStats(), loadTasks()]);
+  populateQuickTaskSelect();
+}
+
+function populateQuickTaskSelect() {
+  const select = document.getElementById('quick-task-select');
+  if (!select) return;
+  select.innerHTML = '<option value="">— Choose a task —</option>' +
+    tasks.map(t => `<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
+}
+
+function onQuickTaskChange() {
+  const taskId = document.getElementById('quick-task-select').value;
+  const info = document.getElementById('quick-task-info');
+  if (!taskId) { info.style.display = 'none'; return; }
+
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) return;
+
+  document.getElementById('quick-source').textContent = task.source_dir || '(not set)';
+  document.getElementById('quick-target').textContent = task.target_dir || '(same as source)';
+  info.style.display = 'block';
+}
+
+function quickPreview() {
+  const taskId = document.getElementById('quick-task-select').value;
+  if (!taskId) return;
+  runTaskAction(taskId, 'preview');
+}
+
+function quickExecute() {
+  const taskId = document.getElementById('quick-task-select').value;
+  if (!taskId) return;
+  confirmAndRun(taskId, 'execute');
+}
+
+async function loadStats() {
+  try {
+    const res = await API.get('/api/stats/summary');
+    if (res.success) {
+      const d = res.data;
+      document.getElementById('statTotalTasks').textContent = d.total_tasks ?? '-';
+      document.getElementById('statRunning').textContent = d.running_count ?? 0;
+      document.getElementById('statActive').textContent = d.active_tasks ?? '-';
+      document.getElementById('statTemplates').textContent = d.templates_count ?? '-';
+    }
+  } catch (e) { console.error('Stats load failed:', e); }
+}
+
+async function loadTasks() {
+  try {
+    const res = await API.get('/api/tasks');
+    if (!res.success) return;
+    tasks = res.data || [];
+    renderTasks();
+  } catch (e) {
+    document.getElementById('taskList').innerHTML = `
+      <div style="text-align: center; padding: 40px; color: var(--accent-rose);">
+        <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 12px;"></i>
+        <p>Failed to load. Check if server is running.</p>
+      </div>`;
+  }
+}
+
+function renderTasks() {
+  const container = document.getElementById('taskList');
+  if (tasks.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+        <i class="fas fa-inbox" style="font-size: 32px; margin-bottom: 12px;"></i>
+        <p>No tasks yet</p>
+        <p style="font-size: 12px; margin-top: 4px;">Create a task to start organizing files</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = tasks.map(task => {
+    const isRunning = task.running;
+    const statusBadge = isRunning
+      ? '<span class="badge badge-running"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span> Running</span>'
+      : task.last_status && task.last_status.includes('error')
+        ? '<span class="badge badge-error"><i class="fas fa-times-circle"></i> Error</span>'
+        : task.last_status
+          ? '<span class="badge badge-idle">Done</span>'
+          : '<span class="badge badge-idle">Pending</span>';
+
+    const lastRun = task.last_run
+      ? new Date(task.last_run).toLocaleString('zh-CN', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' })
+      : 'Never';
+
+    return `
+      <div class="task-item ${isRunning ? 'running' : ''}" id="task-card-${task.id}">
+        <div class="task-icon">
+          <i class="fas fa-folder"></i>
+        </div>
+        <div class="task-info">
+          <div class="task-name">
+            ${escapeHtml(task.name)}
+            ${statusBadge}
+          </div>
+          <div class="task-meta">
+            <span><i class="fas fa-folder-open"></i> ${escapeHtml(task.source_dir || '(not set)')}</span>
+            <span><i class="fas fa-clock"></i> ${lastRun}</span>
+          </div>
+        </div>
+        <div class="task-actions">
+          ${isRunning ? `
+            <button class="btn btn-ghost btn-sm" onclick="pollTaskStatus('${task.id}')">
+              <div class="spinner" style="width:12px;height:12px;border-width:2px;"></div>
+            </button>
+          ` : `
+            <button class="btn btn-ghost btn-sm" onclick="runTaskAction('${task.id}', 'preview')" title="Preview">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="confirmAndRun('${task.id}', 'execute')" title="Execute">
+              <i class="fas fa-play"></i>
+            </button>
+          `}
+          <button class="btn btn-ghost btn-sm" onclick="showTaskDetail('${task.id}')" title="Settings">
+            <i class="fas fa-cog"></i>
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ============================================================
+// Task Actions
+// ============================================================
+async function toggleTask(taskId, enabled) {
+  try {
+    const res = await API.post(`/api/tasks/${taskId}/toggle`);
+    if (res.success) showToast(enabled ? 'Task enabled' : 'Task disabled', 'success');
+    else showToast(res.error || 'Operation failed', 'error');
+    loadTasks();
+  } catch (e) { showToast('Network error', 'error'); }
+}
+
+async function runTaskAction(taskId, action) {
+  try {
+    const res = await API.post(`/api/tasks/${taskId}/${action}`);
+    if (res.success) {
+      showToast(res.message || `${action} started`, 'info');
+      loadTasks();
+      pollTaskStatus(taskId);
+    } else {
+      showToast(res.error || `${action} failed`, 'error');
+    }
+  } catch (e) { showToast('Network error', 'error'); }
+}
+
+function confirmAndRun(taskId, action) {
+  showModal('Confirm Execution', `
+    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+      <i class="fas fa-exclamation-triangle" style="color: var(--accent-amber);"></i>
+      This will <strong style="color: var(--accent-rose);">actually move files</strong>.
+    </p>
+    <p style="font-size: 12px; color: var(--text-muted);">Recommended: Run "Preview" first to verify classification results.</p>
+  `, [
+    { text: 'Cancel', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: 'Confirm', class: 'btn btn-primary', action: `closeModal(); runTaskAction('${taskId}', '${action}')` }
+  ]);
+}
+
+let pollTimers = {};
+
+function pollTaskStatus(taskId) {
+  if (pollTimers[taskId]) clearInterval(pollTimers[taskId]);
+  pollTimers[taskId] = setInterval(async () => {
+    try {
+      const res = await API.get(`/api/tasks/${taskId}/status`, POLL_TIMEOUT_MS);
+      if (res.success && res.data.running) {
+        const card = document.getElementById(`task-card-${taskId}`);
+        if (card) {
+          const elapsed = res.data.elapsed_seconds || 0;
+          const mins = Math.floor(elapsed / 60);
+          const secs = elapsed % 60;
+          const badge = card.querySelector('.badge');
+          if (badge) badge.innerHTML = `<span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span> Running ${mins > 0 ? mins + 'm ' : ''}${secs}s`;
+        }
+      } else {
+        stopPolling(taskId);
+        loadTasks();
+        loadStats();
+        if (res.success && res.data.stats && Object.keys(res.data.stats).length > 0) {
+          showToast('Task completed', 'success');
+          showRunResult(taskId, res.data);
+        } else if (res.data?.status?.includes('error')) {
+          showToast(res.data.status.replace(/^error:\s*/, '') || 'Failed', 'error');
+        }
+      }
+    } catch (e) {
+      console.error('Poll error:', e);
+    }
+  }, 2000);
+}
+
+function stopPolling(taskId) {
+  if (pollTimers[taskId]) {
+    clearInterval(pollTimers[taskId]);
+    delete pollTimers[taskId];
+  }
+}
+
+function showRunResult(taskId, data) {
+  const resultDiv = document.getElementById('quick-result');
+  if (!resultDiv || !data.stats) return;
+
+  const s = data.stats;
+  resultDiv.innerHTML = `
+    <div class="card" style="padding: 16px;">
+      <div style="display: flex; gap: 24px; font-size: 13px;">
+        <span><i class="fas fa-search" style="color: var(--text-muted);"></i> Scanned: <strong style="color: var(--text-primary);">${s.scanned || 0}</strong></span>
+        <span><i class="fas fa-arrows-alt" style="color: var(--accent-teal);"></i> Organized: <strong style="color: var(--accent-teal);">${s.organized || 0}</strong></span>
+        <span><i class="fas fa-trash" style="color: var(--accent-rose);"></i> Deleted: <strong style="color: var(--accent-rose);">${s.deleted || 0}</strong></span>
+        <span><i class="fas fa-exclamation-triangle" style="color: var(--accent-amber);"></i> Errors: <strong style="color: var(--accent-amber);">${s.errors || 0}</strong></span>
+      </div>
+    </div>`;
+  resultDiv.style.display = 'block';
+}
+
+// ============================================================
+// Templates
+// ============================================================
+async function loadTemplates() {
+  const container = document.getElementById('templateList');
+  try {
+    const res = await API.get('/api/templates');
+    if (!res.success) { container.innerHTML = '<p style="color: var(--accent-rose);">Failed to load</p>'; return; }
+    const templates = res.data || [];
+    if (templates.length === 0) {
+      container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted);"><i class="fas fa-layer-group" style="font-size: 24px; margin-bottom: 12px;"></i><p>No templates</p></div>';
+      return;
+    }
+    container.innerHTML = `
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${templates.map(t => `
+            <tr>
+              <td style="font-weight: 500;">${escapeHtml(t.name || t.filename)}</td>
+              <td style="color: var(--text-muted);">${escapeHtml(t.description || '-')}</td>
+              <td>
+                <button class="btn btn-ghost btn-sm" onclick="viewTemplate('${t.filename}')">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-ghost btn-sm" onclick="deleteTemplate('${t.filename}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>`;
+  } catch (e) {
+    container.innerHTML = `<p style="color: var(--accent-rose);">Error: ${escapeHtml(e.message)}</p>`;
+  }
+}
+
+// ============================================================
+// Logs
+// ============================================================
+async function loadLogs() {
+  const container = document.getElementById('logList');
+  try {
+    const res = await API.get('/api/logs');
+    if (!res.success) { container.innerHTML = '<p style="color: var(--accent-rose);">Failed to load</p>'; return; }
+    const logs = res.data || [];
+    if (logs.length === 0) {
+      container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted);"><i class="fas fa-terminal" style="font-size: 24px; margin-bottom: 12px;"></i><p>No logs</p></div>';
+      return;
+    }
+    container.innerHTML = logs.map(log => `
+      <div class="card" style="margin-bottom: 12px; padding: 16px; cursor: pointer;" onclick="viewLog('${log.id}')">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-size: 13px; font-weight: 500;">${escapeHtml(log.name || log.id)}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              ${log.timestamp ? new Date(log.timestamp).toLocaleString('zh-CN') : ''}
+            </div>
+          </div>
+          <i class="fas fa-chevron-right" style="color: var(--text-dim);"></i>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    container.innerHTML = `<p style="color: var(--accent-rose);">Error: ${escapeHtml(e.message)}</p>`;
+  }
+}
+
+// ============================================================
+// Settings
+// ============================================================
+async function loadSettings() {
+  try {
+    const res = await API.get('/api/settings');
+    if (res.success && res.data) {
+      if (res.data.llm_provider) document.getElementById('llmProvider').value = res.data.llm_provider;
+      if (res.data.llm_api_key) document.getElementById('llmApiKey').value = res.data.llm_api_key;
+      if (res.data.llm_model) document.getElementById('llmModel').value = res.data.llm_model;
+      if (typeof res.data.llm_enabled !== 'undefined') document.getElementById('llmEnabled').checked = res.data.llm_enabled;
+    }
+  } catch (e) { console.error('Settings load failed:', e); }
+}
+
+function saveSettings(e) {
+  e.preventDefault();
+  const data = {
+    llm_provider: document.getElementById('llmProvider').value,
+    llm_api_key: document.getElementById('llmApiKey').value,
+    llm_model: document.getElementById('llmModel').value,
+    llm_enabled: document.getElementById('llmEnabled').checked,
+  };
+  API.put('/api/settings', data).then(res => {
+    if (res.success) showToast('Settings saved', 'success');
+    else showToast(res.error || 'Failed', 'error');
+  }).catch(e => showToast('Network error', 'error'));
+}
+
+// ============================================================
+// Modals
+// ============================================================
+function showModal(title, content, buttons = []) {
+  const container = document.getElementById('modalContainer');
+  const btnsHtml = buttons.map(b => `<button class="${b.class}" onclick="${b.action}">${b.text}</button>`).join('');
+  container.innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal-content">
+        <h2 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">${escapeHtml(title)}</h2>
+        <div style="color: var(--text-secondary); margin-bottom: 24px;">${content}</div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">${btnsHtml}</div>
+      </div>
+    </div>`;
+}
+
+function closeModal() {
+  document.getElementById('modalContainer').innerHTML = '';
+}
+
+function showCreateTaskModal() {
+  showModal('Create Task', `
+    <div class="form-group">
+      <label class="form-label">Task Name</label>
+      <input type="text" class="input-field" id="newTaskName" placeholder="My Task">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Source Directory</label>
+      <input type="text" class="input-field" id="newTaskSource" placeholder="/path/to/source">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Target Directory (optional)</label>
+      <input type="text" class="input-field" id="newTaskTarget" placeholder="/path/to/target">
+    </div>
+  `, [
+    { text: 'Cancel', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: 'Create', class: 'btn btn-primary', action: 'createTask()' }
+  ]);
+}
+
+async function createTask() {
+  const name = document.getElementById('newTaskName').value;
+  const source = document.getElementById('newTaskSource').value;
+  const target = document.getElementById('newTaskTarget').value;
+  if (!name) { showToast('Name required', 'error'); return; }
+  try {
+    const res = await API.post('/api/tasks', { name, source_dir: source, target_dir: target });
+    if (res.success) { closeModal(); showToast('Task created', 'success'); loadTasks(); }
+    else showToast(res.error || 'Failed', 'error');
+  } catch (e) { showToast('Network error', 'error'); }
+}
+
+function showTaskDetail(taskId) {
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) return;
+  showModal(`Task: ${task.name}`, `
+    <div style="font-size: 13px; color: var(--text-secondary);">
+      <p><strong>Source:</strong> ${escapeHtml(task.source_dir || '(not set)')}</p>
+      <p><strong>Target:</strong> ${escapeHtml(task.target_dir || '(same as source)')}</p>
+      <p><strong>Rules:</strong> ${escapeHtml(task.rules_name || 'Default')}</p>
+      <p><strong>Last Run:</strong> ${task.last_run ? new Date(task.last_run).toLocaleString('zh-CN') : 'Never'}</p>
+    </div>
+    <div style="margin-top: 20px; display: flex; gap: 10px;">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal(); exportTask('${taskId}')">
+        <i class="fas fa-download"></i> Export
+      </button>
+      <button class="btn btn-ghost btn-sm" style="color: var(--accent-rose);" onclick="closeModal(); deleteTask('${taskId}')">
+        <i class="fas fa-trash"></i> Delete
+      </button>
+    </div>
+  `, [{ text: 'Close', class: 'btn btn-ghost', action: 'closeModal()' }]);
+}
+
+async function deleteTask(taskId) {
+  try {
+    const res = await API.del(`/api/tasks/${taskId}`);
+    if (res.success) { showToast('Task deleted', 'success'); loadTasks(); }
+    else showToast(res.error || 'Failed', 'error');
+  } catch (e) { showToast('Network error', 'error'); }
+}
+
+// ============================================================
+// Utilities
+// ============================================================
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = String(str);
+  return div.innerHTML;
+}
+
+// ============================================================
+// Init
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  loadDashboard();
+  // Heartbeat
+  setInterval(async () => {
+    try {
+      await API.get('/api/health', 5000);
+      document.getElementById('connectionBadge').classList.remove('disconnected');
+      document.getElementById('connText').textContent = 'Connected';
+    } catch (e) {
+      document.getElementById('connectionBadge').classList.add('disconnected');
+      document.getElementById('connText').textContent = 'Disconnected';
+    }
+  }, 10000);
+});
+</script>
+</body>
+</html>

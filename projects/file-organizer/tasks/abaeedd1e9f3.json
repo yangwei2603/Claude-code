@@ -1,0 +1,45 @@
+{
+  "id": "abaeedd1e9f3",
+  "name": "测试",
+  "description": "",
+  "source_dir": "C:\\Users\\hytyw\\Desktop\\工作备份",
+  "target_dir": "",
+  "enabled": true,
+  "scan_days": 99999,
+  "dry_run": true,
+  "keep_original": false,
+  "large_file_threshold_mb": 100,
+  "protected_folders": [],
+  "delete_patterns": [
+    "\\.svn-base$",
+    "^~\\$",
+    "\\.tmp$",
+    "\\.DS_Store$",
+    "^\\.~",
+    "Thumbs\\.db$",
+    "desktop\\.ini$"
+  ],
+  "backup_extensions": [
+    ".bak",
+    ".backup"
+  ],
+  "old_folder_mapping": {},
+  "state_file": "state/task_abaeedd1e9f3_state.json",
+  "log_dir": "logs/task_abaeedd1e9f3",
+  "rollback_dir": "state/rollback_abaeedd1e9f3",
+  "rules": null,
+  "created_at": "2026-04-19T22:11:19.553392",
+  "updated_at": "2026-05-08T22:08:16.079938",
+  "last_run": "2026-05-08T22:08:16.079848",
+  "last_status": "error: 源目录不存在: C:\\Users\\hytyw\\Desktop\\工作备份",
+  "last_stats": {
+    "scanned": 0,
+    "organized": 0,
+    "skipped": 0,
+    "deleted": 0,
+    "errors": 0,
+    "archived": 0,
+    "unmatched": 0,
+    "content_analyzed": 0
+  }
+}

@@ -1,0 +1,132 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OpenClaw Canvas</title>
+<style>
+  html, body { height: 100%; margin: 0; background: #000; color: #fff; font: 16px/1.4 -apple-system, BlinkMacSystemFont, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+  .wrap { min-height: 100%; display: grid; place-items: center; padding: 24px; }
+  .card { width: min(720px, 100%); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; padding: 18px 18px 14px; }
+  .title { display: flex; align-items: baseline; gap: 10px; }
+  h1 { margin: 0; font-size: 22px; letter-spacing: 0.2px; }
+  .sub { opacity: 0.75; font-size: 13px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  button { appearance: none; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.10); color: #fff; padding: 10px 12px; border-radius: 12px; font-weight: 600; cursor: pointer; }
+  button:active { transform: translateY(1px); }
+  button:disabled { cursor: not-allowed; opacity: 0.55; }
+  .ok { color: #24e08a; }
+  .bad { color: #ff5c5c; }
+  .tools { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px; }
+  .log { margin-top: 8px; opacity: 0.85; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; white-space: pre-wrap; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 12px; max-height: 260px; overflow: auto; }
+</style>
+<div class="wrap">
+  <div class="card">
+    <div class="title">
+      <h1>OpenClaw Canvas</h1>
+      <div class="sub">Interactive test page (auto-reload enabled)</div>
+    </div>
+
+    <div class="row" id="actions"></div>
+
+    <div class="tools">
+      <div id="status" class="sub" aria-live="polite"></div>
+      <button id="btn-refresh" type="button">Refresh bridge status</button>
+    </div>
+
+    <div id="log" class="log" aria-live="polite">Ready.</div>
+  </div>
+</div>
+<script>
+(() => {
+  const logEl = document.getElementById("log");
+  const statusEl = document.getElementById("status");
+  const actionsEl = document.getElementById("actions");
+  const refreshBtn = document.getElementById("btn-refresh");
+  const maxLogs = 12;
+  const logLines = ["Ready."];
+
+  const actionDefs = [
+    { id: "btn-hello", name: "hello", sourceComponentId: "demo.hello", label: "Hello" },
+    { id: "btn-time", name: "time", sourceComponentId: "demo.time", label: "Time" },
+    { id: "btn-photo", name: "photo", sourceComponentId: "demo.photo", label: "Photo" },
+    { id: "btn-dalek", name: "dalek", sourceComponentId: "demo.dalek", label: "Dalek" },
+  ];
+
+  const now = () => new Date().toISOString().replace("T", " ").slice(0, 19);
+  const log = (msg) => {
+    logLines.push(`[${now()}] ${String(msg)}`);
+    while (logLines.length > maxLogs) logLines.shift();
+    logEl.textContent = logLines.join("\n");
+    logEl.scrollTop = logEl.scrollHeight;
+  };
+
+  const hasIOS = () =>
+    !!(
+      window.webkit &&
+      window.webkit.messageHandlers &&
+      window.webkit.messageHandlers.openclawCanvasA2UIAction
+    );
+
+  const hasAndroid = () =>
+    !!(
+      window.openclawCanvasA2UIAction &&
+      typeof window.openclawCanvasA2UIAction.postMessage === "function"
+    );
+
+  const hasHelper = () => typeof window.openclawSendUserAction === "function";
+
+  const setActionButtonsDisabled = (disabled) => {
+    actionsEl.querySelectorAll("button").forEach((btn) => {
+      btn.disabled = disabled;
+    });
+  };
+
+  const updateBridgeStatus = () => {
+    const helperReady = hasHelper();
+    const iosReady = hasIOS();
+    const androidReady = hasAndroid();
+    statusEl.textContent = `Bridge: ${helperReady ? "ready" : "missing"} · iOS=${iosReady ? "yes" : "no"} · Android=${androidReady ? "yes" : "no"}`;
+    statusEl.className = `sub ${helperReady ? "ok" : "bad"}`;
+    setActionButtonsDisabled(!helperReady);
+    return helperReady;
+  };
+
+  const send = (name, sourceComponentId) => {
+    if (!updateBridgeStatus()) {
+      log("No action bridge found. Ensure you're viewing this on an iOS/Android OpenClaw node canvas.");
+      return;
+    }
+
+    const sendUserAction = window.openclawSendUserAction;
+    const ok = sendUserAction({
+      name,
+      surfaceId: "main",
+      sourceComponentId,
+      context: { t: Date.now() },
+    });
+    log(ok ? `Sent action: ${name}` : `Failed to send action: ${name}`);
+  };
+
+  const onStatus = (ev) => {
+    const d = (ev && ev.detail) || {};
+    log(`Action status: id=${d.id || "?"} ok=${String(!!d.ok)}${d.error ? ` error=${d.error}` : ""}`);
+  };
+
+  actionDefs.forEach((def) => {
+    const btn = document.createElement("button");
+    btn.id = def.id;
+    btn.type = "button";
+    btn.textContent = def.label;
+    btn.addEventListener("click", () => send(def.name, def.sourceComponentId));
+    actionsEl.appendChild(btn);
+  });
+
+  refreshBtn.addEventListener("click", () => {
+    updateBridgeStatus();
+    log("Bridge status refreshed.");
+  });
+
+  window.addEventListener("focus", updateBridgeStatus);
+  window.addEventListener("openclaw:a2ui-action-status", onStatus);
+  updateBridgeStatus();
+})();
+</script>

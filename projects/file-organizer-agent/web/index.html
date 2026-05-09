@@ -1,0 +1,2397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文件整理 Agent — Web 管理界面</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-deep: #0a0e1a;
+  --bg-base: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --bg-card-hover: rgba(51, 65, 85, 0.7);
+  --border-glow: rgba(99, 102, 241, 0.3);
+  --neon-indigo: #6366f1;
+  --neon-purple: #8b5cf6;
+  --neon-cyan: #06b6d4;
+  --neon-green: #22c55e;
+  --neon-red: #ef4444;
+  --neon-amber: #f59e0b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Animated background grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.glass:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
+}
+
+.glass-static {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 16px;
+}
+
+/* Neon glow effects */
+.neon-border {
+  border: 1px solid var(--neon-indigo);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.2), inset 0 0 15px rgba(99, 102, 241, 0.05);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(99, 102, 241, 0.5), 0 0 40px rgba(99, 102, 241, 0.2);
+}
+
+/* Stat card animation */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  to { left: 100%; }
+}
+
+/* Pulse animation for running tasks */
+@keyframes pulse-neon {
+  0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
+}
+
+.running-pulse {
+  animation: pulse-neon 2s infinite;
+}
+
+/* Button styles */
+.btn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn:active { transform: scale(0.96); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--neon-indigo), var(--neon-purple));
+  color: white;
+  border-color: rgba(99, 102, 241, 0.5);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: white;
+}
+.btn-success:hover { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+}
+.btn-danger:hover { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+
+.btn-ghost {
+  background: rgba(51, 65, 85, 0.5);
+  color: var(--text-secondary);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+.btn-ghost:hover {
+  background: rgba(51, 65, 85, 0.8);
+  color: var(--text-primary);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 8px; }
+
+/* Input styles */
+.input-field {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--text-primary);
+  font-size: 14px;
+  width: 100%;
+  transition: all 0.2s ease;
+  outline: none;
+  font-family: inherit;
+}
+.input-field:focus {
+  border-color: var(--neon-indigo);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.input-field::placeholder { color: var(--text-muted); }
+
+textarea.input-field { resize: vertical; min-height: 80px; }
+
+/* Upload drop zone */
+.upload-drop-zone {
+  border: 2px dashed rgba(99, 102, 241, 0.3);
+  border-radius: 12px;
+  padding: 32px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(15, 23, 42, 0.4);
+}
+.upload-drop-zone:hover,
+.upload-drop-zone.dragover {
+  border-color: var(--neon-indigo);
+  background: rgba(99, 102, 241, 0.08);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+}
+.upload-drop-zone .icon {
+  font-size: 32px;
+  color: var(--neon-indigo);
+  margin-bottom: 8px;
+}
+.upload-drop-zone .hint {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 6px;
+}
+.upload-selected-file {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 8px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.upload-selected-file.active { display: flex; }
+.upload-selected-file .file-name {
+  flex: 1;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+select.input-field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2394a3b8' viewBox='0 0 20 20'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 36px;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle .slider {
+  position: absolute;
+  inset: 0;
+  background: #334155;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+.toggle .slider::before {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  left: 3px; bottom: 3px;
+  background: #94a3b8;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.toggle input:checked + .slider { background: var(--neon-indigo); }
+.toggle input:checked + .slider::before {
+  transform: translateX(20px);
+  background: white;
+}
+
+/* Status badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.badge-running {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.badge-idle {
+  background: rgba(100, 116, 139, 0.2);
+  color: #94a3b8;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.badge-error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-success {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Nav item */
+.nav-item {
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-item:hover { color: var(--text-primary); background: rgba(51, 65, 85, 0.4); }
+.nav-item.active {
+  color: var(--neon-cyan);
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+/* Page transitions */
+.page { display: none; animation: fadeIn 0.3s ease; }
+.page.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Terminal output */
+.terminal {
+  background: #0c0c0c;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+  color: #a3e635;
+}
+.terminal::-webkit-scrollbar { width: 6px; }
+.terminal::-webkit-scrollbar-track { background: transparent; }
+.terminal::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+/* Tab styles */
+.tab-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+}
+.tab-btn:hover { color: var(--text-primary); background: rgba(51, 65, 85, 0.4); }
+.tab-btn.active {
+  color: var(--neon-cyan);
+  background: rgba(6, 182, 212, 0.1);
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+/* Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+.data-table td {
+  padding: 10px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+  color: var(--text-secondary);
+}
+.data-table tr:hover td { background: rgba(51, 65, 85, 0.2); }
+
+/* Toast */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  backdrop-filter: blur(20px);
+  animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toast-success { background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; }
+.toast-error { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; }
+.toast-info { background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #a5b4fc; }
+
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+.modal-content {
+  max-width: 680px;
+  width: 95%;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: scaleIn 0.2s ease;
+}
+@keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Rule editor row */
+.rule-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+/* Spinner */
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(99, 102, 241, 0.2);
+  border-top-color: var(--neon-indigo);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Markdown editor split view */
+.md-editor-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  min-height: 400px;
+}
+.md-editor-textarea {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+  padding: 14px;
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: none;
+  width: 100%;
+  min-height: 400px;
+  outline: none;
+}
+.md-editor-textarea:focus {
+  border-color: var(--neon-indigo);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+.md-preview {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 10px;
+  padding: 14px;
+  overflow-y: auto;
+  min-height: 400px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.md-preview h1, .md-preview h2, .md-preview h3 {
+  color: var(--text-primary);
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+.md-preview h1 { font-size: 18px; }
+.md-preview h2 { font-size: 15px; color: var(--neon-cyan); }
+.md-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+}
+.md-preview th {
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+}
+.md-preview td {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+  color: var(--text-secondary);
+}
+.md-preview blockquote {
+  border-left: 3px solid var(--neon-indigo);
+  padding-left: 12px;
+  margin: 8px 0;
+  color: var(--text-muted);
+}
+.md-preview ul {
+  padding-left: 20px;
+  margin: 4px 0;
+}
+.md-preview li {
+  padding: 2px 0;
+  color: var(--text-secondary);
+}
+
+/* Task error banner */
+.task-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  border-left: 3px solid var(--neon-red);
+  border-radius: 8px;
+  font-size: 12px;
+  color: #f87171;
+  animation: fadeIn 0.3s ease;
+}
+.task-error-banner .error-msg {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.task-error-banner .close-btn {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+.task-error-banner .close-btn:hover { opacity: 1; }
+.task-error-banner.connection-lost {
+  border-left-color: var(--neon-amber);
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+</style>
+</head>
+<body>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Modal Container -->
+<div id="modalContainer"></div>
+
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 right-0 z-50 glass-static" style="border-radius:0; border-top:none; border-left:none; border-right:none; border-bottom: 1px solid rgba(99,102,241,0.2);">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg, var(--neon-indigo), var(--neon-purple));">
+        <i class="fas fa-folder-tree text-white text-sm"></i>
+      </div>
+      <div>
+        <h1 class="text-sm font-bold tracking-tight" style="color:var(--text-primary);">File Organizer</h1>
+        <p class="text-xs" style="color:var(--text-muted);">Web 管理界面</p>
+      </div>
+    </div>
+    <nav class="flex items-center gap-2">
+      <div class="nav-item active" data-page="dashboard" onclick="switchPage('dashboard')">
+        <i class="fas fa-th-large text-xs"></i> 仪表盘
+      </div>
+      <div class="nav-item" data-page="templates" onclick="switchPage('templates')">
+        <i class="fas fa-puzzle-piece text-xs"></i> 规则模板
+      </div>
+      <div class="nav-item" data-page="logs" onclick="switchPage('logs')">
+        <i class="fas fa-scroll text-xs"></i> 日志
+      </div>
+    </nav>
+    <div class="flex items-center gap-3">
+      <div class="badge badge-idle" id="connectionBadge">
+        <span class="w-2 h-2 rounded-full bg-current"></span> 已连接
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="relative z-10 pt-24 pb-12 px-6 max-w-7xl mx-auto">
+
+  <!-- ============ Dashboard Page ============ -->
+  <div class="page active" id="page-dashboard">
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8" id="statsCards">
+      <div class="glass stat-card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wider" style="color:var(--text-muted);">任务总数</span>
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(99,102,241,0.15);">
+            <i class="fas fa-tasks text-sm" style="color:var(--neon-indigo);"></i>
+          </div>
+        </div>
+        <div class="text-3xl font-bold" id="statTotalTasks">-</div>
+        <div class="text-xs mt-1" style="color:var(--text-muted);" id="statActiveHint"></div>
+      </div>
+      <div class="glass stat-card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wider" style="color:var(--text-muted);">运行中</span>
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(34,197,94,0.15);">
+            <i class="fas fa-play text-sm" style="color:var(--neon-green);"></i>
+          </div>
+        </div>
+        <div class="text-3xl font-bold" id="statRunning">0</div>
+        <div class="text-xs mt-1" style="color:var(--text-muted);">当前执行中</div>
+      </div>
+      <div class="glass stat-card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wider" style="color:var(--text-muted);">已启用</span>
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(6,182,212,0.15);">
+            <i class="fas fa-check-circle text-sm" style="color:var(--neon-cyan);"></i>
+          </div>
+        </div>
+        <div class="text-3xl font-bold" id="statActive">-</div>
+        <div class="text-xs mt-1" style="color:var(--text-muted);">可自动执行</div>
+      </div>
+      <div class="glass stat-card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wider" style="color:var(--text-muted);">规则模板</span>
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(139,92,246,0.15);">
+            <i class="fas fa-puzzle-piece text-sm" style="color:var(--neon-purple);"></i>
+          </div>
+        </div>
+        <div class="text-3xl font-bold" id="statTemplates">-</div>
+        <div class="text-xs mt-1" style="color:var(--text-muted);">可复用模板</div>
+      </div>
+    </div>
+
+    <!-- Task List Header -->
+    <div class="flex items-center justify-between mb-5">
+      <h2 class="text-lg font-semibold flex items-center gap-2">
+        <i class="fas fa-layer-group text-sm" style="color:var(--neon-indigo);"></i>
+        整理任务
+      </h2>
+      <button class="btn btn-primary" onclick="showCreateTaskModal()">
+        <i class="fas fa-plus"></i> 新建任务
+      </button>
+    </div>
+
+    <!-- Task List -->
+    <div class="grid gap-4" id="taskList">
+      <div class="text-center py-16" style="color:var(--text-muted);">
+        <div class="spinner mx-auto mb-3"></div>
+        加载中...
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Templates Page ============ -->
+  <div class="page" id="page-templates">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-semibold flex items-center gap-2">
+        <i class="fas fa-puzzle-piece text-sm" style="color:var(--neon-purple);"></i>
+        规则模板
+      </h2>
+      <div class="flex gap-2">
+        <button class="btn btn-primary" onclick="showCreateTemplateModal()">
+          <i class="fas fa-plus"></i> 新建模板
+        </button>
+        <button class="btn btn-ghost" onclick="showUploadModal()" title="上传规则文件">
+          <i class="fas fa-upload"></i> 上传文件
+        </button>
+      </div>
+    </div>
+    <div class="grid gap-4" id="templateList">
+      <div class="text-center py-16" style="color:var(--text-muted);">
+        <div class="spinner mx-auto mb-3"></div>
+        加载中...
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Logs Page ============ -->
+  <div class="page" id="page-logs">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-semibold flex items-center gap-2">
+        <i class="fas fa-scroll text-sm" style="color:var(--neon-cyan);"></i>
+        运行日志
+      </h2>
+      <button class="btn btn-ghost" onclick="loadLogs()">
+        <i class="fas fa-sync-alt"></i> 刷新
+      </button>
+    </div>
+    <div id="logList">
+      <div class="text-center py-16" style="color:var(--text-muted);">
+        <div class="spinner mx-auto mb-3"></div>
+        加载中...
+      </div>
+    </div>
+    <!-- Log viewer modal content area -->
+    <div id="logViewer" class="hidden mt-4">
+      <div class="glass-static p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold" id="logViewerTitle">日志内容</h3>
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('logViewer').classList.add('hidden')">
+            <i class="fas fa-times"></i> 关闭
+          </button>
+        </div>
+        <div class="terminal" id="logViewerContent" style="max-height:500px;"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ============================================================
+// API Helper — 带超时控制 & 错误处理
+// ============================================================
+const API_TIMEOUT_MS = 120000;       // 默认超时 120 秒（整理任务可能耗时较长）
+const POLL_TIMEOUT_MS = 30000;       // 轮询状态超时 30 秒
+const API = {
+  /**
+   * 底层 fetch 封装 — AbortController 超时 + HTTP 状态检查 + JSON 解析保护
+   */
+  async _fetch(url, options = {}, timeoutMs = API_TIMEOUT_MS) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      clearTimeout(timer);
+      // 检查 HTTP 状态码
+      if (!res.ok) {
+        let errMsg = `HTTP ${res.status}`;
+        try { const body = await res.json(); if (body.error) errMsg = body.error; } catch (_) {}
+        throw new Error(errMsg);
+      }
+      // 保护性 JSON 解析
+      const text = await res.text();
+      if (!text || !text.trim()) throw new Error('服务器返回空响应');
+      return JSON.parse(text);
+    } catch (e) {
+      clearTimeout(timer);
+      if (e.name === 'AbortError') throw new Error(`请求超时 (${timeoutMs / 1000}s)，服务器可能仍在处理中，请稍后查看结果`);
+      throw e;
+    }
+  },
+
+  async get(url, timeoutMs) { return this._fetch(url, {}, timeoutMs); },
+  async post(url, data, timeoutMs) {
+    return this._fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: data ? JSON.stringify(data) : undefined,
+    }, timeoutMs);
+  },
+  async put(url, data, timeoutMs) {
+    return this._fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }, timeoutMs);
+  },
+  async del(url, timeoutMs) {
+    return this._fetch(url, { method: 'DELETE' }, timeoutMs);
+  },
+};
+
+// ============================================================
+// Toast Notification
+// ============================================================
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+  toast.innerHTML = `<i class="fas fa-${icon}"></i> ${msg}`;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// ============================================================
+// Page Navigation
+// ============================================================
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(`page-${page}`).classList.add('active');
+  document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+
+  if (page === 'dashboard') loadDashboard();
+  else if (page === 'templates') loadTemplates();
+  else if (page === 'logs') loadLogs();
+}
+
+// ============================================================
+// Dashboard
+// ============================================================
+let tasks = [];
+let runningStatus = {};
+
+async function loadDashboard() {
+  await Promise.all([loadStats(), loadTasks()]);
+}
+
+async function loadStats() {
+  try {
+    const res = await API.get('/api/stats/summary');
+    if (res.success) {
+      const d = res.data;
+      document.getElementById('statTotalTasks').textContent = d.total_tasks;
+      document.getElementById('statRunning').textContent = d.running_count;
+      document.getElementById('statActive').textContent = d.active_tasks;
+      document.getElementById('statTemplates').textContent = d.templates_count;
+      document.getElementById('statActiveHint').textContent = `${d.active_tasks} / ${d.total_tasks} 已启用`;
+    }
+  } catch (e) {
+    console.error('Failed to load stats:', e);
+  }
+}
+
+async function loadTasks() {
+  try {
+    const res = await API.get('/api/tasks');
+    if (!res.success) return;
+    tasks = res.data || [];
+    renderTasks();
+  } catch (e) {
+    document.getElementById('taskList').innerHTML = `
+      <div class="text-center py-12" style="color:var(--neon-red);">
+        <i class="fas fa-exclamation-triangle text-2xl mb-3"></i>
+        <p>加载失败，请检查服务是否运行</p>
+      </div>`;
+  }
+}
+
+function renderTasks() {
+  const container = document.getElementById('taskList');
+  if (tasks.length === 0) {
+    container.innerHTML = `
+      <div class="glass-static p-12 text-center">
+        <i class="fas fa-inbox text-4xl mb-4" style="color:var(--text-muted);"></i>
+        <p style="color:var(--text-secondary);">暂无任务</p>
+        <p class="text-sm mt-1" style="color:var(--text-muted);">点击「新建任务」开始配置文件整理</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = tasks.map(task => {
+    const isRunning = task.running;
+    const statusBadge = isRunning
+      ? '<span class="badge badge-running"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>运行中</span>'
+      : task.last_status && task.last_status.includes('error')
+        ? '<span class="badge badge-error"><i class="fas fa-times-circle text-xs"></i>错误</span>'
+        : task.last_status
+          ? '<span class="badge badge-success"><i class="fas fa-check-circle text-xs"></i>已完成</span>'
+          : '<span class="badge badge-idle">待执行</span>';
+
+    const lastRun = task.last_run
+      ? new Date(task.last_run).toLocaleString('zh-CN', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' })
+      : '从未运行';
+
+    const statsHtml = task.last_stats ? `
+      <div class="flex gap-4 text-xs mt-3" style="color:var(--text-muted);">
+        <span><i class="fas fa-search"></i> 扫描: ${task.last_stats.scanned || 0}</span>
+        <span><i class="fas fa-arrows-alt"></i> 整理: ${task.last_stats.organized || 0}</span>
+        <span><i class="fas fa-trash"></i> 删除: ${task.last_stats.deleted || 0}</span>
+        <span><i class="fas fa-exclamation-triangle"></i> 错误: ${task.last_stats.errors || 0}</span>
+      </div>` : '';
+
+    return `
+      <div class="glass p-5 ${isRunning ? 'running-pulse' : ''}" id="task-card-${task.id}">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-3 mb-2">
+              <h3 class="font-semibold text-base truncate">${escapeHtml(task.name)}</h3>
+              ${statusBadge}
+              <label class="toggle ml-auto" onclick="event.stopPropagation()">
+                <input type="checkbox" ${task.enabled ? 'checked' : ''} onchange="toggleTask('${task.id}', this.checked)">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="flex items-center gap-4 text-xs" style="color:var(--text-muted);">
+              <span><i class="fas fa-folder-open"></i> ${escapeHtml(task.source_dir)}</span>
+              ${task.target_dir ? `<span><i class="fas fa-arrow-right"></i> ${escapeHtml(task.target_dir)}</span>` : ''}
+              <span><i class="fas fa-clock"></i> ${lastRun}</span>
+              <span><i class="fas fa-book"></i> ${escapeHtml(task.rules_name || '默认规则')}</span>
+            </div>
+            ${statsHtml}
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            ${isRunning ? `
+              <button class="btn btn-ghost btn-sm" onclick="pollTaskStatus('${task.id}')">
+                <div class="spinner" style="width:12px;height:12px;border-width:2px;"></div> 状态
+              </button>
+            ` : `
+              <button class="btn btn-ghost btn-sm" onclick="runTaskAction('${task.id}', 'preview')" title="预览">
+                <i class="fas fa-eye"></i> 预览
+              </button>
+              <button class="btn btn-success btn-sm" onclick="confirmAndRun('${task.id}', 'execute')" title="执行整理">
+                <i class="fas fa-play"></i> 执行
+              </button>
+            `}
+            <button class="btn btn-ghost btn-sm" onclick="showTaskDetail('${task.id}')" title="详情">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ============================================================
+// Task Actions
+// ============================================================
+
+async function toggleTask(taskId, enabled) {
+  try {
+    const res = await API.post(`/api/tasks/${taskId}/toggle`);
+    if (res.success) showToast(enabled ? '任务已启用' : '任务已禁用', 'success');
+    else showToast(res.error || '操作失败', 'error');
+    loadTasks();
+  } catch (e) { showToast('网络错误', 'error'); }
+}
+
+async function runTaskAction(taskId, action) {
+  try {
+    const res = await API.post(`/api/tasks/${taskId}/${action}`);
+    if (res.success) {
+      showToast(res.message || `${action} 已开始`, 'info');
+      loadTasks();
+      pollTaskStatus(taskId);
+    } else {
+      showToast(res.error || `${action} 失败`, 'error');
+    }
+  } catch (e) { showToast('网络错误', 'error'); }
+}
+
+function confirmAndRun(taskId, action) {
+  showModal('确认执行', `
+    <p class="mb-4" style="color:var(--text-secondary);">
+      <i class="fas fa-exclamation-triangle" style="color:var(--neon-amber);"></i>
+      确定要执行整理吗？这将<strong style="color:var(--neon-red);">实际移动文件</strong>。
+    </p>
+    <p class="text-sm" style="color:var(--text-muted);">建议先「预览」确认分类结果后再执行。</p>
+  `, [
+    { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: '确认执行', class: 'btn btn-danger', action: `closeModal(); runTaskAction('${taskId}', '${action}')` }
+  ]);
+}
+
+let pollTimers = {};
+let pollConsecutiveErrors = {};  // taskId -> consecutive error count
+const POLL_MAX_CONSECUTIVE_ERRORS = 5;
+
+function pollTaskStatus(taskId) {
+  if (pollTimers[taskId]) { clearInterval(pollTimers[taskId]); delete pollTimers[taskId]; }
+  pollConsecutiveErrors[taskId] = 0;
+  const poll = async () => {
+    try {
+      const res = await API.get(`/api/tasks/${taskId}/status`, POLL_TIMEOUT_MS);
+      pollConsecutiveErrors[taskId] = 0;  // 重置错误计数
+
+      if (res.success && res.data.running) {
+        // Still running - update card with live stats
+        const card = document.getElementById(`task-card-${taskId}`);
+        if (card) {
+          // 移除可能存在的连接中断横幅
+          const lostBanner = card.querySelector('.task-error-banner.connection-lost');
+          if (lostBanner) lostBanner.remove();
+
+          const badge = card.querySelector('.badge');
+          if (badge) {
+            const elapsed = res.data.elapsed_seconds || 0;
+            const mins = Math.floor(elapsed / 60);
+            const secs = elapsed % 60;
+            const timeStr = mins > 0 ? `${mins}分${secs}秒` : `${secs}秒`;
+            badge.className = 'badge badge-running';
+            badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-current"></span>运行中 ${timeStr}`;
+          }
+        }
+      } else {
+        // Done or error — 停止轮询
+        stopPolling(taskId);
+        loadTasks();
+        loadStats();
+        // 判断是否为错误状态
+        const statusStr = res.success && res.data.status ? String(res.data.status) : '';
+        if (statusStr.includes('error')) {
+          const errorMsg = statusStr.replace(/^error:\s*/, '') || '执行失败';
+          showTaskCardError(taskId, errorMsg);
+          showToast(errorMsg, 'error');
+        } else if (res.success && res.data.stats && Object.keys(res.data.stats).length > 0) {
+          showToast('任务执行完成', 'success');
+          showRunResult(taskId, res.data);
+        }
+      }
+    } catch (e) {
+      pollConsecutiveErrors[taskId] = (pollConsecutiveErrors[taskId] || 0) + 1;
+      console.warn(`Poll ${taskId} error (${pollConsecutiveErrors[taskId]}):`, e.message);
+      // 连续失败超过阈值才停止轮询（避免网络抖动导致误停）
+      if (pollConsecutiveErrors[taskId] >= POLL_MAX_CONSECUTIVE_ERRORS) {
+        stopPolling(taskId);
+        showTaskCardError(taskId, `连接中断：连续 ${POLL_MAX_CONSECUTIVE_ERRORS} 次轮询失败 — ${e.message}`, true);
+        showToast(`状态轮询连续失败 ${POLL_MAX_CONSECUTIVE_ERRORS} 次`, 'error');
+      }
+      // 否则静默继续下一次尝试
+    }
+  };
+  poll();
+  pollTimers[taskId] = setInterval(poll, 3000);
+}
+
+/** 安全停止指定任务的轮询 */
+function stopPolling(taskId) {
+  if (pollTimers[taskId]) {
+    clearInterval(pollTimers[taskId]);
+    delete pollTimers[taskId];
+  }
+  delete pollConsecutiveErrors[taskId];
+}
+
+/**
+ * 在任务卡片内显示错误横幅
+ * @param {string} taskId - 任务ID
+ * @param {string} message - 错误信息
+ * @param {boolean} isConnectionLost - 是否为连接中断（黄色）
+ */
+function showTaskCardError(taskId, message, isConnectionLost = false) {
+  const card = document.getElementById(`task-card-${taskId}`);
+  if (!card) return;
+
+  // 移除已有横幅
+  const existing = card.querySelector('.task-error-banner');
+  if (existing) existing.remove();
+
+  // 创建横幅
+  const banner = document.createElement('div');
+  banner.className = `task-error-banner${isConnectionLost ? ' connection-lost' : ''}`;
+  const icon = isConnectionLost ? 'wifi' : 'exclamation-triangle';
+  banner.innerHTML = `
+    <i class="fas fa-${icon}"></i>
+    <span class="error-msg" title="${escapeHtml(message)}">${escapeHtml(message)}</span>
+    <span class="close-btn" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></span>
+  `;
+
+  // 插入到卡片最前面
+  card.insertBefore(banner, card.firstChild);
+
+  // 移除 running-pulse 样式
+  card.classList.remove('running-pulse');
+}
+
+function showRunResult(taskId, data) {
+  const stats = data.stats || {};
+  const logs = data.logs || [];
+  showModal('执行结果', `
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+      <div class="text-center p-3 rounded-xl" style="background:rgba(99,102,241,0.1);">
+        <div class="text-2xl font-bold" style="color:var(--neon-indigo);">${stats.scanned || 0}</div>
+        <div class="text-xs" style="color:var(--text-muted);">扫描</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:rgba(34,197,94,0.1);">
+        <div class="text-2xl font-bold" style="color:var(--neon-green);">${stats.organized || 0}</div>
+        <div class="text-xs" style="color:var(--text-muted);">整理</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:rgba(239,68,68,0.1);">
+        <div class="text-2xl font-bold" style="color:var(--neon-red);">${stats.deleted || 0}</div>
+        <div class="text-xs" style="color:var(--text-muted);">删除</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:rgba(245,158,11,0.1);">
+        <div class="text-2xl font-bold" style="color:var(--neon-amber);">${stats.errors || 0}</div>
+        <div class="text-xs" style="color:var(--text-muted);">错误</div>
+      </div>
+    </div>
+    ${logs.length > 0 ? `
+      <div class="terminal" style="max-height:250px;">${escapeHtml(logs.join('\n'))}</div>
+    ` : ''}
+  `, [
+    { text: '关闭', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: '回滚', class: 'btn btn-danger', action: `closeModal(); runTaskAction('${taskId}', 'rollback')` }
+  ]);
+}
+
+// ============================================================
+// Task Detail & Configuration
+// ============================================================
+
+async function showTaskDetail(taskId) {
+  try {
+    const res = await API.get(`/api/tasks/${taskId}`);
+    if (!res.success) { showToast(res.error, 'error'); return; }
+    const task = res.data;
+    const templates = await API.get('/api/templates');
+    const templateOptions = (templates.data || []).map(t =>
+      `<option value="${t.filename}" ${task.rules && task.rules._template === t.filename ? 'selected' : ''}>${t.name}</option>`
+    ).join('');
+
+    showModal('任务配置 — ' + escapeHtml(task.name), `
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">任务名称</label>
+            <input class="input-field" id="editTaskName" value="${escapeHtml(task.name)}">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">源目录</label>
+            <div class="flex gap-2">
+              <input class="input-field flex-1" id="editTaskSource" value="${escapeHtml(task.source_dir)}">
+              <button class="btn btn-ghost btn-sm" onclick="openDirPicker('editTaskSource')" title="选择文件夹">
+                <i class="fas fa-folder-open"></i>
+              </button>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">目标目录 <span style="opacity:.5">（可选）</span></label>
+            <div class="flex gap-2">
+              <input class="input-field flex-1" id="editTaskTarget" value="${escapeHtml(task.target_dir || '')}" placeholder="留空 = 与源目录相同">
+              <button class="btn btn-ghost btn-sm" onclick="openDirPicker('editTaskTarget')" title="选择文件夹">
+                <i class="fas fa-folder-open"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">描述</label>
+          <input class="input-field" id="editTaskDesc" value="${escapeHtml(task.description || '')}" placeholder="可选">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">扫描天数</label>
+          <select class="input-field" id="editTaskDays">
+            <option value="1">1天</option>
+            <option value="3">3天</option>
+            <option value="7" selected>7天</option>
+            <option value="14">14天</option>
+            <option value="30">30天</option>
+            <option value="99999">全量</option>
+          </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">大文件阈值 (MB)</label>
+            <input class="input-field" type="number" id="editTaskLargeFile" value="${task.large_file_threshold_mb || 100}" min="1">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">规则模板</label>
+            <select class="input-field" id="editTaskTemplate">
+              <option value="">使用默认规则</option>
+              ${templateOptions}
+            </select>
+          </div>
+          <div class="flex items-end">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="editTaskKeep" ${task.keep_original ? 'checked' : ''}>
+              <span class="text-sm" style="color:var(--text-secondary);">保留原文件（复制模式）</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4" style="border-top:1px solid rgba(99,102,241,0.1);">
+        <h4 class="text-xs font-semibold mb-3" style="color:var(--text-muted);">快捷操作</h4>
+        <div class="flex flex-wrap gap-2">
+          <button class="btn btn-ghost btn-sm" onclick="closeModal(); runTaskAction('${taskId}', 'setup')">
+            <i class="fas fa-sitemap"></i> 初始化目录
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="closeModal(); runTaskAction('${taskId}', 'duplicates')">
+            <i class="fas fa-copy"></i> 重复检测
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="closeModal(); runTaskAction('${taskId}', 'preview')">
+            <i class="fas fa-eye"></i> 预览整理
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDeleteTask('${taskId}')">
+            <i class="fas fa-trash"></i> 删除任务
+          </button>
+        </div>
+      </div>
+    `, [
+      { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+      { text: '保存', class: 'btn btn-primary', action: `saveTask('${taskId}')` }
+    ], 'wide');
+  } catch (e) { showToast('加载失败', 'error'); }
+}
+
+async function saveTask(taskId) {
+  const data = {
+    name: document.getElementById('editTaskName').value,
+    source_dir: document.getElementById('editTaskSource').value,
+    target_dir: document.getElementById('editTaskTarget').value.trim(),
+    description: document.getElementById('editTaskDesc').value,
+    scan_days: parseInt(document.getElementById('editTaskDays').value) || 7,
+    large_file_threshold_mb: parseInt(document.getElementById('editTaskLargeFile').value) || 100,
+    keep_original: document.getElementById('editTaskKeep').checked,
+  };
+
+  // Load template rules if selected
+  const templateFile = document.getElementById('editTaskTemplate').value;
+  if (templateFile) {
+    try {
+      const tRes = await API.get(`/api/templates/${templateFile}`);
+      if (tRes.success) {
+        data.rules = tRes.data;
+        data.rules._template = templateFile;
+      }
+    } catch (e) {}
+  } else {
+    data.rules = null;
+  }
+
+  try {
+    const res = await API.put(`/api/tasks/${taskId}`, data);
+    if (res.success) { showToast('任务已更新', 'success'); closeModal(); loadTasks(); }
+    else showToast(res.error || '更新失败', 'error');
+  } catch (e) { showToast('网络错误', 'error'); }
+}
+
+function confirmDeleteTask(taskId) {
+  closeModal();
+  showModal('确认删除', `
+    <p style="color:var(--text-secondary);">
+      <i class="fas fa-exclamation-triangle" style="color:var(--neon-red);"></i>
+      删除后无法恢复任务配置，确定要删除吗？
+    </p>
+  `, [
+    { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: '确认删除', class: 'btn btn-danger', action: `deleteTask('${taskId}')` }
+  ]);
+}
+
+async function deleteTask(taskId) {
+  try {
+    const res = await API.del(`/api/tasks/${taskId}`);
+    if (res.success) { showToast('任务已删除', 'success'); closeModal(); loadTasks(); loadStats(); }
+    else showToast(res.error || '删除失败', 'error');
+  } catch (e) { showToast('网络错误', 'error'); }
+}
+
+// ============================================================
+// Create Task Modal
+// ============================================================
+
+async function showCreateTaskModal() {
+  const templates = await API.get('/api/templates');
+  const templateOptions = (templates.data || []).map(t =>
+    `<option value="${t.filename}">${t.name}</option>`
+  ).join('');
+
+  showModal('新建整理任务', `
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">任务名称 *</label>
+        <input class="input-field" id="newTaskName" placeholder="例如：数字化办公室文件整理">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">源目录 *</label>
+        <div class="flex gap-2">
+          <input class="input-field flex-1" id="newTaskSource" placeholder="例如：D:\\\\MyDocuments">
+          <button class="btn btn-ghost btn-sm" onclick="openDirPicker('newTaskSource')" title="选择文件夹">
+            <i class="fas fa-folder-open"></i>
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="validatePath()" title="验证路径">
+            <i class="fas fa-check"></i>
+          </button>
+        </div>
+        <div id="pathValidation" class="text-xs mt-1" style="color:var(--text-muted);"></div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">目标目录 <span style="opacity:.5">（可选）</span></label>
+        <div class="flex gap-2">
+          <input class="input-field flex-1" id="newTaskTarget" placeholder="留空则与源目录相同">
+          <button class="btn btn-ghost btn-sm" onclick="openDirPicker('newTaskTarget')" title="选择文件夹">
+            <i class="fas fa-folder-open"></i>
+          </button>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">描述</label>
+        <input class="input-field" id="newTaskDesc" placeholder="可选，描述这个任务的用途">
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">规则模板</label>
+          <select class="input-field" id="newTaskTemplate">
+            <option value="">使用默认规则</option>
+            ${templateOptions}
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">扫描天数</label>
+          <select class="input-field" id="newTaskDays">
+            <option value="1">1天</option>
+            <option value="3">3天</option>
+            <option value="7" selected>7天</option>
+            <option value="14">14天</option>
+            <option value="30">30天</option>
+            <option value="99999">全量</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  `, [
+    { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: '创建', class: 'btn btn-primary', action: 'createTask()' }
+  ]);
+}
+
+async function validatePath() {
+  const path = document.getElementById('newTaskSource').value;
+  if (!path) return;
+  const el = document.getElementById('pathValidation');
+  el.innerHTML = '<span class="spinner" style="display:inline-block;vertical-align:middle;width:12px;height:12px;"></span> 验证中...';
+  try {
+    const res = await API.post('/api/validate/path', { path });
+    if (res.success) {
+      const d = res.data;
+      if (d.exists && d.is_dir) {
+        el.innerHTML = `<span style="color:var(--neon-green);"><i class="fas fa-check-circle"></i> 目录有效 — ${d.file_count} 个文件</span>`;
+      } else {
+        el.innerHTML = `<span style="color:var(--neon-red);"><i class="fas fa-times-circle"></i> ${d.error || '路径无效'}</span>`;
+      }
+    }
+  } catch (e) {
+    el.innerHTML = '<span style="color:var(--neon-red);">验证失败</span>';
+  }
+}
+
+async function createTask() {
+  const name = document.getElementById('newTaskName').value.trim();
+  const source_dir = document.getElementById('newTaskSource').value.trim();
+  if (!name || !source_dir) { showToast('任务名称和源目录不能为空', 'error'); return; }
+
+  const data = {
+    name,
+    source_dir,
+    target_dir: document.getElementById('newTaskTarget').value.trim(),
+    description: document.getElementById('newTaskDesc').value.trim(),
+    scan_days: parseInt(document.getElementById('newTaskDays').value) || 7,
+  };
+
+  const templateFile = document.getElementById('newTaskTemplate').value;
+  if (templateFile) {
+    try {
+      const tRes = await API.get(`/api/templates/${templateFile}`);
+      if (tRes.success) {
+        data.rules = tRes.data;
+        data.rules._template = templateFile;
+      }
+    } catch (e) {}
+  }
+
+  try {
+    const res = await API.post('/api/tasks', data);
+    if (res.success) {
+      showToast('任务创建成功', 'success');
+      closeModal();
+      loadTasks();
+      loadStats();
+    } else {
+      showToast(res.error || '创建失败', 'error');
+    }
+  } catch (e) { showToast('网络错误', 'error'); }
+}
+
+// ============================================================
+// Templates
+// ============================================================
+
+async function loadTemplates() {
+  try {
+    const res = await API.get('/api/templates');
+    if (!res.success) return;
+    const templates = res.data || [];
+    renderTemplates(templates);
+  } catch (e) {
+    document.getElementById('templateList').innerHTML = `
+      <div class="text-center py-12" style="color:var(--neon-red);">
+        <i class="fas fa-exclamation-triangle text-2xl mb-3"></i>
+        <p>加载失败</p>
+      </div>`;
+  }
+}
+
+function renderTemplates(templates) {
+  const container = document.getElementById('templateList');
+  if (templates.length === 0) {
+    container.innerHTML = `
+      <div class="glass-static p-12 text-center">
+        <i class="fas fa-puzzle-piece text-4xl mb-4" style="color:var(--text-muted);"></i>
+        <p style="color:var(--text-secondary);">暂无模板</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = templates.map(t => `
+    <div class="glass p-5">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1">
+          <h3 class="font-semibold mb-1">${escapeHtml(t.name)}</h3>
+          <p class="text-sm mb-3" style="color:var(--text-muted);">${escapeHtml(t.description || '无描述')}</p>
+          <div class="flex gap-4 text-xs" style="color:var(--text-muted);">
+            <span><i class="fas fa-building"></i> 业务领域: ${t.business_domain_count}</span>
+            <span><i class="fas fa-key"></i> 关键词: ${t.keyword_count}</span>
+            <span><i class="fas fa-file"></i> 扩展名: ${t.extension_count}</span>
+            ${t.version ? `<span><i class="fas fa-code-branch"></i> v${t.version}</span>` : ''}
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost btn-sm" onclick="viewTemplate('${t.filename}')">
+            <i class="fas fa-eye"></i> 查看
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="editTemplate('${t.filename}')" style="color:var(--neon-amber);border-color:rgba(245,158,11,0.3);">
+            <i class="fas fa-edit"></i> 编辑
+          </button>
+          ${t.filename !== 'digital-office.json' ? `
+            <button class="btn btn-danger btn-sm" onclick="confirmDeleteTemplate('${t.filename}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function viewTemplate(filename) {
+  try {
+    const res = await API.get(`/api/templates/${filename}`);
+    if (!res.success) { showToast(res.error, 'error'); return; }
+    const t = res.data;
+
+    const domainRules = (t.business_domain_rules || []).map(r =>
+      `<div class="rule-row"><span class="text-xs" style="color:var(--text-secondary);">${escapeHtml((r.keywords||[]).join(', '))}</span><span class="text-xs" style="color:var(--neon-cyan);">${escapeHtml(r.target||'')}</span></div>`
+    ).join('');
+
+    const keywordRules = (t.keyword_rules || []).map(r =>
+      `<div class="rule-row"><span class="text-xs" style="color:var(--text-secondary);">${escapeHtml((r.keywords||[]).join(', '))}</span><span class="text-xs" style="color:var(--neon-cyan);">${escapeHtml(r.target||'')}</span></div>`
+    ).join('');
+
+    const extRules = Object.entries(t.extension_rules || {}).map(([k, v]) =>
+      `<div class="rule-row"><span class="text-xs" style="color:var(--text-secondary);">${escapeHtml(k)}</span><span class="text-xs" style="color:var(--neon-cyan);">${escapeHtml(v)}</span></div>`
+    ).join('');
+
+    const dirs = (t.standard_dirs || []).map(d =>
+      `<div class="rule-row"><span class="text-xs font-mono" style="color:var(--text-secondary);">${escapeHtml(d)}</span><span></span></div>`
+    ).join('');
+
+    showModal('模板详情 — ' + escapeHtml(t.name), `
+      <div class="mb-4" style="color:var(--text-muted);font-size:13px;">${escapeHtml(t.description || '')}</div>
+      <div class="flex gap-2 mb-4">
+        <button class="tab-btn active" onclick="switchTemplateTab(this, 'tab-domains')">业务领域</button>
+        <button class="tab-btn" onclick="switchTemplateTab(this, 'tab-keywords')">关键词</button>
+        <button class="tab-btn" onclick="switchTemplateTab(this, 'tab-exts')">扩展名</button>
+        <button class="tab-btn" onclick="switchTemplateTab(this, 'tab-dirs')">目录结构</button>
+      </div>
+      <div id="tab-domains" class="template-tab">${domainRules || '<p class="text-xs" style="color:var(--text-muted);">无规则</p>'}</div>
+      <div id="tab-keywords" class="template-tab hidden">${keywordRules || '<p class="text-xs" style="color:var(--text-muted);">无规则</p>'}</div>
+      <div id="tab-exts" class="template-tab hidden">${extRules || '<p class="text-xs" style="color:var(--text-muted);">无规则</p>'}</div>
+      <div id="tab-dirs" class="template-tab hidden">${dirs || '<p class="text-xs" style="color:var(--text-muted);">无目录</p>'}</div>
+    `, [
+      { text: '关闭', class: 'btn btn-ghost', action: 'closeModal()' }
+    ], 'wide');
+  } catch (e) { showToast('加载失败', 'error'); }
+}
+
+function switchTemplateTab(btn, tabId) {
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.template-tab').forEach(t => t.classList.add('hidden'));
+  document.getElementById(tabId).classList.remove('hidden');
+}
+
+// ============================================================
+// Template Editing (Form Mode)
+// ============================================================
+
+let editingTemplateData = null;  // current template JSON being edited
+let editingTemplateFilename = null;
+
+async function editTemplate(filename) {
+  try {
+    const res = await API.get(`/api/templates/${filename}`);
+    if (!res.success) { showToast(res.error, 'error'); return; }
+    editingTemplateData = res.data;
+    editingTemplateFilename = filename;
+
+    showModal('编辑模板 — ' + escapeHtml(res.data.name || filename), `
+      <div class="mb-4">
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">模板名称</label>
+        <input class="input-field" id="editTplName" value="${escapeHtml(res.data.name || '')}">
+      </div>
+      <div class="mb-4">
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">描述</label>
+        <input class="input-field" id="editTplDesc" value="${escapeHtml(res.data.description || '')}">
+      </div>
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <button class="tab-btn active" onclick="switchTemplateTab(this, 'edit-tab-domains')">业务领域</button>
+        <button class="tab-btn" onclick="switchTemplateTab(this, 'edit-tab-keywords')">关键词</button>
+        <button class="tab-btn" onclick="switchTemplateTab(this, 'edit-tab-stages')">项目管理</button>
+        <button class="tab-btn" onclick="switchTemplateTab(this, 'edit-tab-exts')">扩展名</button>
+        <button class="tab-btn" onclick="switchTemplateTab(this, 'edit-tab-dirs')">目录结构</button>
+        <button class="tab-btn" onclick="activateMarkdownTab(this)">
+          <i class="fab fa-markdown" style="font-size:12px;"></i> Markdown
+        </button>
+      </div>
+      <div id="edit-tab-domains" class="template-tab">${renderEditableRuleRows('business_domain_rules')}</div>
+      <div id="edit-tab-keywords" class="template-tab hidden">${renderEditableRuleRows('keyword_rules')}</div>
+      <div id="edit-tab-stages" class="template-tab hidden">${renderEditableStageRows()}</div>
+      <div id="edit-tab-exts" class="template-tab hidden">${renderEditableExtRows()}</div>
+      <div id="edit-tab-dirs" class="template-tab hidden">${renderEditableDirRows()}</div>
+      <div id="edit-tab-markdown" class="template-tab hidden">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs" style="color:var(--text-muted);">
+            <i class="fas fa-info-circle"></i> 编辑 Markdown 文本，右侧实时预览。修改后点击「应用到表单」同步回各 Tab。
+          </p>
+          <button class="btn btn-ghost btn-sm" onclick="applyMarkdownToForm()">
+            <i class="fas fa-exchange-alt"></i> 应用到表单
+          </button>
+        </div>
+        <div class="md-editor-split">
+          <textarea class="md-editor-textarea" id="markdownEditor" oninput="updateMarkdownPreview()" placeholder="在此编辑 Markdown 格式的规则..."></textarea>
+          <div class="md-preview" id="markdownPreview"></div>
+        </div>
+      </div>
+    `, [
+      { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+      { text: '保存修改', class: 'btn btn-primary', action: 'saveTemplateFromEditor()' }
+    ], 'wide');
+  } catch (e) { showToast('加载模板失败', 'error'); }
+}
+
+/* --- Business Domain / Keyword Rules (array of {keywords:[], target}) --- */
+
+function renderEditableRuleRows(field) {
+  const rules = editingTemplateData[field] || [];
+  if (rules.length === 0) return '<p class="text-xs" style="color:var(--text-muted);">暂无规则，点击下方按钮添加</p>';
+  return rules.map((r, i) => `
+    <div class="rule-row" style="grid-template-columns:1fr 1fr auto;" id="rule-${field}-${i}">
+      <input class="input-field" style="padding:6px 10px;font-size:12px;" value="${escapeHtml((r.keywords||[]).join(', '))}"
+        placeholder="关键词（逗号分隔）" onchange="updateRuleField('${field}',${i},'keywords',this.value)">
+      <input class="input-field" style="padding:6px 10px;font-size:12px;" value="${escapeHtml(r.target||'')}"
+        placeholder="目标目录" onchange="updateRuleField('${field}',${i},'target',this.value)">
+      <button class="btn btn-danger btn-sm" style="padding:4px 8px;" onclick="removeRule('${field}',${i})" title="删除">
+        <i class="fas fa-trash" style="font-size:11px;"></i>
+      </button>
+    </div>
+  `).join('') + `
+    <button class="btn btn-ghost btn-sm mt-2" onclick="addRule('${field}')">
+      <i class="fas fa-plus"></i> 添加规则
+    </button>`;
+}
+
+function updateRuleField(field, index, key, value) {
+  if (key === 'keywords') {
+    editingTemplateData[field][index].keywords = value.split(/[,，]/).map(s => s.trim()).filter(Boolean);
+  } else {
+    editingTemplateData[field][index][key] = value;
+  }
+}
+
+function addRule(field) {
+  if (!editingTemplateData[field]) editingTemplateData[field] = [];
+  editingTemplateData[field].push({ keywords: [], target: '' });
+  refreshEditTab(field);
+}
+
+function removeRule(field, index) {
+  editingTemplateData[field].splice(index, 1);
+  refreshEditTab(field);
+}
+
+function refreshEditTab(field) {
+  const tabMap = { business_domain_rules: 'edit-tab-domains', keyword_rules: 'edit-tab-keywords' };
+  const tabId = tabMap[field];
+  if (tabId) document.getElementById(tabId).innerHTML = renderEditableRuleRows(field);
+}
+
+/* --- Infoproject Stage Rules (array of {keywords:[], sub}) --- */
+
+function renderEditableStageRows() {
+  const rules = editingTemplateData.infoproject_stage_rules || [];
+  if (rules.length === 0) return '<p class="text-xs" style="color:var(--text-muted);">暂无规则，点击下方按钮添加</p>';
+  return rules.map((r, i) => `
+    <div class="rule-row" style="grid-template-columns:1fr 1fr auto;" id="rule-stages-${i}">
+      <input class="input-field" style="padding:6px 10px;font-size:12px;" value="${escapeHtml((r.keywords||[]).join(', '))}"
+        placeholder="关键词（逗号分隔）" onchange="updateStageField(${i},'keywords',this.value)">
+      <input class="input-field" style="padding:6px 10px;font-size:12px;" value="${escapeHtml(r.sub||'')}"
+        placeholder="子目录" onchange="updateStageField(${i},'sub',this.value)">
+      <button class="btn btn-danger btn-sm" style="padding:4px 8px;" onclick="removeStage(${i})" title="删除">
+        <i class="fas fa-trash" style="font-size:11px;"></i>
+      </button>
+    </div>
+  `).join('') + `
+    <button class="btn btn-ghost btn-sm mt-2" onclick="addStage()">
+      <i class="fas fa-plus"></i> 添加规则
+    </button>`;
+}
+
+function updateStageField(index, key, value) {
+  if (key === 'keywords') {
+    editingTemplateData.infoproject_stage_rules[index].keywords = value.split(/[,，]/).map(s => s.trim()).filter(Boolean);
+  } else {
+    editingTemplateData.infoproject_stage_rules[index][key] = value;
+  }
+}
+
+function addStage() {
+  if (!editingTemplateData.infoproject_stage_rules) editingTemplateData.infoproject_stage_rules = [];
+  editingTemplateData.infoproject_stage_rules.push({ keywords: [], sub: '' });
+  document.getElementById('edit-tab-stages').innerHTML = renderEditableStageRows();
+}
+
+function removeStage(index) {
+  editingTemplateData.infoproject_stage_rules.splice(index, 1);
+  document.getElementById('edit-tab-stages').innerHTML = renderEditableStageRows();
+}
+
+/* --- Extension Rules (object: ext -> target) --- */
+
+function renderEditableExtRows() {
+  const rules = editingTemplateData.extension_rules || {};
+  const entries = Object.entries(rules);
+  if (entries.length === 0) return '<p class="text-xs" style="color:var(--text-muted);">暂无规则，点击下方按钮添加</p>';
+  return entries.map(([ext, target], i) => `
+    <div class="rule-row" style="grid-template-columns:120px 1fr auto;" id="rule-ext-${i}">
+      <input class="input-field" style="padding:6px 10px;font-size:12px;" value="${escapeHtml(ext)}"
+        placeholder=".docx" onchange="updateExtKey(${i},'${escapeHtml(ext)}',this.value)">
+      <input class="input-field" style="padding:6px 10px;font-size:12px;" value="${escapeHtml(target)}"
+        placeholder="目标目录" onchange="updateExtValue('${escapeHtml(ext)}',this.value)">
+      <button class="btn btn-danger btn-sm" style="padding:4px 8px;" onclick="removeExt('${escapeHtml(ext)}')" title="删除">
+        <i class="fas fa-trash" style="font-size:11px;"></i>
+      </button>
+    </div>
+  `).join('') + `
+    <button class="btn btn-ghost btn-sm mt-2" onclick="addExt()">
+      <i class="fas fa-plus"></i> 添加规则
+    </button>`;
+}
+
+function updateExtKey(index, oldKey, newKey) {
+  const rules = editingTemplateData.extension_rules;
+  const val = rules[oldKey];
+  delete rules[oldKey];
+  rules[newKey] = val;
+  document.getElementById('edit-tab-exts').innerHTML = renderEditableExtRows();
+}
+
+function updateExtValue(key, value) {
+  editingTemplateData.extension_rules[key] = value;
+}
+
+function addExt() {
+  if (!editingTemplateData.extension_rules) editingTemplateData.extension_rules = {};
+  editingTemplateData.extension_rules['.new'] = '';
+  document.getElementById('edit-tab-exts').innerHTML = renderEditableExtRows();
+}
+
+function removeExt(key) {
+  delete editingTemplateData.extension_rules[key];
+  document.getElementById('edit-tab-exts').innerHTML = renderEditableExtRows();
+}
+
+/* --- Standard Dirs (array of strings) --- */
+
+function renderEditableDirRows() {
+  const dirs = editingTemplateData.standard_dirs || [];
+  if (dirs.length === 0) return '<p class="text-xs" style="color:var(--text-muted);">暂无目录，点击下方按钮添加</p>';
+  return dirs.map((d, i) => `
+    <div class="rule-row" style="grid-template-columns:1fr auto;" id="rule-dir-${i}">
+      <input class="input-field" style="padding:6px 10px;font-size:12px;" value="${escapeHtml(d)}"
+        placeholder="目录路径" onchange="updateDir(${i},this.value)">
+      <button class="btn btn-danger btn-sm" style="padding:4px 8px;" onclick="removeDir(${i})" title="删除">
+        <i class="fas fa-trash" style="font-size:11px;"></i>
+      </button>
+    </div>
+  `).join('') + `
+    <button class="btn btn-ghost btn-sm mt-2" onclick="addDir()">
+      <i class="fas fa-plus"></i> 添加目录
+    </button>`;
+}
+
+function updateDir(index, value) {
+  editingTemplateData.standard_dirs[index] = value;
+}
+
+function addDir() {
+  if (!editingTemplateData.standard_dirs) editingTemplateData.standard_dirs = [];
+  editingTemplateData.standard_dirs.push('');
+  document.getElementById('edit-tab-dirs').innerHTML = renderEditableDirRows();
+}
+
+function removeDir(index) {
+  editingTemplateData.standard_dirs.splice(index, 1);
+  document.getElementById('edit-tab-dirs').innerHTML = renderEditableDirRows();
+}
+
+/* --- Save edited template via PUT API --- */
+
+async function saveTemplateFromEditor() {
+  if (!editingTemplateFilename || !editingTemplateData) return;
+
+  // If Markdown tab is currently visible, apply it first
+  const mdTab = document.getElementById('edit-tab-markdown');
+  if (mdTab && !mdTab.classList.contains('hidden')) {
+    const textarea = document.getElementById('markdownEditor');
+    if (textarea && textarea.value.trim()) {
+      const parsed = templateMarkdownToJson(textarea.value);
+      if (parsed.name) editingTemplateData.name = parsed.name;
+      if (parsed.description !== undefined) editingTemplateData.description = parsed.description;
+      editingTemplateData.business_domain_rules = parsed.business_domain_rules;
+      editingTemplateData.keyword_rules = parsed.keyword_rules;
+      editingTemplateData.infoproject_stage_rules = parsed.infoproject_stage_rules;
+      editingTemplateData.extension_rules = parsed.extension_rules;
+      editingTemplateData.standard_dirs = parsed.standard_dirs;
+    }
+  }
+
+  // Sync name/description from form fields
+  editingTemplateData.name = document.getElementById('editTplName').value.trim();
+  editingTemplateData.description = document.getElementById('editTplDesc').value.trim();
+
+  // Clean up empty rules
+  if (editingTemplateData.business_domain_rules) {
+    editingTemplateData.business_domain_rules = editingTemplateData.business_domain_rules.filter(r => (r.keywords||[]).length > 0);
+  }
+  if (editingTemplateData.keyword_rules) {
+    editingTemplateData.keyword_rules = editingTemplateData.keyword_rules.filter(r => (r.keywords||[]).length > 0);
+  }
+  if (editingTemplateData.infoproject_stage_rules) {
+    editingTemplateData.infoproject_stage_rules = editingTemplateData.infoproject_stage_rules.filter(r => (r.keywords||[]).length > 0);
+  }
+  if (editingTemplateData.extension_rules) {
+    const cleaned = {};
+    for (const [k, v] of Object.entries(editingTemplateData.extension_rules)) {
+      if (k && k.trim()) cleaned[k.trim()] = v;
+    }
+    editingTemplateData.extension_rules = cleaned;
+  }
+  if (editingTemplateData.standard_dirs) {
+    editingTemplateData.standard_dirs = editingTemplateData.standard_dirs.filter(d => d && d.trim());
+  }
+
+  try {
+    const res = await API.put(`/api/templates/${editingTemplateFilename}`, editingTemplateData);
+    if (res.success) {
+      showToast('模板已保存', 'success');
+      editingTemplateData = null;
+      editingTemplateFilename = null;
+      closeModal();
+      loadTemplates();
+    } else {
+      showToast(res.error || '保存失败', 'error');
+    }
+  } catch (e) { showToast('网络错误', 'error'); }
+}
+
+// ============================================================
+// Markdown Editor Tab
+// ============================================================
+
+function templateJsonToMarkdown(data) {
+  let md = '';
+  if (data.name) md += `# 模板名称: ${data.name}\n\n`;
+  if (data.description) md += `> ${data.description}\n\n`;
+
+  const bd = data.business_domain_rules || [];
+  if (bd.length > 0) {
+    md += '## 业务领域规则\n\n';
+    md += '| 关键词 | 目标目录 |\n|--------|---------|\n';
+    bd.forEach(r => {
+      md += `| ${(r.keywords||[]).join(', ')} | ${r.target || ''} |\n`;
+    });
+    md += '\n';
+  }
+
+  const kr = data.keyword_rules || [];
+  if (kr.length > 0) {
+    md += '## 关键词规则\n\n';
+    md += '| 关键词 | 目标目录 |\n|--------|---------|\n';
+    kr.forEach(r => {
+      md += `| ${(r.keywords||[]).join(', ')} | ${r.target || ''} |\n`;
+    });
+    md += '\n';
+  }
+
+  const sr = data.infoproject_stage_rules || [];
+  if (sr.length > 0) {
+    md += '## 项目管理规则\n\n';
+    md += '| 关键词 | 子目录 |\n|--------|--------|\n';
+    sr.forEach(r => {
+      md += `| ${(r.keywords||[]).join(', ')} | ${r.sub || ''} |\n`;
+    });
+    md += '\n';
+  }
+
+  const ext = data.extension_rules || {};
+  const extEntries = Object.entries(ext);
+  if (extEntries.length > 0) {
+    md += '## 扩展名规则\n\n';
+    md += '| 扩展名 | 目标目录 |\n|--------|---------|\n';
+    extEntries.forEach(([k, v]) => {
+      md += `| ${k} | ${v} |\n`;
+    });
+    md += '\n';
+  }
+
+  const dirs = data.standard_dirs || [];
+  if (dirs.length > 0) {
+    md += '## 标准目录\n\n';
+    dirs.forEach(d => { md += `- ${d}\n`; });
+    md += '\n';
+  }
+
+  return md;
+}
+
+function templateMarkdownToJson(md) {
+  const data = {
+    business_domain_rules: [],
+    keyword_rules: [],
+    infoproject_stage_rules: [],
+    extension_rules: {},
+    standard_dirs: []
+  };
+
+  const nameMatch = md.match(/^# 模板名称[:：]\s*(.+)$/m);
+  if (nameMatch) data.name = nameMatch[1].trim();
+
+  const descMatch = md.match(/^>\s*(.+)$/m);
+  if (descMatch) data.description = descMatch[1].trim();
+
+  // Split into sections by ## headings
+  const lines = md.split('\n');
+  let lastSection = null;
+  const sectionMap = {};
+  for (const line of lines) {
+    const headingMatch = line.match(/^## (.+)$/);
+    if (headingMatch) {
+      lastSection = headingMatch[1].trim();
+      sectionMap[lastSection] = [];
+    } else if (lastSection) {
+      sectionMap[lastSection].push(line);
+    }
+  }
+
+  function parseTableRows(sectionLines) {
+    const rows = [];
+    for (const line of sectionLines) {
+      if (!line.trim() || line.match(/^\|[\s\-:|]+\|$/)) continue;
+      const cells = line.split('|').slice(1, -1).map(c => c.trim());
+      if (cells.length >= 2 && cells[0]) rows.push(cells);
+    }
+    return rows;
+  }
+
+  if (sectionMap['业务领域规则']) {
+    const rows = parseTableRows(sectionMap['业务领域规则']);
+    data.business_domain_rules = rows.map(([kw, target]) => ({
+      keywords: kw.split(/[,，]/).map(s => s.trim()).filter(Boolean),
+      target: target || ''
+    }));
+  }
+
+  if (sectionMap['关键词规则']) {
+    const rows = parseTableRows(sectionMap['关键词规则']);
+    data.keyword_rules = rows.map(([kw, target]) => ({
+      keywords: kw.split(/[,，]/).map(s => s.trim()).filter(Boolean),
+      target: target || ''
+    }));
+  }
+
+  if (sectionMap['项目管理规则']) {
+    const rows = parseTableRows(sectionMap['项目管理规则']);
+    data.infoproject_stage_rules = rows.map(([kw, sub]) => ({
+      keywords: kw.split(/[,，]/).map(s => s.trim()).filter(Boolean),
+      sub: sub || ''
+    }));
+  }
+
+  if (sectionMap['扩展名规则']) {
+    const rows = parseTableRows(sectionMap['扩展名规则']);
+    const extObj = {};
+    rows.forEach(([ext, target]) => { if (ext) extObj[ext] = target || ''; });
+    data.extension_rules = extObj;
+  }
+
+  if (sectionMap['标准目录']) {
+    const dirs = [];
+    for (const line of sectionMap['标准目录']) {
+      const m = line.match(/^-\s+(.+)$/);
+      if (m) dirs.push(m[1].trim());
+    }
+    data.standard_dirs = dirs;
+  }
+
+  return data;
+}
+
+function activateMarkdownTab(btn) {
+  switchTemplateTab(btn, 'edit-tab-markdown');
+  // Populate textarea from current editingTemplateData
+  const md = templateJsonToMarkdown(editingTemplateData);
+  const textarea = document.getElementById('markdownEditor');
+  if (textarea) textarea.value = md;
+  updateMarkdownPreview();
+}
+
+function updateMarkdownPreview() {
+  const textarea = document.getElementById('markdownEditor');
+  const preview = document.getElementById('markdownPreview');
+  if (!textarea || !preview) return;
+  try {
+    preview.innerHTML = marked.parse(textarea.value);
+  } catch (e) {
+    preview.innerHTML = '<p style="color:var(--neon-red);">预览渲染失败</p>';
+  }
+}
+
+function applyMarkdownToForm() {
+  const textarea = document.getElementById('markdownEditor');
+  if (!textarea) return;
+  if (!textarea.value.trim()) { showToast('Markdown 内容为空', 'error'); return; }
+
+  try {
+    const parsed = templateMarkdownToJson(textarea.value);
+    if (parsed.name) {
+      editingTemplateData.name = parsed.name;
+      const nameField = document.getElementById('editTplName');
+      if (nameField) nameField.value = parsed.name;
+    }
+    if (parsed.description !== undefined) {
+      editingTemplateData.description = parsed.description;
+      const descField = document.getElementById('editTplDesc');
+      if (descField) descField.value = parsed.description;
+    }
+    editingTemplateData.business_domain_rules = parsed.business_domain_rules;
+    editingTemplateData.keyword_rules = parsed.keyword_rules;
+    editingTemplateData.infoproject_stage_rules = parsed.infoproject_stage_rules;
+    editingTemplateData.extension_rules = parsed.extension_rules;
+    editingTemplateData.standard_dirs = parsed.standard_dirs;
+
+    // Refresh all form tabs
+    document.getElementById('edit-tab-domains').innerHTML = renderEditableRuleRows('business_domain_rules');
+    document.getElementById('edit-tab-keywords').innerHTML = renderEditableRuleRows('keyword_rules');
+    document.getElementById('edit-tab-stages').innerHTML = renderEditableStageRows();
+    document.getElementById('edit-tab-exts').innerHTML = renderEditableExtRows();
+    document.getElementById('edit-tab-dirs').innerHTML = renderEditableDirRows();
+
+    showToast('Markdown 已应用到表单', 'success');
+  } catch (e) {
+    showToast('Markdown 解析失败: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// File Upload
+// ============================================================
+
+let pendingUploadFile = null;
+
+function showUploadModal() {
+  pendingUploadFile = null;
+  showModal('上传规则文件', `
+    <div class="space-y-3">
+      <p class="text-sm" style="color:var(--text-secondary);">
+        支持上传 <code>.json</code>、<code>.md</code>、<code>.txt</code> 格式的规则文件，上传后将自动创建或更新模板。
+      </p>
+      <div class="upload-drop-zone" id="uploadDropZone" onclick="document.getElementById('uploadFileInput').click()">
+        <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+        <p style="color:var(--text-secondary);">拖拽文件到此处，或点击选择文件</p>
+        <p class="hint">.json / .md / .txt，最大 2MB</p>
+        <input type="file" id="uploadFileInput" accept=".json,.md,.txt" style="display:none;" onchange="onUploadFileSelected(this)">
+      </div>
+      <div class="upload-selected-file" id="uploadSelectedFile">
+        <i class="fas fa-file-alt" style="color:var(--neon-indigo);"></i>
+        <span class="file-name" id="uploadFileName"></span>
+        <button class="btn btn-ghost btn-sm" onclick="clearUploadFile()" style="padding:2px 8px;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  `, [
+    { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: '上传并导入', class: 'btn btn-primary', action: 'uploadTemplateFile()' }
+  ], 'modal-footer-upload');
+
+  // Setup drag & drop after modal is rendered
+  requestAnimationFrame(() => {
+    const zone = document.getElementById('uploadDropZone');
+    if (!zone) return;
+    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', () => { zone.classList.remove('dragover'); });
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove('dragover');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) setUploadFile(files[0]);
+    });
+  });
+}
+
+function onUploadFileSelected(input) {
+  if (input.files.length > 0) setUploadFile(input.files[0]);
+}
+
+function setUploadFile(file) {
+  const allowed = ['.json', '.md', '.txt'];
+  const ext = '.' + file.name.split('.').pop().toLowerCase();
+  if (!allowed.includes(ext)) {
+    showToast('不支持的文件格式，请上传 .json / .md / .txt', 'error');
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    showToast('文件过大，限制 2MB 以内', 'error');
+    return;
+  }
+  pendingUploadFile = file;
+  const sel = document.getElementById('uploadSelectedFile');
+  const nameEl = document.getElementById('uploadFileName');
+  if (sel && nameEl) {
+    nameEl.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+    sel.classList.add('active');
+  }
+}
+
+function clearUploadFile() {
+  pendingUploadFile = null;
+  const input = document.getElementById('uploadFileInput');
+  if (input) input.value = '';
+  const sel = document.getElementById('uploadSelectedFile');
+  if (sel) sel.classList.remove('active');
+}
+
+async function uploadTemplateFile() {
+  if (!pendingUploadFile) {
+    showToast('请先选择要上传的文件', 'error');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', pendingUploadFile);
+
+  try {
+    showToast('正在上传...', 'info');
+    const res = await fetch('/api/templates/upload', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('文件上传成功：' + (data.data?.filename || pendingUploadFile.name), 'success');
+      closeModal();
+      loadTemplates();
+      loadStats();
+    } else {
+      showToast(data.error || '上传失败', 'error');
+    }
+  } catch (e) {
+    showToast('网络错误: ' + e.message, 'error');
+  }
+}
+
+function showCreateTemplateModal() {
+  showModal('新建规则模板', `
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">模板名称 *</label>
+        <input class="input-field" id="newTplName" placeholder="例如：个人文档整理规则">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">描述</label>
+        <input class="input-field" id="newTplDesc" placeholder="可选">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold mb-1" style="color:var(--text-muted);">基于现有模板</label>
+        <select class="input-field" id="newTplBase">
+          <option value="">空白模板</option>
+        </select>
+      </div>
+      <p class="text-xs" style="color:var(--text-muted);">
+        创建后可在模板列表中点击「编辑」配置具体规则。
+      </p>
+    </div>
+  `, [
+    { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: '创建', class: 'btn btn-primary', action: 'createTemplate()' }
+  ]);
+}
+
+async function createTemplate() {
+  const name = document.getElementById('newTplName').value.trim();
+  if (!name) { showToast('模板名称不能为空', 'error'); return; }
+
+  const baseFile = document.getElementById('newTplBase').value;
+  let rules = { description: document.getElementById('newTplDesc').value.trim() };
+
+  if (baseFile) {
+    try {
+      const res = await API.get(`/api/templates/${baseFile}`);
+      if (res.success) rules = res.data;
+    } catch (e) {}
+  }
+
+  try {
+    const res = await API.post('/api/templates', { name, rules });
+    if (res.success) { showToast('模板创建成功', 'success'); closeModal(); loadTemplates(); loadStats(); }
+    else showToast(res.error || '创建失败', 'error');
+  } catch (e) { showToast('网络错误', 'error'); }
+}
+
+function confirmDeleteTemplate(filename) {
+  showModal('确认删除', `
+    <p style="color:var(--text-secondary);">
+      <i class="fas fa-exclamation-triangle" style="color:var(--neon-red);"></i>
+      确定要删除模板「${escapeHtml(filename)}」吗？
+    </p>
+  `, [
+    { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: '确认删除', class: 'btn btn-danger', action: `deleteTemplate('${filename}')` }
+  ]);
+}
+
+async function deleteTemplate(filename) {
+  try {
+    const res = await API.del(`/api/templates/${filename}`);
+    if (res.success) { showToast('模板已删除', 'success'); closeModal(); loadTemplates(); loadStats(); }
+    else showToast(res.error || '删除失败', 'error');
+  } catch (e) { showToast('网络错误', 'error'); }
+}
+
+// ============================================================
+// Logs
+// ============================================================
+
+async function loadLogs() {
+  try {
+    const res = await API.get('/api/logs');
+    if (!res.success) return;
+    const logs = res.data || [];
+    renderLogs(logs);
+  } catch (e) {
+    document.getElementById('logList').innerHTML = `
+      <div class="text-center py-12" style="color:var(--text-muted);">加载失败</div>`;
+  }
+}
+
+function renderLogs(logs) {
+  const container = document.getElementById('logList');
+  if (logs.length === 0) {
+    container.innerHTML = `
+      <div class="glass-static p-12 text-center">
+        <i class="fas fa-scroll text-4xl mb-4" style="color:var(--text-muted);"></i>
+        <p style="color:var(--text-secondary);">暂无日志</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <table class="data-table glass-static overflow-hidden">
+      <thead><tr>
+        <th>文件名</th>
+        <th>大小</th>
+        <th>修改时间</th>
+        <th>操作</th>
+      </tr></thead>
+      <tbody>
+        ${logs.map(l => {
+          const safeName = encodeURIComponent(l.name || '');
+          return `
+          <tr>
+            <td><i class="fas fa-file-alt mr-2" style="color:var(--neon-indigo);"></i>${escapeHtml(l.name)}</td>
+            <td>${l.size_kb} KB</td>
+            <td>${new Date(l.mtime).toLocaleString('zh-CN')}</td>
+            <td>
+              <button class="btn btn-ghost btn-sm" onclick="viewLog('${safeName}')">
+                <i class="fas fa-eye"></i> 查看
+              </button>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+async function viewLog(name) {
+  try {
+    const encodedName = encodeURIComponent(name);
+    const res = await API.get(`/api/logs/${encodedName}`);
+    if (!res.success) { showToast(res.error || '日志加载失败', 'error'); return; }
+    document.getElementById('logViewerTitle').textContent = name;
+    const content = res.data.content || '（空）';
+    document.getElementById('logViewerContent').textContent = content;
+    document.getElementById('logViewer').classList.remove('hidden');
+    document.getElementById('logViewer').scrollIntoView({ behavior: 'smooth' });
+  } catch (e) {
+    console.error('viewLog error:', e);
+    showToast(`加载日志失败: ${e.message}`, 'error');
+  }
+}
+
+// ============================================================
+// Modal System
+// ============================================================
+
+function showModal(title, bodyHtml, buttons = [], size = '') {
+  const widthClass = size === 'wide' ? 'max-w-5xl' : '';
+  document.getElementById('modalContainer').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal-content glass-static p-6 ${widthClass}">
+        <div class="flex items-center justify-between mb-5">
+          <h3 class="text-base font-semibold">${title}</h3>
+          <button class="btn btn-ghost btn-sm" onclick="closeModal()" style="padding:6px 8px;">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div>${bodyHtml}</div>
+        <div class="flex justify-end gap-2 mt-6 pt-4" style="border-top:1px solid rgba(99,102,241,0.1);">
+          ${buttons.map(b => `<button class="${b.class}" onclick="${b.action}">${b.text}</button>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+function closeModal() {
+  document.getElementById('modalContainer').innerHTML = '';
+}
+
+// ============================================================
+// Utility
+// ============================================================
+
+// [selectFolder removed - replaced by openDirPicker]
+
+// ============================================================
+// Directory Picker Modal（调用后端 /api/browse）
+// ============================================================
+
+let _dirPickerInputId = null;   // 当前正在填充的 input ID
+
+/** 打开目录选择器弹窗（调用服务器端 /api/browse 接口） */
+async function openDirPicker(inputId) {
+  _dirPickerInputId = inputId;
+  await renderDirPickerLevel('');  // 从盘符列表开始
+  showModal('选择目录', `
+    <div id="dirPickerContent">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <i class="fas fa-folder-open" style="color:var(--neon-cyan);"></i>
+        <span id="dirPickerCurrent" style="font-size:12px;color:var(--text-muted);">加载中...</span>
+      </div>
+      <div id="dirPickerList" style="max-height:320px;overflow-y:auto;border-radius:10px;
+           background:rgba(15,23,42,0.6);padding:4px;">
+        <div style="text-align:center;padding:20px;color:var(--text-muted);">
+          <span class="spinner" style="display:inline-block;width:16px;height:16px;"></span> 加载中...
+        </div>
+      </div>
+    </div>
+  `, [
+    { text: '取消', class: 'btn btn-ghost', action: 'closeModal()' },
+    { text: '确认选择', class: 'btn btn-primary', action: 'confirmDirPicker()' }
+  ]);
+}
+
+/** 渲染当前目录层的子目录列表 */
+async function renderDirPickerLevel(path) {
+  const listEl = document.getElementById('dirPickerList');
+  const currentEl = document.getElementById('dirPickerCurrent');
+  if (!listEl) return;
+
+  listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);"><span class="spinner" style="display:inline-block;width:16px;height:16px;"></span> 加载中...</div>';
+
+  try {
+    const qs = path ? `?path=${encodeURIComponent(path)}` : '';
+    const res = await API.get(`/api/browse${qs}`);
+    if (!res.success) throw new Error(res.error || '加载失败');
+
+    const { current, items } = res.data;
+    currentEl.textContent = current || '选择驱动器';
+
+    if (!items || items.length === 0) {
+      listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);">此目录为空</div>';
+      return;
+    }
+
+    // 返回按钮（仅在非根目录时显示）
+    let html = '';
+    if (current) {
+      const parent = current.replace(/\\[^\\]+\\?$/, '');
+      html += `<div class="dir-item" onclick="renderDirPickerLevel('${escapeHtml(parent.replace(/\\/g, '\\\\'))}')"
+                   style="display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;
+                          border-radius:8px;color:var(--neon-cyan);font-size:13px;">
+                 <i class="fas fa-arrow-left"></i>
+                 <span>返回上级</span>
+               </div>`;
+    }
+
+    // 子目录列表
+    items.forEach(item => {
+      const escPath = item.path.replace(/\\/g, '\\\\');
+      html += `<div class="dir-item" onclick="renderDirPickerLevel('${escapeHtml(escPath)}')"
+                   style="display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;
+                          border-radius:8px;color:var(--text-primary);font-size:13px;
+                          transition:background 0.15s;"
+                   onmouseover="this.style.background='rgba(99,102,241,0.15)'"
+                   onmouseout="this.style.background='transparent'">
+                 <i class="fas fa-folder" style="color:var(--neon-amber);"></i>
+                 <span>${escapeHtml(item.name)}</span>
+               </div>`;
+    });
+
+    listEl.innerHTML = html;
+  } catch (e) {
+    listEl.innerHTML = `<div style="text-align:center;padding:20px;color:var(--neon-red);font-size:13px;">
+      <i class="fas fa-exclamation-triangle"></i> ${escapeHtml(e.message)}
+    </div>`;
+  }
+}
+
+/** 确认选择：将当前路径填入目标 input */
+function confirmDirPicker() {
+  if (!_dirPickerInputId) return;
+  const currentEl = document.getElementById('dirPickerCurrent');
+  const path = currentEl ? currentEl.textContent : '';
+  const input = document.getElementById(_dirPickerInputId);
+  if (input && path) {
+    input.value = path;
+    // 自动验证（仅源目录）
+    if (typeof validatePath === 'function' && _dirPickerInputId === 'newTaskSource') {
+      validatePath();
+    }
+  }
+  closeModal();
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = String(str);
+  return div.innerHTML;
+}
+
+// ============================================================
+// Initialization
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadDashboard();
+});
+</script>
+</body>
+</html>
