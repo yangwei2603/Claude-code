@@ -1,107 +1,188 @@
+---
+title: AGENTS.md
+lastUpdated: 2026-05-10
+version: 1.1
+---
+
 # AGENTS.md
 
-This file provides guidance to AI coding agents (Claude Code, Cursor, Copilot, Antigravity, etc.) when working with code in this repository.
+This file provides guidance to AI coding agents (Claude Code, Cursor, Copilot, OpenCode, Hermes, Antigravity, etc.) when working with code in this repository.
+
+---
 
 ## Repository Overview
 
-A collection of skills for Claude.ai and Claude Code for senior software engineers. Skills are packaged instructions and scripts that extend Claude and your coding agents capabilities.
+A collection of skills for senior software engineers. Skills are packaged instructions that extend AI agents capabilities across the full development lifecycle — from idea to production.
 
-## OpenCode Integration
+**Workspace**: `/Users/fox/Claude Code/`
 
-OpenCode uses a **skill-driven execution model** powered by the `skill` tool and this repository's `/skills` directory.
+---
 
-### Core Rules
+## Supported Platforms
 
-- If a task matches a skill, you MUST invoke it
-- Skills are located in `skills/<skill-name>/SKILL.md`
-- Never implement directly if a skill applies
-- Always follow the skill instructions exactly (do not partially apply them)
+| Platform | How It Reads This File | Notes |
+|----------|----------------------|-------|
+| Claude Code | Native (`AGENTS.md` in repo root) | Primary platform |
+| Cursor | `.cursor/rules/` or project instructions | Copy relevant sections |
+| Copilot | `.github/copilot-instructions.md` | See Copilot setup in `docs/` |
+| OpenCode | Skill-driven via `skill` tool | See `docs/opencode-setup.md` |
+| Hermes | Project instructions | Configure in Hermes settings |
+| Antigravity | Via agent-skills plugin | See antigravity.ai |
+| Gemini CLI | Via `skills` tool | `gemini skills install ./skills/` |
+
+> **Platform-specific setup guides** are in `docs/`:
+> - `cursor-setup.md` · `copilot-setup.md` · `opencode-setup.md`
+> - `gemini-cli-setup.md` · `windsurf-setup.md` · `getting-started.md`
+
+---
+
+## Skill Organization
+
+Skills are organized in two layers:
+
+```
+skills/
+├── engineering/          # 22 工程技能（Addy Osmani 体系）
+│   ├── using-agent-skills.md
+│   ├── idea-refine.md
+│   ├── spec-driven-development.md
+│   ├── planning-and-task-breakdown.md
+│   ├── incremental-implementation.md
+│   ├── context-engineering.md
+│   ├── api-and-interface-design.md
+│   ├── test-driven-development.md
+│   ├── browser-testing-with-devtools.md
+│   ├── debugging-and-error-recovery.md
+│   ├── code-review-and-quality.md
+│   ├── security-and-hardening.md
+│   ├── performance-optimization.md
+│   ├── code-simplification.md
+│   ├── doubt-driven-development.md       # 质疑驱动开发
+│   ├── git-workflow-and-versioning.md
+│   ├── ci-cd-and-automation.md
+│   ├── deprecation-and-migration.md
+│   ├── documentation-and-adrs.md
+│   ├── shipping-and-launch.md
+│   └── source-driven-development.md
+│
+└── domain/              # 4 领域技能（企业定制）
+    ├── data-analysis.md          # 通用数据分析流程
+    ├── financial-analysis.md     # 春秋财务专项分析
+    ├── machine-learning.md       # 机器学习
+    └── sql-generation.md        # SQL生成（合同/税务/共享/资金）
+```
+
+---
+
+## Skill Discovery Rules
+
+### Core Rule
+
+**If a task matches a skill, you MUST invoke it. Never implement directly if a skill applies.**
 
 ### Intent → Skill Mapping
 
-The agent should automatically map user intent to skills:
+Map the user's intent to the appropriate skill(s):
 
-- Feature / new functionality → `spec-driven-development`, then `incremental-implementation`, `test-driven-development`
-- Planning / breakdown → `planning-and-task-breakdown`
-- Bug / failure / unexpected behavior → `debugging-and-error-recovery`
-- Code review → `code-review-and-quality`
-- Refactoring / simplification → `code-simplification`
-- API or interface design → `api-and-interface-design`
-- UI work → `frontend-ui-engineering`
+**工程技能（Engineering）**
 
-### Lifecycle Mapping (Implicit Commands)
+| Intent | Primary Skill | Fallback |
+|--------|--------------|----------|
+| Feature / new functionality | `spec-driven-development` | → `incremental-implementation` → `test-driven-development` |
+| Planning / task breakdown | `planning-and-task-breakdown` | — |
+| Bug / failure / error | `debugging-and-error-recovery` | — |
+| Code review | `code-review-and-quality` | — |
+| Refactoring / simplification | `code-simplification` | — |
+| API or interface design | `api-and-interface-design` | — |
+| UI work | `frontend-ui-engineering` | — |
+| Security review | `security-and-hardening` | — |
+| Performance issues | `performance-optimization` | — |
+| Shipping / deployment | `shipping-and-launch` | → `git-workflow-and-versioning` + `ci-cd-and-automation` |
+| Deprecation / migration | `deprecation-and-migration` | — |
+| Writing docs / ADRs | `documentation-and-adrs` | — |
+| Source verification | `source-driven-development` | — |
+| High-stakes decision | `doubt-driven-development` | — |
+| Vague idea / needs refinement | `idea-refine` | — |
 
-OpenCode does not support slash commands like `/spec` or `/plan`.
+**领域技能（Domain — 财务/数据专用）**
 
-Instead, the agent must internally follow this lifecycle:
+| Intent | Skill |
+|--------|-------|
+| 分析财务数据 / 报表解读 / 供应商分析 | `financial-analysis` |
+| 生成 / 优化 SQL 查询 | `sql-generation` |
+| 通用数据分析流程（清洗→EDA→建模→可视化） | `data-analysis` |
+| 机器学习建模 | `machine-learning` |
 
-- DEFINE → `spec-driven-development`
-- PLAN → `planning-and-task-breakdown`
-- BUILD → `incremental-implementation` + `test-driven-development`
-- VERIFY → `debugging-and-error-recovery`
-- REVIEW → `code-review-and-quality`
-- SHIP → `shipping-and-launch`
+---
 
-### Execution Model
+## Development Lifecycle
 
-For every request:
+Follow this lifecycle for all non-trivial work:
 
-1. Determine if any skill applies (even 1% chance)
-2. Invoke the appropriate skill using the `skill` tool
-3. Follow the skill workflow strictly
-4. Only proceed to implementation after required steps (spec, plan, etc.) are complete
+```
+DEFINE（定义） → PLAN（规划） → BUILD（构建） → VERIFY（验证） → REVIEW（审查） → SHIP（交付）
+```
 
-### Anti-Rationalization
+| Phase | Skill | Claude Code Command |
+|-------|-------|-------------------|
+| DEFINE | `idea-refine` + `spec-driven-development` | `/spec` |
+| PLAN | `planning-and-task-breakdown` | `/plan` |
+| BUILD | `incremental-implementation` + `test-driven-development` | `/build` |
+| VERIFY | `debugging-and-error-recovery` + `browser-testing-with-devtools` | `/test` |
+| REVIEW | `code-review-and-quality` + `security-and-hardening` + `performance-optimization` | `/review` |
+| SHIP | `shipping-and-launch` + `git-workflow-and-versioning` + `ci-cd-and-automation` | `/ship` |
 
-The following thoughts are incorrect and must be ignored:
+> **Claude Code users**: Use the 7 slash commands (`/spec`, `/plan`, `/build`, `/test`, `/review`, `/code-simplify`, `/ship`) as workflow entry points. Each command activates the appropriate skill automatically.
 
-- "This is too small for a skill"
-- "I can just quickly implement this"
-- "I’ll gather context first"
+---
 
-Correct behavior:
+## Orchestration: Three Layers
 
-- Always check for and use skills first
+This workspace has three composable layers. They have different jobs:
 
-This ensures OpenCode behaves similarly to Claude Code with full workflow enforcement.
-
-## Orchestration: Personas, Skills, and Commands
-
-This repo has three composable layers. They have different jobs and should not be confused:
-
-- **Skills** (`skills/<name>/SKILL.md`) — workflows with steps and exit criteria. The *how*. Mandatory hops when an intent matches.
-- **Personas** (`agents/<role>.md`) — roles with a perspective and an output format. The *who*.
+- **Skills** (`skills/engineering/<name>/SKILL.md`, `skills/domain/<name>/SKILL.md`) — workflows with steps and exit criteria. The *how*. Mandatory when an intent matches.
+- **Personas** (`agents/personas/<role>.md`) — roles with a perspective and output format. The *who*.
 - **Slash commands** (`.claude/commands/*.md`) — user-facing entry points. The *when*. The orchestration layer.
 
-Composition rule: **the user (or a slash command) is the orchestrator. Personas do not invoke other personas.** A persona may invoke skills.
+### Composition Rules
 
-The only multi-persona orchestration pattern this repo endorses is **parallel fan-out with a merge step** — used by `/ship` to run `code-reviewer`, `security-auditor`, and `test-engineer` concurrently and synthesize their reports. Do not build a "router" persona that decides which other persona to call; that's the job of slash commands and intent mapping.
+1. **The user (or a slash command) is the orchestrator.**
+2. **Personas do not invoke other personas.** A persona may invoke skills.
+3. **Parallel fan-out with merge** is the only endorsed multi-persona pattern — used by `/ship` to run `code-reviewer`, `security-auditor`, and `test-engineer` concurrently, then synthesize their reports.
+4. **Do not build a "router" persona** that decides which other persona to call. That's the job of slash commands and intent mapping.
 
-See [agents/README.md](agents/README.md) for the decision matrix and [references/orchestration-patterns.md](references/orchestration-patterns.md) for the full pattern catalog.
+See `agents/README.md` for the decision matrix and `references/orchestration-patterns.md` for the full pattern catalog.
 
-**Claude Code interop:** the personas in `agents/` work as Claude Code subagents (auto-discovered from this plugin's `agents/` directory) and as Agent Teams teammates (referenced by name when spawning). Two platform constraints align with our rules: subagents cannot spawn other subagents, and teams cannot nest. Plugin agents silently ignore the `hooks`, `mcpServers`, and `permissionMode` frontmatter fields.
+---
 
 ## Creating a New Skill
 
 ### Directory Structure
 
+For **engineering skills**:
 ```
-skills/
-  {skill-name}/           # kebab-case directory name
+skills/engineering/
+  {skill-name}/
+    SKILL.md              # Required: skill definition (kebab-case dir name)
+```
+
+For **domain skills**:
+```
+skills/domain/
+  {skill-name}/
     SKILL.md              # Required: skill definition
-    scripts/              # Required: executable scripts
-      {script-name}.sh    # Bash scripts (preferred)
-  {skill-name}.zip        # Required: packaged for distribution
 ```
 
 ### Naming Conventions
 
-- **Skill directory**: `kebab-case` (e.g. `web-quality`)
-- **SKILL.md**: Always uppercase, always this exact filename
-- **Scripts**: `kebab-case.sh` (e.g., `deploy.sh`, `fetch-logs.sh`)
-- **Zip file**: Must match directory name exactly: `{skill-name}.zip`
+| Item | Convention | Example |
+|------|-----------|---------|
+| Skill directory | `kebab-case` | `my-new-skill` |
+| SKILL.md | Always uppercase, exact filename | `SKILL.md` |
+| Frontmatter `name` | `kebab-case` | `my-new-skill` |
+| Frontmatter `description` | One sentence, include trigger phrases | "Use when..."
 
-### SKILL.md Format
+### SKILL.md Frontmatter (Required)
 
 ```markdown
 ---
@@ -110,76 +191,58 @@ description: {One sentence describing when to use this skill. Include trigger ph
 ---
 
 # {Skill Title}
-
-{Brief description of what the skill does.}
-
-## How It Works
-
-{Numbered list explaining the skill's workflow}
-
-## Usage
-
-```bash
-bash /mnt/skills/user/{skill-name}/scripts/{script}.sh [args]
 ```
 
-**Arguments:**
-- `arg1` - Description (defaults to X)
+> ⚠️ The frontmatter `name` field is required. This is how the skill is discovered by the `skill` tool.
 
-**Examples:**
-{Show 2-3 common usage patterns}
-
-## Output
-
-{Show example output users will see}
-
-## Present Results to User
-
-{Template for how Claude should format results when presenting to users}
-
-## Troubleshooting
-
-{Common issues and solutions, especially network/permissions errors}
-```
-
-### Best Practices for Context Efficiency
-
-Skills are loaded on-demand — only the skill name and description are loaded at startup. The full `SKILL.md` loads into context only when the agent decides the skill is relevant. To minimize context usage:
+### Best Practices
 
 - **Keep SKILL.md under 500 lines** — put detailed reference material in separate files
-- **Write specific descriptions** — helps the agent know exactly when to activate the skill
-- **Use progressive disclosure** — reference supporting files that get read only when needed
-- **Prefer scripts over inline code** — script execution doesn't consume context (only output does)
-- **File references work one level deep** — link directly from SKILL.md to supporting files
-
-### Script Requirements
-
-- Use `#!/bin/bash` shebang
-- Use `set -e` for fail-fast behavior
-- Write status messages to stderr: `echo "Message" >&2`
-- Write machine-readable output (JSON) to stdout
-- Include a cleanup trap for temp files
-- Reference the script path as `/mnt/skills/user/{skill-name}/scripts/{script}.sh`
-
-### Creating the Zip Package
-
-After creating or updating a skill:
-
-```bash
-cd skills
-zip -r {skill-name}.zip {skill-name}/
-```
+- **Write specific descriptions** — helps the agent know exactly when to activate
+- **Use progressive disclosure** — reference supporting files that are read only when needed
+- **Frontmatter `name` must match directory name** — this is how the skill tool discovers skills
 
 ### End-User Installation
 
-Document these two installation methods for users:
-
 **Claude Code:**
 ```bash
-cp -r skills/{skill-name} ~/.claude/skills/
+cp -r skills/engineering/{skill-name} ~/.claude/skills/
+# Or for domain skills:
+cp -r skills/domain/{skill-name} ~/.claude/skills/
 ```
 
-**claude.ai:**
-Add the skill to project knowledge or paste SKILL.md contents into the conversation.
+**Claude.ai:**
+Paste the `SKILL.md` content into project knowledge or conversation.
 
-If the skill requires network access, instruct users to add required domains at `claude.ai/settings/capabilities`.
+**Other platforms:**
+Copy `SKILL.md` to the platform's skill/rules directory. See platform-specific guides in `docs/`.
+
+---
+
+## Anti-Rationalization
+
+The following thoughts are incorrect and must be ignored:
+
+- "This is too small for a skill"
+- "I can just quickly implement this"
+- "I'll gather context first"
+
+Correct behavior: **Always check for and use skills first.**
+
+---
+
+## Reference Documents
+
+| File | Purpose |
+|------|---------|
+| `agents/README.md` | Persona roster and decision matrix |
+| `references/orchestration-patterns.md` | Full orchestration pattern catalog |
+| `references/testing-patterns.md` | Testing patterns reference |
+| `references/security-checklist.md` | Security checklist |
+| `references/performance-checklist.md` | Performance checklist |
+| `references/accessibility-checklist.md` | Accessibility checklist |
+| `docs/skill-anatomy.md` | Anatomy of a well-formed skill |
+
+---
+
+*Last updated: 2026-05-10 | Version 1.1*
