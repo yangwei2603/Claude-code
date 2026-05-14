@@ -1,0 +1,3637 @@
+{
+  "month": "2026-04",
+  "min_flights": 20,
+  "total_pilots": 363,
+  "pilots": [
+    {
+      "emp_no": 11924,
+      "name": "朱勇",
+      "flight_cnt": 23,
+      "avg_ci": 63.0,
+      "avg_alt": 22387.0,
+      "avg_route_alt": 27389.0,
+      "alt_gap": -5001.0,
+      "ci_gap": -19.8
+    },
+    {
+      "emp_no": 3969,
+      "name": "刘涛",
+      "flight_cnt": 32,
+      "avg_ci": 68.8,
+      "avg_alt": 27383.0,
+      "avg_route_alt": 27362.0,
+      "alt_gap": 20.0,
+      "ci_gap": -17.4
+    },
+    {
+      "emp_no": 1257,
+      "name": "仵景浩",
+      "flight_cnt": 27,
+      "avg_ci": 69.1,
+      "avg_alt": 26743.0,
+      "avg_route_alt": 28766.0,
+      "alt_gap": -2023.0,
+      "ci_gap": -16.1
+    },
+    {
+      "emp_no": 18140,
+      "name": "陈宇",
+      "flight_cnt": 33,
+      "avg_ci": 69.7,
+      "avg_alt": 25872.0,
+      "avg_route_alt": 28809.0,
+      "alt_gap": -2937.0,
+      "ci_gap": -17.2
+    },
+    {
+      "emp_no": 6076,
+      "name": "李树基",
+      "flight_cnt": 30,
+      "avg_ci": 70.0,
+      "avg_alt": 27469.0,
+      "avg_route_alt": 28255.0,
+      "alt_gap": -786.0,
+      "ci_gap": -15.7
+    },
+    {
+      "emp_no": 6081,
+      "name": "孙钟英",
+      "flight_cnt": 20,
+      "avg_ci": 70.0,
+      "avg_alt": 25287.0,
+      "avg_route_alt": 28694.0,
+      "alt_gap": -3408.0,
+      "ci_gap": -19.3
+    },
+    {
+      "emp_no": 1050,
+      "name": "潘峰",
+      "flight_cnt": 22,
+      "avg_ci": 70.5,
+      "avg_alt": 26882.0,
+      "avg_route_alt": 26442.0,
+      "alt_gap": 440.0,
+      "ci_gap": -9.3
+    },
+    {
+      "emp_no": 1061,
+      "name": "郑平",
+      "flight_cnt": 29,
+      "avg_ci": 70.7,
+      "avg_alt": 27678.0,
+      "avg_route_alt": 28629.0,
+      "alt_gap": -951.0,
+      "ci_gap": -17.3
+    },
+    {
+      "emp_no": 11785,
+      "name": "钟云龙",
+      "flight_cnt": 30,
+      "avg_ci": 71.7,
+      "avg_alt": 23796.0,
+      "avg_route_alt": 28779.0,
+      "alt_gap": -4983.0,
+      "ci_gap": -16.2
+    },
+    {
+      "emp_no": 1053,
+      "name": "王谊晨",
+      "flight_cnt": 24,
+      "avg_ci": 71.9,
+      "avg_alt": 28882.0,
+      "avg_route_alt": 27615.0,
+      "alt_gap": 1267.0,
+      "ci_gap": -10.7
+    },
+    {
+      "emp_no": 13630,
+      "name": "吴石松",
+      "flight_cnt": 20,
+      "avg_ci": 72.5,
+      "avg_alt": 27658.0,
+      "avg_route_alt": 27279.0,
+      "alt_gap": 379.0,
+      "ci_gap": -15.4
+    },
+    {
+      "emp_no": 5735,
+      "name": "徐福刚",
+      "flight_cnt": 22,
+      "avg_ci": 72.7,
+      "avg_alt": 23563.0,
+      "avg_route_alt": 28009.0,
+      "alt_gap": -4446.0,
+      "ci_gap": -13.0
+    },
+    {
+      "emp_no": 14438,
+      "name": "狄志明",
+      "flight_cnt": 24,
+      "avg_ci": 72.9,
+      "avg_alt": 28475.0,
+      "avg_route_alt": 26502.0,
+      "alt_gap": 1973.0,
+      "ci_gap": -10.1
+    },
+    {
+      "emp_no": 1180,
+      "name": "蔡仲旭",
+      "flight_cnt": 20,
+      "avg_ci": 73.3,
+      "avg_alt": 26813.0,
+      "avg_route_alt": 29578.0,
+      "alt_gap": -2764.0,
+      "ci_gap": -16.2
+    },
+    {
+      "emp_no": 10820,
+      "name": "赵东安",
+      "flight_cnt": 34,
+      "avg_ci": 73.5,
+      "avg_alt": 22682.0,
+      "avg_route_alt": 26784.0,
+      "alt_gap": -4102.0,
+      "ci_gap": -8.4
+    },
+    {
+      "emp_no": 1074,
+      "name": "刘恩昌",
+      "flight_cnt": 25,
+      "avg_ci": 74.0,
+      "avg_alt": 26653.0,
+      "avg_route_alt": 28822.0,
+      "alt_gap": -2169.0,
+      "ci_gap": -14.8
+    },
+    {
+      "emp_no": 1279,
+      "name": "张天慧",
+      "flight_cnt": 27,
+      "avg_ci": 74.1,
+      "avg_alt": 27292.0,
+      "avg_route_alt": 28880.0,
+      "alt_gap": -1588.0,
+      "ci_gap": -9.9
+    },
+    {
+      "emp_no": 4399,
+      "name": "张制",
+      "flight_cnt": 31,
+      "avg_ci": 74.2,
+      "avg_alt": 26756.0,
+      "avg_route_alt": 28536.0,
+      "alt_gap": -1781.0,
+      "ci_gap": -13.0
+    },
+    {
+      "emp_no": 1020,
+      "name": "史志凯",
+      "flight_cnt": 26,
+      "avg_ci": 75.0,
+      "avg_alt": 27456.0,
+      "avg_route_alt": 27207.0,
+      "alt_gap": 249.0,
+      "ci_gap": -9.7
+    },
+    {
+      "emp_no": 10740,
+      "name": "裴荣超",
+      "flight_cnt": 26,
+      "avg_ci": 75.0,
+      "avg_alt": 25421.0,
+      "avg_route_alt": 29697.0,
+      "alt_gap": -4276.0,
+      "ci_gap": -12.5
+    },
+    {
+      "emp_no": 1193,
+      "name": "郁希旻",
+      "flight_cnt": 20,
+      "avg_ci": 75.0,
+      "avg_alt": 30339.0,
+      "avg_route_alt": 30162.0,
+      "alt_gap": 177.0,
+      "ci_gap": -16.1
+    },
+    {
+      "emp_no": 7286,
+      "name": "李秋阳",
+      "flight_cnt": 32,
+      "avg_ci": 75.0,
+      "avg_alt": 28166.0,
+      "avg_route_alt": 27907.0,
+      "alt_gap": 260.0,
+      "ci_gap": -10.5
+    },
+    {
+      "emp_no": 9374,
+      "name": "刘争先",
+      "flight_cnt": 24,
+      "avg_ci": 75.0,
+      "avg_alt": 25522.0,
+      "avg_route_alt": 28983.0,
+      "alt_gap": -3461.0,
+      "ci_gap": -13.8
+    },
+    {
+      "emp_no": 1116,
+      "name": "刘越",
+      "flight_cnt": 33,
+      "avg_ci": 75.8,
+      "avg_alt": 28391.0,
+      "avg_route_alt": 28029.0,
+      "alt_gap": 362.0,
+      "ci_gap": -10.7
+    },
+    {
+      "emp_no": 4009,
+      "name": "陈涛",
+      "flight_cnt": 29,
+      "avg_ci": 75.9,
+      "avg_alt": 25195.0,
+      "avg_route_alt": 27002.0,
+      "alt_gap": -1807.0,
+      "ci_gap": -7.3
+    },
+    {
+      "emp_no": 13606,
+      "name": "沈超杰",
+      "flight_cnt": 25,
+      "avg_ci": 76.0,
+      "avg_alt": 26521.0,
+      "avg_route_alt": 28653.0,
+      "alt_gap": -2132.0,
+      "ci_gap": -12.6
+    },
+    {
+      "emp_no": 11660,
+      "name": "景思聪",
+      "flight_cnt": 20,
+      "avg_ci": 76.7,
+      "avg_alt": 28195.0,
+      "avg_route_alt": 28276.0,
+      "alt_gap": -82.0,
+      "ci_gap": -7.3
+    },
+    {
+      "emp_no": 8339,
+      "name": "林培金",
+      "flight_cnt": 30,
+      "avg_ci": 76.7,
+      "avg_alt": 25457.0,
+      "avg_route_alt": 27706.0,
+      "alt_gap": -2249.0,
+      "ci_gap": -8.8
+    },
+    {
+      "emp_no": 1286,
+      "name": "张树杰",
+      "flight_cnt": 28,
+      "avg_ci": 76.8,
+      "avg_alt": 26382.0,
+      "avg_route_alt": 27434.0,
+      "alt_gap": -1051.0,
+      "ci_gap": -8.1
+    },
+    {
+      "emp_no": 10168,
+      "name": "姜林",
+      "flight_cnt": 26,
+      "avg_ci": 76.9,
+      "avg_alt": 28664.0,
+      "avg_route_alt": 28613.0,
+      "alt_gap": 52.0,
+      "ci_gap": -10.8
+    },
+    {
+      "emp_no": 1101,
+      "name": "孙世钊",
+      "flight_cnt": 26,
+      "avg_ci": 76.9,
+      "avg_alt": 28983.0,
+      "avg_route_alt": 28940.0,
+      "alt_gap": 42.0,
+      "ci_gap": -6.5
+    },
+    {
+      "emp_no": 12006,
+      "name": "成正日",
+      "flight_cnt": 23,
+      "avg_ci": 77.2,
+      "avg_alt": 29887.0,
+      "avg_route_alt": 29231.0,
+      "alt_gap": 656.0,
+      "ci_gap": -4.8
+    },
+    {
+      "emp_no": 8367,
+      "name": "王之水",
+      "flight_cnt": 22,
+      "avg_ci": 77.3,
+      "avg_alt": 30245.0,
+      "avg_route_alt": 30272.0,
+      "alt_gap": -28.0,
+      "ci_gap": -12.2
+    },
+    {
+      "emp_no": 1232,
+      "name": "孙筛华",
+      "flight_cnt": 40,
+      "avg_ci": 77.5,
+      "avg_alt": 26546.0,
+      "avg_route_alt": 26266.0,
+      "alt_gap": 280.0,
+      "ci_gap": -3.4
+    },
+    {
+      "emp_no": 9298,
+      "name": "成逸如",
+      "flight_cnt": 20,
+      "avg_ci": 77.5,
+      "avg_alt": 29588.0,
+      "avg_route_alt": 28654.0,
+      "alt_gap": 934.0,
+      "ci_gap": -7.7
+    },
+    {
+      "emp_no": 8050,
+      "name": "孙宇轩",
+      "flight_cnt": 27,
+      "avg_ci": 77.8,
+      "avg_alt": 27908.0,
+      "avg_route_alt": 30371.0,
+      "alt_gap": -2463.0,
+      "ci_gap": -12.9
+    },
+    {
+      "emp_no": 13236,
+      "name": "王政",
+      "flight_cnt": 25,
+      "avg_ci": 78.0,
+      "avg_alt": 29662.0,
+      "avg_route_alt": 29183.0,
+      "alt_gap": 479.0,
+      "ci_gap": -9.9
+    },
+    {
+      "emp_no": 13211,
+      "name": "董强",
+      "flight_cnt": 32,
+      "avg_ci": 78.1,
+      "avg_alt": 26218.0,
+      "avg_route_alt": 29672.0,
+      "alt_gap": -3453.0,
+      "ci_gap": -11.2
+    },
+    {
+      "emp_no": 7284,
+      "name": "李振",
+      "flight_cnt": 30,
+      "avg_ci": 78.3,
+      "avg_alt": 25587.0,
+      "avg_route_alt": 28698.0,
+      "alt_gap": -3111.0,
+      "ci_gap": -8.5
+    },
+    {
+      "emp_no": 12425,
+      "name": "吕刘成",
+      "flight_cnt": 20,
+      "avg_ci": 78.3,
+      "avg_alt": 28848.0,
+      "avg_route_alt": 29318.0,
+      "alt_gap": -469.0,
+      "ci_gap": -11.2
+    },
+    {
+      "emp_no": 1205,
+      "name": "宋鹏亮",
+      "flight_cnt": 22,
+      "avg_ci": 78.4,
+      "avg_alt": 30524.0,
+      "avg_route_alt": 29569.0,
+      "alt_gap": 955.0,
+      "ci_gap": -5.7
+    },
+    {
+      "emp_no": 15292,
+      "name": "范文瑞",
+      "flight_cnt": 21,
+      "avg_ci": 78.6,
+      "avg_alt": 27209.0,
+      "avg_route_alt": 27048.0,
+      "alt_gap": 160.0,
+      "ci_gap": -6.9
+    },
+    {
+      "emp_no": 6319,
+      "name": "张浩",
+      "flight_cnt": 21,
+      "avg_ci": 78.6,
+      "avg_alt": 26241.0,
+      "avg_route_alt": 27414.0,
+      "alt_gap": -1174.0,
+      "ci_gap": -7.0
+    },
+    {
+      "emp_no": 24654,
+      "name": "李宝金",
+      "flight_cnt": 24,
+      "avg_ci": 79.2,
+      "avg_alt": 25388.0,
+      "avg_route_alt": 28988.0,
+      "alt_gap": -3600.0,
+      "ci_gap": -9.3
+    },
+    {
+      "emp_no": 10821,
+      "name": "盛飞翔",
+      "flight_cnt": 29,
+      "avg_ci": 79.3,
+      "avg_alt": 26947.0,
+      "avg_route_alt": 27309.0,
+      "alt_gap": -363.0,
+      "ci_gap": -4.8
+    },
+    {
+      "emp_no": 4897,
+      "name": "刘大方",
+      "flight_cnt": 27,
+      "avg_ci": 79.6,
+      "avg_alt": 26366.0,
+      "avg_route_alt": 28186.0,
+      "alt_gap": -1820.0,
+      "ci_gap": -9.1
+    },
+    {
+      "emp_no": 5931,
+      "name": "徐忠民",
+      "flight_cnt": 28,
+      "avg_ci": 79.8,
+      "avg_alt": 29245.0,
+      "avg_route_alt": 28281.0,
+      "alt_gap": 964.0,
+      "ci_gap": -1.9
+    },
+    {
+      "emp_no": 1181,
+      "name": "任向阳",
+      "flight_cnt": 20,
+      "avg_ci": 80.0,
+      "avg_alt": 27175.0,
+      "avg_route_alt": 29751.0,
+      "alt_gap": -2576.0,
+      "ci_gap": -8.3
+    },
+    {
+      "emp_no": 12223,
+      "name": "王京京",
+      "flight_cnt": 20,
+      "avg_ci": 80.0,
+      "avg_alt": 28744.0,
+      "avg_route_alt": 29077.0,
+      "alt_gap": -332.0,
+      "ci_gap": -11.0
+    },
+    {
+      "emp_no": 13572,
+      "name": "孙晨骁",
+      "flight_cnt": 20,
+      "avg_ci": 80.0,
+      "avg_alt": 29505.0,
+      "avg_route_alt": 30300.0,
+      "alt_gap": -795.0,
+      "ci_gap": -9.5
+    },
+    {
+      "emp_no": 13609,
+      "name": "陈志豪",
+      "flight_cnt": 20,
+      "avg_ci": 80.0,
+      "avg_alt": 24934.0,
+      "avg_route_alt": 30000.0,
+      "alt_gap": -5066.0,
+      "ci_gap": -7.9
+    },
+    {
+      "emp_no": 13611,
+      "name": "童黎骏",
+      "flight_cnt": 20,
+      "avg_ci": 80.0,
+      "avg_alt": 29077.0,
+      "avg_route_alt": 29082.0,
+      "alt_gap": -5.0,
+      "ci_gap": -8.1
+    },
+    {
+      "emp_no": 1751,
+      "name": "陈胜",
+      "flight_cnt": 20,
+      "avg_ci": 80.0,
+      "avg_alt": 25032.0,
+      "avg_route_alt": 29901.0,
+      "alt_gap": -4870.0,
+      "ci_gap": -13.2
+    },
+    {
+      "emp_no": 4010,
+      "name": "徐凯",
+      "flight_cnt": 20,
+      "avg_ci": 80.0,
+      "avg_alt": 30313.0,
+      "avg_route_alt": 29527.0,
+      "alt_gap": 786.0,
+      "ci_gap": -6.5
+    },
+    {
+      "emp_no": 8101,
+      "name": "吕永烁",
+      "flight_cnt": 35,
+      "avg_ci": 80.0,
+      "avg_alt": 26486.0,
+      "avg_route_alt": 27553.0,
+      "alt_gap": -1068.0,
+      "ci_gap": -7.3
+    },
+    {
+      "emp_no": 9297,
+      "name": "顾圣星",
+      "flight_cnt": 20,
+      "avg_ci": 80.0,
+      "avg_alt": 27392.0,
+      "avg_route_alt": 28978.0,
+      "alt_gap": -1586.0,
+      "ci_gap": -10.2
+    },
+    {
+      "emp_no": 8841,
+      "name": "杨龑",
+      "flight_cnt": 20,
+      "avg_ci": 80.8,
+      "avg_alt": 30638.0,
+      "avg_route_alt": 30215.0,
+      "alt_gap": 423.0,
+      "ci_gap": -7.7
+    },
+    {
+      "emp_no": 1226,
+      "name": "刘桂林",
+      "flight_cnt": 21,
+      "avg_ci": 81.0,
+      "avg_alt": 26286.0,
+      "avg_route_alt": 27579.0,
+      "alt_gap": -1293.0,
+      "ci_gap": -7.0
+    },
+    {
+      "emp_no": 2770,
+      "name": "魏乐天",
+      "flight_cnt": 21,
+      "avg_ci": 81.0,
+      "avg_alt": 29836.0,
+      "avg_route_alt": 28926.0,
+      "alt_gap": 909.0,
+      "ci_gap": -7.5
+    },
+    {
+      "emp_no": 4378,
+      "name": "杜昌林",
+      "flight_cnt": 21,
+      "avg_ci": 81.0,
+      "avg_alt": 30385.0,
+      "avg_route_alt": 30085.0,
+      "alt_gap": 300.0,
+      "ci_gap": -5.1
+    },
+    {
+      "emp_no": 9732,
+      "name": "王志宇",
+      "flight_cnt": 21,
+      "avg_ci": 81.0,
+      "avg_alt": 26638.0,
+      "avg_route_alt": 28695.0,
+      "alt_gap": -2056.0,
+      "ci_gap": -7.7
+    },
+    {
+      "emp_no": 3779,
+      "name": "池清玮",
+      "flight_cnt": 22,
+      "avg_ci": 81.4,
+      "avg_alt": 29422.0,
+      "avg_route_alt": 28324.0,
+      "alt_gap": 1098.0,
+      "ci_gap": -8.1
+    },
+    {
+      "emp_no": 13210,
+      "name": "刘凯康",
+      "flight_cnt": 27,
+      "avg_ci": 81.5,
+      "avg_alt": 27850.0,
+      "avg_route_alt": 28029.0,
+      "alt_gap": -179.0,
+      "ci_gap": -5.0
+    },
+    {
+      "emp_no": 6085,
+      "name": "徐雨树",
+      "flight_cnt": 25,
+      "avg_ci": 82.0,
+      "avg_alt": 28736.0,
+      "avg_route_alt": 28506.0,
+      "alt_gap": 230.0,
+      "ci_gap": -6.8
+    },
+    {
+      "emp_no": 1175,
+      "name": "陈羽",
+      "flight_cnt": 28,
+      "avg_ci": 82.1,
+      "avg_alt": 27222.0,
+      "avg_route_alt": 26508.0,
+      "alt_gap": 715.0,
+      "ci_gap": -0.4
+    },
+    {
+      "emp_no": 14266,
+      "name": "卢晓明",
+      "flight_cnt": 28,
+      "avg_ci": 82.1,
+      "avg_alt": 26485.0,
+      "avg_route_alt": 29223.0,
+      "alt_gap": -2738.0,
+      "ci_gap": -5.9
+    },
+    {
+      "emp_no": 15277,
+      "name": "丁家威",
+      "flight_cnt": 28,
+      "avg_ci": 82.1,
+      "avg_alt": 26094.0,
+      "avg_route_alt": 27588.0,
+      "alt_gap": -1494.0,
+      "ci_gap": -5.1
+    },
+    {
+      "emp_no": 1749,
+      "name": "方军",
+      "flight_cnt": 28,
+      "avg_ci": 82.1,
+      "avg_alt": 27747.0,
+      "avg_route_alt": 29734.0,
+      "alt_gap": -1986.0,
+      "ci_gap": -4.9
+    },
+    {
+      "emp_no": 11477,
+      "name": "朱嘉",
+      "flight_cnt": 20,
+      "avg_ci": 82.5,
+      "avg_alt": 29034.0,
+      "avg_route_alt": 27681.0,
+      "alt_gap": 1353.0,
+      "ci_gap": -10.2
+    },
+    {
+      "emp_no": 13241,
+      "name": "张雪兵",
+      "flight_cnt": 20,
+      "avg_ci": 82.5,
+      "avg_alt": 27497.0,
+      "avg_route_alt": 29372.0,
+      "alt_gap": -1876.0,
+      "ci_gap": -6.0
+    },
+    {
+      "emp_no": 2318,
+      "name": "王鹏",
+      "flight_cnt": 20,
+      "avg_ci": 82.5,
+      "avg_alt": 27394.0,
+      "avg_route_alt": 29826.0,
+      "alt_gap": -2431.0,
+      "ci_gap": -6.0
+    },
+    {
+      "emp_no": 1057,
+      "name": "张建文",
+      "flight_cnt": 23,
+      "avg_ci": 82.6,
+      "avg_alt": 29089.0,
+      "avg_route_alt": 28296.0,
+      "alt_gap": 792.0,
+      "ci_gap": -2.0
+    },
+    {
+      "emp_no": 1283,
+      "name": "张亮亮",
+      "flight_cnt": 23,
+      "avg_ci": 82.6,
+      "avg_alt": 26674.0,
+      "avg_route_alt": 28268.0,
+      "alt_gap": -1594.0,
+      "ci_gap": -7.4
+    },
+    {
+      "emp_no": 7006,
+      "name": "林生榉",
+      "flight_cnt": 25,
+      "avg_ci": 82.7,
+      "avg_alt": 25408.0,
+      "avg_route_alt": 28103.0,
+      "alt_gap": -2695.0,
+      "ci_gap": -4.1
+    },
+    {
+      "emp_no": 4377,
+      "name": "张少帅",
+      "flight_cnt": 32,
+      "avg_ci": 82.8,
+      "avg_alt": 27555.0,
+      "avg_route_alt": 28475.0,
+      "alt_gap": -920.0,
+      "ci_gap": -2.7
+    },
+    {
+      "emp_no": 12025,
+      "name": "袁军",
+      "flight_cnt": 35,
+      "avg_ci": 82.9,
+      "avg_alt": 28628.0,
+      "avg_route_alt": 27215.0,
+      "alt_gap": 1413.0,
+      "ci_gap": -2.3
+    },
+    {
+      "emp_no": 1034,
+      "name": "郭增涛",
+      "flight_cnt": 24,
+      "avg_ci": 83.3,
+      "avg_alt": 25853.0,
+      "avg_route_alt": 28504.0,
+      "alt_gap": -2650.0,
+      "ci_gap": -4.6
+    },
+    {
+      "emp_no": 11143,
+      "name": "刘国庆",
+      "flight_cnt": 30,
+      "avg_ci": 83.3,
+      "avg_alt": 27668.0,
+      "avg_route_alt": 27281.0,
+      "alt_gap": 387.0,
+      "ci_gap": -4.8
+    },
+    {
+      "emp_no": 1173,
+      "name": "张东",
+      "flight_cnt": 24,
+      "avg_ci": 83.3,
+      "avg_alt": 30397.0,
+      "avg_route_alt": 29393.0,
+      "alt_gap": 1004.0,
+      "ci_gap": -3.9
+    },
+    {
+      "emp_no": 13669,
+      "name": "阚德晖",
+      "flight_cnt": 24,
+      "avg_ci": 83.3,
+      "avg_alt": 24751.0,
+      "avg_route_alt": 27427.0,
+      "alt_gap": -2676.0,
+      "ci_gap": -2.5
+    },
+    {
+      "emp_no": 14900,
+      "name": "刘臻",
+      "flight_cnt": 24,
+      "avg_ci": 83.3,
+      "avg_alt": 27714.0,
+      "avg_route_alt": 29586.0,
+      "alt_gap": -1872.0,
+      "ci_gap": -6.1
+    },
+    {
+      "emp_no": 17628,
+      "name": "吴俊逸",
+      "flight_cnt": 24,
+      "avg_ci": 83.3,
+      "avg_alt": 25691.0,
+      "avg_route_alt": 28504.0,
+      "alt_gap": -2813.0,
+      "ci_gap": -5.9
+    },
+    {
+      "emp_no": 2774,
+      "name": "许碧鹏",
+      "flight_cnt": 30,
+      "avg_ci": 83.3,
+      "avg_alt": 29904.0,
+      "avg_route_alt": 29213.0,
+      "alt_gap": 691.0,
+      "ci_gap": -4.8
+    },
+    {
+      "emp_no": 5772,
+      "name": "殷子昊",
+      "flight_cnt": 24,
+      "avg_ci": 83.3,
+      "avg_alt": 29893.0,
+      "avg_route_alt": 30258.0,
+      "alt_gap": -365.0,
+      "ci_gap": -9.3
+    },
+    {
+      "emp_no": 6769,
+      "name": "兰力",
+      "flight_cnt": 24,
+      "avg_ci": 83.3,
+      "avg_alt": 26884.0,
+      "avg_route_alt": 26549.0,
+      "alt_gap": 335.0,
+      "ci_gap": 3.7
+    },
+    {
+      "emp_no": 7393,
+      "name": "谢智琛",
+      "flight_cnt": 30,
+      "avg_ci": 83.3,
+      "avg_alt": 28768.0,
+      "avg_route_alt": 28314.0,
+      "alt_gap": 454.0,
+      "ci_gap": -3.1
+    },
+    {
+      "emp_no": 8338,
+      "name": "赵景江",
+      "flight_cnt": 30,
+      "avg_ci": 83.3,
+      "avg_alt": 30621.0,
+      "avg_route_alt": 29591.0,
+      "alt_gap": 1030.0,
+      "ci_gap": -5.8
+    },
+    {
+      "emp_no": 8851,
+      "name": "丁义杰",
+      "flight_cnt": 24,
+      "avg_ci": 83.3,
+      "avg_alt": 30590.0,
+      "avg_route_alt": 29978.0,
+      "alt_gap": 612.0,
+      "ci_gap": -6.5
+    },
+    {
+      "emp_no": 13292,
+      "name": "解忱",
+      "flight_cnt": 37,
+      "avg_ci": 83.8,
+      "avg_alt": 28143.0,
+      "avg_route_alt": 28835.0,
+      "alt_gap": -692.0,
+      "ci_gap": -4.0
+    },
+    {
+      "emp_no": 11575,
+      "name": "付豪",
+      "flight_cnt": 25,
+      "avg_ci": 84.0,
+      "avg_alt": 26343.0,
+      "avg_route_alt": 29059.0,
+      "alt_gap": -2716.0,
+      "ci_gap": -5.2
+    },
+    {
+      "emp_no": 11747,
+      "name": "ALMEIDA REIS DE VASCONCELOS RAFAEL",
+      "flight_cnt": 25,
+      "avg_ci": 84.0,
+      "avg_alt": 31021.0,
+      "avg_route_alt": 30399.0,
+      "alt_gap": 622.0,
+      "ci_gap": -5.4
+    },
+    {
+      "emp_no": 11928,
+      "name": "韩海涛",
+      "flight_cnt": 25,
+      "avg_ci": 84.0,
+      "avg_alt": 27119.0,
+      "avg_route_alt": 31633.0,
+      "alt_gap": -4514.0,
+      "ci_gap": -11.2
+    },
+    {
+      "emp_no": 13017,
+      "name": "姚兵",
+      "flight_cnt": 25,
+      "avg_ci": 84.0,
+      "avg_alt": 28116.0,
+      "avg_route_alt": 29571.0,
+      "alt_gap": -1454.0,
+      "ci_gap": -6.0
+    },
+    {
+      "emp_no": 2784,
+      "name": "姜伟",
+      "flight_cnt": 29,
+      "avg_ci": 84.5,
+      "avg_alt": 29526.0,
+      "avg_route_alt": 28476.0,
+      "alt_gap": 1049.0,
+      "ci_gap": -2.4
+    },
+    {
+      "emp_no": 1072,
+      "name": "孙毅斌",
+      "flight_cnt": 26,
+      "avg_ci": 84.6,
+      "avg_alt": 26995.0,
+      "avg_route_alt": 27077.0,
+      "alt_gap": -82.0,
+      "ci_gap": -3.8
+    },
+    {
+      "emp_no": 1144,
+      "name": "杨少杰",
+      "flight_cnt": 26,
+      "avg_ci": 84.6,
+      "avg_alt": 26098.0,
+      "avg_route_alt": 27761.0,
+      "alt_gap": -1663.0,
+      "ci_gap": -2.8
+    },
+    {
+      "emp_no": 13616,
+      "name": "吴小超",
+      "flight_cnt": 26,
+      "avg_ci": 84.6,
+      "avg_alt": 28629.0,
+      "avg_route_alt": 30455.0,
+      "alt_gap": -1826.0,
+      "ci_gap": -7.3
+    },
+    {
+      "emp_no": 15283,
+      "name": "张显",
+      "flight_cnt": 26,
+      "avg_ci": 84.6,
+      "avg_alt": 29477.0,
+      "avg_route_alt": 29123.0,
+      "alt_gap": 355.0,
+      "ci_gap": -3.3
+    },
+    {
+      "emp_no": 5727,
+      "name": "胡斌",
+      "flight_cnt": 26,
+      "avg_ci": 84.6,
+      "avg_alt": 30402.0,
+      "avg_route_alt": 30277.0,
+      "alt_gap": 125.0,
+      "ci_gap": -6.4
+    },
+    {
+      "emp_no": 8059,
+      "name": "曾辉",
+      "flight_cnt": 26,
+      "avg_ci": 84.6,
+      "avg_alt": 30247.0,
+      "avg_route_alt": 30347.0,
+      "alt_gap": -100.0,
+      "ci_gap": -6.7
+    },
+    {
+      "emp_no": 11144,
+      "name": "陈伟杰",
+      "flight_cnt": 33,
+      "avg_ci": 84.8,
+      "avg_alt": 28731.0,
+      "avg_route_alt": 28268.0,
+      "alt_gap": 463.0,
+      "ci_gap": -5.7
+    },
+    {
+      "emp_no": 11551,
+      "name": "黄忠",
+      "flight_cnt": 33,
+      "avg_ci": 84.8,
+      "avg_alt": 26544.0,
+      "avg_route_alt": 28479.0,
+      "alt_gap": -1935.0,
+      "ci_gap": -2.9
+    },
+    {
+      "emp_no": 12680,
+      "name": "袁卓锃",
+      "flight_cnt": 33,
+      "avg_ci": 84.8,
+      "avg_alt": 30566.0,
+      "avg_route_alt": 29693.0,
+      "alt_gap": 873.0,
+      "ci_gap": -2.9
+    },
+    {
+      "emp_no": 11134,
+      "name": "洪达行",
+      "flight_cnt": 22,
+      "avg_ci": 84.8,
+      "avg_alt": 29185.0,
+      "avg_route_alt": 28230.0,
+      "alt_gap": 954.0,
+      "ci_gap": -0.5
+    },
+    {
+      "emp_no": 1138,
+      "name": "李国权",
+      "flight_cnt": 30,
+      "avg_ci": 85.0,
+      "avg_alt": 27119.0,
+      "avg_route_alt": 26370.0,
+      "alt_gap": 749.0,
+      "ci_gap": 1.0
+    },
+    {
+      "emp_no": 17341,
+      "name": "赫大伟",
+      "flight_cnt": 20,
+      "avg_ci": 85.0,
+      "avg_alt": 29866.0,
+      "avg_route_alt": 29842.0,
+      "alt_gap": 25.0,
+      "ci_gap": -7.3
+    },
+    {
+      "emp_no": 1757,
+      "name": "王侯富",
+      "flight_cnt": 20,
+      "avg_ci": 85.0,
+      "avg_alt": 30967.0,
+      "avg_route_alt": 29457.0,
+      "alt_gap": 1511.0,
+      "ci_gap": -4.4
+    },
+    {
+      "emp_no": 7004,
+      "name": "王猛",
+      "flight_cnt": 20,
+      "avg_ci": 85.0,
+      "avg_alt": 29885.0,
+      "avg_route_alt": 29496.0,
+      "alt_gap": 389.0,
+      "ci_gap": -2.5
+    },
+    {
+      "emp_no": 1125,
+      "name": "马喜斌",
+      "flight_cnt": 27,
+      "avg_ci": 85.2,
+      "avg_alt": 27605.0,
+      "avg_route_alt": 29356.0,
+      "alt_gap": -1751.0,
+      "ci_gap": -2.0
+    },
+    {
+      "emp_no": 1271,
+      "name": "花云峰",
+      "flight_cnt": 27,
+      "avg_ci": 85.2,
+      "avg_alt": 26946.0,
+      "avg_route_alt": 28325.0,
+      "alt_gap": -1379.0,
+      "ci_gap": 0.6
+    },
+    {
+      "emp_no": 13619,
+      "name": "刘代辉",
+      "flight_cnt": 27,
+      "avg_ci": 85.2,
+      "avg_alt": 28343.0,
+      "avg_route_alt": 28020.0,
+      "alt_gap": 322.0,
+      "ci_gap": -4.7
+    },
+    {
+      "emp_no": 13631,
+      "name": "景露",
+      "flight_cnt": 27,
+      "avg_ci": 85.2,
+      "avg_alt": 29848.0,
+      "avg_route_alt": 30009.0,
+      "alt_gap": -161.0,
+      "ci_gap": -3.7
+    },
+    {
+      "emp_no": 14265,
+      "name": "张晓晨",
+      "flight_cnt": 27,
+      "avg_ci": 85.2,
+      "avg_alt": 30020.0,
+      "avg_route_alt": 29390.0,
+      "alt_gap": 630.0,
+      "ci_gap": -5.6
+    },
+    {
+      "emp_no": 2771,
+      "name": "赖万苍",
+      "flight_cnt": 27,
+      "avg_ci": 85.2,
+      "avg_alt": 27559.0,
+      "avg_route_alt": 29308.0,
+      "alt_gap": -1748.0,
+      "ci_gap": -4.4
+    },
+    {
+      "emp_no": 11475,
+      "name": "胡坤",
+      "flight_cnt": 24,
+      "avg_ci": 85.4,
+      "avg_alt": 29246.0,
+      "avg_route_alt": 29003.0,
+      "alt_gap": 243.0,
+      "ci_gap": 0.1
+    },
+    {
+      "emp_no": 9086,
+      "name": "王诗博",
+      "flight_cnt": 25,
+      "avg_ci": 85.7,
+      "avg_alt": 27728.0,
+      "avg_route_alt": 27025.0,
+      "alt_gap": 704.0,
+      "ci_gap": 0.3
+    },
+    {
+      "emp_no": 11926,
+      "name": "陈骁芃",
+      "flight_cnt": 21,
+      "avg_ci": 85.7,
+      "avg_alt": 27947.0,
+      "avg_route_alt": 29863.0,
+      "alt_gap": -1917.0,
+      "ci_gap": -4.2
+    },
+    {
+      "emp_no": 15293,
+      "name": "谢佳琪",
+      "flight_cnt": 31,
+      "avg_ci": 86.0,
+      "avg_alt": 29685.0,
+      "avg_route_alt": 29241.0,
+      "alt_gap": 444.0,
+      "ci_gap": -2.5
+    },
+    {
+      "emp_no": 10753,
+      "name": "韩城",
+      "flight_cnt": 29,
+      "avg_ci": 86.2,
+      "avg_alt": 26704.0,
+      "avg_route_alt": 28363.0,
+      "alt_gap": -1659.0,
+      "ci_gap": -3.2
+    },
+    {
+      "emp_no": 12008,
+      "name": "冯孝华",
+      "flight_cnt": 29,
+      "avg_ci": 86.2,
+      "avg_alt": 29694.0,
+      "avg_route_alt": 28965.0,
+      "alt_gap": 729.0,
+      "ci_gap": -6.3
+    },
+    {
+      "emp_no": 15279,
+      "name": "崔接林",
+      "flight_cnt": 29,
+      "avg_ci": 86.2,
+      "avg_alt": 27998.0,
+      "avg_route_alt": 26630.0,
+      "alt_gap": 1368.0,
+      "ci_gap": 2.1
+    },
+    {
+      "emp_no": 6077,
+      "name": "明钢梁",
+      "flight_cnt": 22,
+      "avg_ci": 86.4,
+      "avg_alt": 26188.0,
+      "avg_route_alt": 26075.0,
+      "alt_gap": 113.0,
+      "ci_gap": 2.7
+    },
+    {
+      "emp_no": 7070,
+      "name": "陈新华",
+      "flight_cnt": 22,
+      "avg_ci": 86.4,
+      "avg_alt": 27298.0,
+      "avg_route_alt": 27373.0,
+      "alt_gap": -75.0,
+      "ci_gap": 3.0
+    },
+    {
+      "emp_no": 7591,
+      "name": "谢华新",
+      "flight_cnt": 33,
+      "avg_ci": 86.4,
+      "avg_alt": 29820.0,
+      "avg_route_alt": 28493.0,
+      "alt_gap": 1326.0,
+      "ci_gap": -1.9
+    },
+    {
+      "emp_no": 14905,
+      "name": "赵震",
+      "flight_cnt": 26,
+      "avg_ci": 86.5,
+      "avg_alt": 26996.0,
+      "avg_route_alt": 28293.0,
+      "alt_gap": -1296.0,
+      "ci_gap": -2.8
+    },
+    {
+      "emp_no": 1887,
+      "name": "杨振宁",
+      "flight_cnt": 26,
+      "avg_ci": 86.5,
+      "avg_alt": 27321.0,
+      "avg_route_alt": 28128.0,
+      "alt_gap": -807.0,
+      "ci_gap": -4.4
+    },
+    {
+      "emp_no": 1266,
+      "name": "王旭",
+      "flight_cnt": 30,
+      "avg_ci": 86.7,
+      "avg_alt": 26610.0,
+      "avg_route_alt": 27056.0,
+      "alt_gap": -446.0,
+      "ci_gap": 4.4
+    },
+    {
+      "emp_no": 17339,
+      "name": "周海明",
+      "flight_cnt": 30,
+      "avg_ci": 86.7,
+      "avg_alt": 30824.0,
+      "avg_route_alt": 29467.0,
+      "alt_gap": 1357.0,
+      "ci_gap": -3.3
+    },
+    {
+      "emp_no": 24505,
+      "name": "闵敏",
+      "flight_cnt": 30,
+      "avg_ci": 86.7,
+      "avg_alt": 28732.0,
+      "avg_route_alt": 28044.0,
+      "alt_gap": 689.0,
+      "ci_gap": -0.9
+    },
+    {
+      "emp_no": 9604,
+      "name": "航晓博",
+      "flight_cnt": 30,
+      "avg_ci": 86.7,
+      "avg_alt": 28433.0,
+      "avg_route_alt": 27711.0,
+      "alt_gap": 722.0,
+      "ci_gap": -0.9
+    },
+    {
+      "emp_no": 9712,
+      "name": "赵伟",
+      "flight_cnt": 30,
+      "avg_ci": 86.7,
+      "avg_alt": 27383.0,
+      "avg_route_alt": 29208.0,
+      "alt_gap": -1825.0,
+      "ci_gap": -1.4
+    },
+    {
+      "emp_no": 1294,
+      "name": "张通",
+      "flight_cnt": 23,
+      "avg_ci": 87.0,
+      "avg_alt": 27625.0,
+      "avg_route_alt": 31003.0,
+      "alt_gap": -3378.0,
+      "ci_gap": -6.1
+    },
+    {
+      "emp_no": 13563,
+      "name": "徐亚",
+      "flight_cnt": 23,
+      "avg_ci": 87.0,
+      "avg_alt": 28948.0,
+      "avg_route_alt": 28620.0,
+      "alt_gap": 328.0,
+      "ci_gap": -2.8
+    },
+    {
+      "emp_no": 4740,
+      "name": "田帅",
+      "flight_cnt": 23,
+      "avg_ci": 87.0,
+      "avg_alt": 30369.0,
+      "avg_route_alt": 30385.0,
+      "alt_gap": -16.0,
+      "ci_gap": -6.6
+    },
+    {
+      "emp_no": 7068,
+      "name": "曹合增",
+      "flight_cnt": 27,
+      "avg_ci": 87.0,
+      "avg_alt": 30847.0,
+      "avg_route_alt": 29601.0,
+      "alt_gap": 1246.0,
+      "ci_gap": -2.4
+    },
+    {
+      "emp_no": 24504,
+      "name": "成荣",
+      "flight_cnt": 31,
+      "avg_ci": 87.1,
+      "avg_alt": 29166.0,
+      "avg_route_alt": 28802.0,
+      "alt_gap": 364.0,
+      "ci_gap": -2.4
+    },
+    {
+      "emp_no": 6565,
+      "name": "李明亮",
+      "flight_cnt": 31,
+      "avg_ci": 87.1,
+      "avg_alt": 27906.0,
+      "avg_route_alt": 28239.0,
+      "alt_gap": -333.0,
+      "ci_gap": -1.6
+    },
+    {
+      "emp_no": 12005,
+      "name": "何小龙",
+      "flight_cnt": 35,
+      "avg_ci": 87.1,
+      "avg_alt": 27702.0,
+      "avg_route_alt": 27533.0,
+      "alt_gap": 168.0,
+      "ci_gap": 3.5
+    },
+    {
+      "emp_no": 2319,
+      "name": "李占正",
+      "flight_cnt": 25,
+      "avg_ci": 87.3,
+      "avg_alt": 27284.0,
+      "avg_route_alt": 27091.0,
+      "alt_gap": 193.0,
+      "ci_gap": 0.7
+    },
+    {
+      "emp_no": 11789,
+      "name": "刘振芳",
+      "flight_cnt": 24,
+      "avg_ci": 87.5,
+      "avg_alt": 29613.0,
+      "avg_route_alt": 29300.0,
+      "alt_gap": 314.0,
+      "ci_gap": -2.6
+    },
+    {
+      "emp_no": 11929,
+      "name": "张飞虎",
+      "flight_cnt": 24,
+      "avg_ci": 87.5,
+      "avg_alt": 28007.0,
+      "avg_route_alt": 28036.0,
+      "alt_gap": -28.0,
+      "ci_gap": -2.9
+    },
+    {
+      "emp_no": 12076,
+      "name": "乔硕",
+      "flight_cnt": 28,
+      "avg_ci": 87.5,
+      "avg_alt": 27925.0,
+      "avg_route_alt": 27353.0,
+      "alt_gap": 572.0,
+      "ci_gap": -1.3
+    },
+    {
+      "emp_no": 12112,
+      "name": "张中良",
+      "flight_cnt": 24,
+      "avg_ci": 87.5,
+      "avg_alt": 27139.0,
+      "avg_route_alt": 29567.0,
+      "alt_gap": -2428.0,
+      "ci_gap": -4.6
+    },
+    {
+      "emp_no": 1238,
+      "name": "褚翔",
+      "flight_cnt": 24,
+      "avg_ci": 87.5,
+      "avg_alt": 28273.0,
+      "avg_route_alt": 29280.0,
+      "alt_gap": -1008.0,
+      "ci_gap": -3.5
+    },
+    {
+      "emp_no": 13030,
+      "name": "李鸿君",
+      "flight_cnt": 28,
+      "avg_ci": 87.5,
+      "avg_alt": 28612.0,
+      "avg_route_alt": 27766.0,
+      "alt_gap": 846.0,
+      "ci_gap": 2.3
+    },
+    {
+      "emp_no": 14269,
+      "name": "林渊辉",
+      "flight_cnt": 20,
+      "avg_ci": 87.5,
+      "avg_alt": 30079.0,
+      "avg_route_alt": 30345.0,
+      "alt_gap": -266.0,
+      "ci_gap": -5.0
+    },
+    {
+      "emp_no": 24655,
+      "name": "郭建",
+      "flight_cnt": 32,
+      "avg_ci": 87.5,
+      "avg_alt": 26259.0,
+      "avg_route_alt": 29628.0,
+      "alt_gap": -3369.0,
+      "ci_gap": -1.8
+    },
+    {
+      "emp_no": 3746,
+      "name": "史涛",
+      "flight_cnt": 24,
+      "avg_ci": 87.5,
+      "avg_alt": 27965.0,
+      "avg_route_alt": 27537.0,
+      "alt_gap": 428.0,
+      "ci_gap": 1.8
+    },
+    {
+      "emp_no": 5726,
+      "name": "胡波",
+      "flight_cnt": 20,
+      "avg_ci": 87.5,
+      "avg_alt": 30860.0,
+      "avg_route_alt": 30790.0,
+      "alt_gap": 71.0,
+      "ci_gap": -3.5
+    },
+    {
+      "emp_no": 8834,
+      "name": "刘鑫",
+      "flight_cnt": 28,
+      "avg_ci": 87.5,
+      "avg_alt": 28943.0,
+      "avg_route_alt": 28119.0,
+      "alt_gap": 823.0,
+      "ci_gap": -0.1
+    },
+    {
+      "emp_no": 9087,
+      "name": "施龙",
+      "flight_cnt": 30,
+      "avg_ci": 87.8,
+      "avg_alt": 29319.0,
+      "avg_route_alt": 28522.0,
+      "alt_gap": 797.0,
+      "ci_gap": 1.8
+    },
+    {
+      "emp_no": 11482,
+      "name": "李强",
+      "flight_cnt": 33,
+      "avg_ci": 87.9,
+      "avg_alt": 27468.0,
+      "avg_route_alt": 27546.0,
+      "alt_gap": -77.0,
+      "ci_gap": 0.2
+    },
+    {
+      "emp_no": 1264,
+      "name": "王海友",
+      "flight_cnt": 29,
+      "avg_ci": 87.9,
+      "avg_alt": 27818.0,
+      "avg_route_alt": 27535.0,
+      "alt_gap": 283.0,
+      "ci_gap": -0.5
+    },
+    {
+      "emp_no": 1045,
+      "name": "孔丰平",
+      "flight_cnt": 25,
+      "avg_ci": 88.0,
+      "avg_alt": 27522.0,
+      "avg_route_alt": 29159.0,
+      "alt_gap": -1637.0,
+      "ci_gap": -0.3
+    },
+    {
+      "emp_no": 11570,
+      "name": "陈伟",
+      "flight_cnt": 25,
+      "avg_ci": 88.0,
+      "avg_alt": 31072.0,
+      "avg_route_alt": 29799.0,
+      "alt_gap": 1274.0,
+      "ci_gap": -0.4
+    },
+    {
+      "emp_no": 6072,
+      "name": "陈水生",
+      "flight_cnt": 25,
+      "avg_ci": 88.0,
+      "avg_alt": 26461.0,
+      "avg_route_alt": 27595.0,
+      "alt_gap": -1134.0,
+      "ci_gap": 0.6
+    },
+    {
+      "emp_no": 6951,
+      "name": "李頔",
+      "flight_cnt": 25,
+      "avg_ci": 88.0,
+      "avg_alt": 28057.0,
+      "avg_route_alt": 29170.0,
+      "alt_gap": -1113.0,
+      "ci_gap": -0.9
+    },
+    {
+      "emp_no": 9698,
+      "name": "曹星伟",
+      "flight_cnt": 25,
+      "avg_ci": 88.0,
+      "avg_alt": 28904.0,
+      "avg_route_alt": 27826.0,
+      "alt_gap": 1078.0,
+      "ci_gap": 2.6
+    },
+    {
+      "emp_no": 6341,
+      "name": "李旺",
+      "flight_cnt": 34,
+      "avg_ci": 88.2,
+      "avg_alt": 26912.0,
+      "avg_route_alt": 27673.0,
+      "alt_gap": -761.0,
+      "ci_gap": 0.9
+    },
+    {
+      "emp_no": 6570,
+      "name": "段俊超",
+      "flight_cnt": 34,
+      "avg_ci": 88.2,
+      "avg_alt": 28217.0,
+      "avg_route_alt": 29268.0,
+      "alt_gap": -1051.0,
+      "ci_gap": -2.9
+    },
+    {
+      "emp_no": 9305,
+      "name": "丁全",
+      "flight_cnt": 34,
+      "avg_ci": 88.2,
+      "avg_alt": 29102.0,
+      "avg_route_alt": 28617.0,
+      "alt_gap": 486.0,
+      "ci_gap": -2.7
+    },
+    {
+      "emp_no": 1088,
+      "name": "牛雪山",
+      "flight_cnt": 26,
+      "avg_ci": 88.5,
+      "avg_alt": 28660.0,
+      "avg_route_alt": 28132.0,
+      "alt_gap": 527.0,
+      "ci_gap": 6.0
+    },
+    {
+      "emp_no": 12004,
+      "name": "刘小波",
+      "flight_cnt": 26,
+      "avg_ci": 88.5,
+      "avg_alt": 29614.0,
+      "avg_route_alt": 29410.0,
+      "alt_gap": 204.0,
+      "ci_gap": 1.3
+    },
+    {
+      "emp_no": 15290,
+      "name": "耿烨",
+      "flight_cnt": 26,
+      "avg_ci": 88.5,
+      "avg_alt": 29091.0,
+      "avg_route_alt": 28365.0,
+      "alt_gap": 726.0,
+      "ci_gap": 1.6
+    },
+    {
+      "emp_no": 17552,
+      "name": "张纮瑞",
+      "flight_cnt": 26,
+      "avg_ci": 88.5,
+      "avg_alt": 27433.0,
+      "avg_route_alt": 27532.0,
+      "alt_gap": -99.0,
+      "ci_gap": 2.4
+    },
+    {
+      "emp_no": 5750,
+      "name": "缪得鹏",
+      "flight_cnt": 26,
+      "avg_ci": 88.5,
+      "avg_alt": 31764.0,
+      "avg_route_alt": 30697.0,
+      "alt_gap": 1066.0,
+      "ci_gap": -2.3
+    },
+    {
+      "emp_no": 9718,
+      "name": "胡昊",
+      "flight_cnt": 29,
+      "avg_ci": 88.5,
+      "avg_alt": 26409.0,
+      "avg_route_alt": 27483.0,
+      "alt_gap": -1074.0,
+      "ci_gap": 3.4
+    },
+    {
+      "emp_no": 9881,
+      "name": "王昕钰",
+      "flight_cnt": 35,
+      "avg_ci": 88.6,
+      "avg_alt": 28877.0,
+      "avg_route_alt": 28045.0,
+      "alt_gap": 833.0,
+      "ci_gap": -1.1
+    },
+    {
+      "emp_no": 1130,
+      "name": "钱立功",
+      "flight_cnt": 22,
+      "avg_ci": 88.6,
+      "avg_alt": 29664.0,
+      "avg_route_alt": 29760.0,
+      "alt_gap": -96.0,
+      "ci_gap": -1.5
+    },
+    {
+      "emp_no": 11930,
+      "name": "郭子钰",
+      "flight_cnt": 33,
+      "avg_ci": 88.6,
+      "avg_alt": 28368.0,
+      "avg_route_alt": 27998.0,
+      "alt_gap": 370.0,
+      "ci_gap": -0.5
+    },
+    {
+      "emp_no": 11566,
+      "name": "刘树迁",
+      "flight_cnt": 31,
+      "avg_ci": 88.7,
+      "avg_alt": 30015.0,
+      "avg_route_alt": 28934.0,
+      "alt_gap": 1081.0,
+      "ci_gap": 0.5
+    },
+    {
+      "emp_no": 1185,
+      "name": "曲大鹏",
+      "flight_cnt": 34,
+      "avg_ci": 88.7,
+      "avg_alt": 26641.0,
+      "avg_route_alt": 26518.0,
+      "alt_gap": 123.0,
+      "ci_gap": 1.1
+    },
+    {
+      "emp_no": 11565,
+      "name": "黄建华",
+      "flight_cnt": 27,
+      "avg_ci": 88.9,
+      "avg_alt": 28196.0,
+      "avg_route_alt": 28542.0,
+      "alt_gap": -345.0,
+      "ci_gap": 1.0
+    },
+    {
+      "emp_no": 13232,
+      "name": "张杨阳",
+      "flight_cnt": 27,
+      "avg_ci": 88.9,
+      "avg_alt": 28759.0,
+      "avg_route_alt": 28202.0,
+      "alt_gap": 557.0,
+      "ci_gap": 4.4
+    },
+    {
+      "emp_no": 14315,
+      "name": "房志洋",
+      "flight_cnt": 27,
+      "avg_ci": 88.9,
+      "avg_alt": 30207.0,
+      "avg_route_alt": 29124.0,
+      "alt_gap": 1083.0,
+      "ci_gap": 2.4
+    },
+    {
+      "emp_no": 2781,
+      "name": "刘瀚骋",
+      "flight_cnt": 27,
+      "avg_ci": 88.9,
+      "avg_alt": 30800.0,
+      "avg_route_alt": 29767.0,
+      "alt_gap": 1033.0,
+      "ci_gap": 0.8
+    },
+    {
+      "emp_no": 3972,
+      "name": "张喜明",
+      "flight_cnt": 27,
+      "avg_ci": 88.9,
+      "avg_alt": 26810.0,
+      "avg_route_alt": 29404.0,
+      "alt_gap": -2594.0,
+      "ci_gap": -1.8
+    },
+    {
+      "emp_no": 4002,
+      "name": "董威",
+      "flight_cnt": 27,
+      "avg_ci": 88.9,
+      "avg_alt": 30354.0,
+      "avg_route_alt": 28860.0,
+      "alt_gap": 1494.0,
+      "ci_gap": 0.8
+    },
+    {
+      "emp_no": 6767,
+      "name": "李丙树",
+      "flight_cnt": 27,
+      "avg_ci": 88.9,
+      "avg_alt": 27513.0,
+      "avg_route_alt": 27437.0,
+      "alt_gap": 75.0,
+      "ci_gap": 7.4
+    },
+    {
+      "emp_no": 9082,
+      "name": "卢亮",
+      "flight_cnt": 21,
+      "avg_ci": 88.9,
+      "avg_alt": 30339.0,
+      "avg_route_alt": 29968.0,
+      "alt_gap": 371.0,
+      "ci_gap": -1.1
+    },
+    {
+      "emp_no": 9605,
+      "name": "陈飞",
+      "flight_cnt": 21,
+      "avg_ci": 88.9,
+      "avg_alt": 29247.0,
+      "avg_route_alt": 28438.0,
+      "alt_gap": 809.0,
+      "ci_gap": -0.6
+    },
+    {
+      "emp_no": 13662,
+      "name": "王勇",
+      "flight_cnt": 25,
+      "avg_ci": 89.0,
+      "avg_alt": 29430.0,
+      "avg_route_alt": 28883.0,
+      "alt_gap": 548.0,
+      "ci_gap": -1.5
+    },
+    {
+      "emp_no": 13257,
+      "name": "陈建刚",
+      "flight_cnt": 37,
+      "avg_ci": 89.2,
+      "avg_alt": 28135.0,
+      "avg_route_alt": 27396.0,
+      "alt_gap": 738.0,
+      "ci_gap": 2.1
+    },
+    {
+      "emp_no": 13386,
+      "name": "刘小伟",
+      "flight_cnt": 28,
+      "avg_ci": 89.3,
+      "avg_alt": 29679.0,
+      "avg_route_alt": 29847.0,
+      "alt_gap": -167.0,
+      "ci_gap": -0.8
+    },
+    {
+      "emp_no": 23998,
+      "name": "胡军",
+      "flight_cnt": 28,
+      "avg_ci": 89.3,
+      "avg_alt": 28433.0,
+      "avg_route_alt": 27808.0,
+      "alt_gap": 624.0,
+      "ci_gap": 0.3
+    },
+    {
+      "emp_no": 5722,
+      "name": "龚松",
+      "flight_cnt": 28,
+      "avg_ci": 89.3,
+      "avg_alt": 29527.0,
+      "avg_route_alt": 28040.0,
+      "alt_gap": 1487.0,
+      "ci_gap": 4.8
+    },
+    {
+      "emp_no": 1231,
+      "name": "李勇",
+      "flight_cnt": 22,
+      "avg_ci": 89.4,
+      "avg_alt": 28501.0,
+      "avg_route_alt": 27975.0,
+      "alt_gap": 526.0,
+      "ci_gap": 6.1
+    },
+    {
+      "emp_no": 12421,
+      "name": "许涛",
+      "flight_cnt": 29,
+      "avg_ci": 89.7,
+      "avg_alt": 27327.0,
+      "avg_route_alt": 27652.0,
+      "alt_gap": -325.0,
+      "ci_gap": 1.7
+    },
+    {
+      "emp_no": 13620,
+      "name": "高健",
+      "flight_cnt": 29,
+      "avg_ci": 89.7,
+      "avg_alt": 26494.0,
+      "avg_route_alt": 26831.0,
+      "alt_gap": -337.0,
+      "ci_gap": 3.5
+    },
+    {
+      "emp_no": 17623,
+      "name": "聂东来",
+      "flight_cnt": 29,
+      "avg_ci": 89.7,
+      "avg_alt": 29500.0,
+      "avg_route_alt": 27880.0,
+      "alt_gap": 1619.0,
+      "ci_gap": -0.5
+    },
+    {
+      "emp_no": 6339,
+      "name": "刘开通",
+      "flight_cnt": 29,
+      "avg_ci": 89.7,
+      "avg_alt": 26779.0,
+      "avg_route_alt": 26289.0,
+      "alt_gap": 490.0,
+      "ci_gap": 4.0
+    },
+    {
+      "emp_no": 9885,
+      "name": "刘仕丹",
+      "flight_cnt": 29,
+      "avg_ci": 89.7,
+      "avg_alt": 27187.0,
+      "avg_route_alt": 28995.0,
+      "alt_gap": -1808.0,
+      "ci_gap": -1.9
+    },
+    {
+      "emp_no": 13237,
+      "name": "刘骁",
+      "flight_cnt": 32,
+      "avg_ci": 89.8,
+      "avg_alt": 28112.0,
+      "avg_route_alt": 27728.0,
+      "alt_gap": 384.0,
+      "ci_gap": 3.8
+    },
+    {
+      "emp_no": 10531,
+      "name": "黄汉威",
+      "flight_cnt": 22,
+      "avg_ci": 90.0,
+      "avg_alt": 27969.0,
+      "avg_route_alt": 28431.0,
+      "alt_gap": -462.0,
+      "ci_gap": 4.5
+    },
+    {
+      "emp_no": 10832,
+      "name": "王广福",
+      "flight_cnt": 30,
+      "avg_ci": 90.0,
+      "avg_alt": 30534.0,
+      "avg_route_alt": 30920.0,
+      "alt_gap": -385.0,
+      "ci_gap": -3.1
+    },
+    {
+      "emp_no": 10883,
+      "name": "邱纯伟",
+      "flight_cnt": 20,
+      "avg_ci": 90.0,
+      "avg_alt": 29747.0,
+      "avg_route_alt": 29304.0,
+      "alt_gap": 443.0,
+      "ci_gap": 1.0
+    },
+    {
+      "emp_no": 11602,
+      "name": "张首三",
+      "flight_cnt": 25,
+      "avg_ci": 90.0,
+      "avg_alt": 30401.0,
+      "avg_route_alt": 28294.0,
+      "alt_gap": 2107.0,
+      "ci_gap": 1.7
+    },
+    {
+      "emp_no": 12411,
+      "name": "肖冬",
+      "flight_cnt": 30,
+      "avg_ci": 90.0,
+      "avg_alt": 29846.0,
+      "avg_route_alt": 29178.0,
+      "alt_gap": 668.0,
+      "ci_gap": 2.6
+    },
+    {
+      "emp_no": 1245,
+      "name": "李少华",
+      "flight_cnt": 30,
+      "avg_ci": 90.0,
+      "avg_alt": 29300.0,
+      "avg_route_alt": 28467.0,
+      "alt_gap": 832.0,
+      "ci_gap": 0.2
+    },
+    {
+      "emp_no": 13014,
+      "name": "吴洪良",
+      "flight_cnt": 30,
+      "avg_ci": 90.0,
+      "avg_alt": 28115.0,
+      "avg_route_alt": 28645.0,
+      "alt_gap": -530.0,
+      "ci_gap": 2.9
+    },
+    {
+      "emp_no": 14267,
+      "name": "孙永",
+      "flight_cnt": 20,
+      "avg_ci": 90.0,
+      "avg_alt": 28964.0,
+      "avg_route_alt": 28671.0,
+      "alt_gap": 294.0,
+      "ci_gap": -1.5
+    },
+    {
+      "emp_no": 9089,
+      "name": "张云虎",
+      "flight_cnt": 20,
+      "avg_ci": 90.0,
+      "avg_alt": 31739.0,
+      "avg_route_alt": 31047.0,
+      "alt_gap": 693.0,
+      "ci_gap": -2.6
+    },
+    {
+      "emp_no": 9307,
+      "name": "钱俊",
+      "flight_cnt": 20,
+      "avg_ci": 90.0,
+      "avg_alt": 28074.0,
+      "avg_route_alt": 28803.0,
+      "alt_gap": -729.0,
+      "ci_gap": 3.0
+    },
+    {
+      "emp_no": 9601,
+      "name": "冯泽富",
+      "flight_cnt": 20,
+      "avg_ci": 90.0,
+      "avg_alt": 31990.0,
+      "avg_route_alt": 31283.0,
+      "alt_gap": 707.0,
+      "ci_gap": -1.0
+    },
+    {
+      "emp_no": 18522,
+      "name": "李栋",
+      "flight_cnt": 24,
+      "avg_ci": 90.3,
+      "avg_alt": 27734.0,
+      "avg_route_alt": 28690.0,
+      "alt_gap": -956.0,
+      "ci_gap": -0.4
+    },
+    {
+      "emp_no": 1078,
+      "name": "郑锋",
+      "flight_cnt": 26,
+      "avg_ci": 90.4,
+      "avg_alt": 28006.0,
+      "avg_route_alt": 28184.0,
+      "alt_gap": -178.0,
+      "ci_gap": -0.0
+    },
+    {
+      "emp_no": 1134,
+      "name": "郑武军",
+      "flight_cnt": 26,
+      "avg_ci": 90.4,
+      "avg_alt": 28495.0,
+      "avg_route_alt": 26763.0,
+      "alt_gap": 1733.0,
+      "ci_gap": 6.3
+    },
+    {
+      "emp_no": 5736,
+      "name": "刘华兴",
+      "flight_cnt": 26,
+      "avg_ci": 90.4,
+      "avg_alt": 28072.0,
+      "avg_route_alt": 28528.0,
+      "alt_gap": -456.0,
+      "ci_gap": 0.6
+    },
+    {
+      "emp_no": 1228,
+      "name": "于雷",
+      "flight_cnt": 21,
+      "avg_ci": 90.5,
+      "avg_alt": 29042.0,
+      "avg_route_alt": 27701.0,
+      "alt_gap": 1341.0,
+      "ci_gap": 8.1
+    },
+    {
+      "emp_no": 13634,
+      "name": "王养才",
+      "flight_cnt": 21,
+      "avg_ci": 90.5,
+      "avg_alt": 30004.0,
+      "avg_route_alt": 29590.0,
+      "alt_gap": 414.0,
+      "ci_gap": 0.1
+    },
+    {
+      "emp_no": 14906,
+      "name": "吴献",
+      "flight_cnt": 21,
+      "avg_ci": 90.5,
+      "avg_alt": 30324.0,
+      "avg_route_alt": 29729.0,
+      "alt_gap": 595.0,
+      "ci_gap": -1.5
+    },
+    {
+      "emp_no": 4384,
+      "name": "李翼航",
+      "flight_cnt": 21,
+      "avg_ci": 90.5,
+      "avg_alt": 30951.0,
+      "avg_route_alt": 30060.0,
+      "alt_gap": 891.0,
+      "ci_gap": 1.7
+    },
+    {
+      "emp_no": 9606,
+      "name": "杜少杰",
+      "flight_cnt": 21,
+      "avg_ci": 90.5,
+      "avg_alt": 30585.0,
+      "avg_route_alt": 30200.0,
+      "alt_gap": 385.0,
+      "ci_gap": -4.3
+    },
+    {
+      "emp_no": 4742,
+      "name": "张栋",
+      "flight_cnt": 32,
+      "avg_ci": 90.6,
+      "avg_alt": 29995.0,
+      "avg_route_alt": 29224.0,
+      "alt_gap": 771.0,
+      "ci_gap": 0.6
+    },
+    {
+      "emp_no": 1037,
+      "name": "马永田",
+      "flight_cnt": 25,
+      "avg_ci": 90.7,
+      "avg_alt": 27695.0,
+      "avg_route_alt": 28128.0,
+      "alt_gap": -433.0,
+      "ci_gap": 1.0
+    },
+    {
+      "emp_no": 13231,
+      "name": "顾永飞",
+      "flight_cnt": 27,
+      "avg_ci": 90.7,
+      "avg_alt": 30610.0,
+      "avg_route_alt": 30002.0,
+      "alt_gap": 608.0,
+      "ci_gap": 0.1
+    },
+    {
+      "emp_no": 10751,
+      "name": "张小冬",
+      "flight_cnt": 22,
+      "avg_ci": 90.9,
+      "avg_alt": 27712.0,
+      "avg_route_alt": 29296.0,
+      "alt_gap": -1584.0,
+      "ci_gap": 3.1
+    },
+    {
+      "emp_no": 12111,
+      "name": "叶兵兵",
+      "flight_cnt": 22,
+      "avg_ci": 90.9,
+      "avg_alt": 30429.0,
+      "avg_route_alt": 29637.0,
+      "alt_gap": 792.0,
+      "ci_gap": 2.6
+    },
+    {
+      "emp_no": 12225,
+      "name": "胡军华",
+      "flight_cnt": 33,
+      "avg_ci": 90.9,
+      "avg_alt": 30125.0,
+      "avg_route_alt": 28850.0,
+      "alt_gap": 1276.0,
+      "ci_gap": 1.4
+    },
+    {
+      "emp_no": 13623,
+      "name": "海进",
+      "flight_cnt": 22,
+      "avg_ci": 90.9,
+      "avg_alt": 27341.0,
+      "avg_route_alt": 29887.0,
+      "alt_gap": -2545.0,
+      "ci_gap": 2.7
+    },
+    {
+      "emp_no": 14311,
+      "name": "王双飞",
+      "flight_cnt": 22,
+      "avg_ci": 90.9,
+      "avg_alt": 30257.0,
+      "avg_route_alt": 29119.0,
+      "alt_gap": 1138.0,
+      "ci_gap": 3.7
+    },
+    {
+      "emp_no": 15297,
+      "name": "高佳栋",
+      "flight_cnt": 33,
+      "avg_ci": 90.9,
+      "avg_alt": 27578.0,
+      "avg_route_alt": 27569.0,
+      "alt_gap": 9.0,
+      "ci_gap": 1.0
+    },
+    {
+      "emp_no": 13229,
+      "name": "吕永强",
+      "flight_cnt": 26,
+      "avg_ci": 91.0,
+      "avg_alt": 27038.0,
+      "avg_route_alt": 27591.0,
+      "alt_gap": -553.0,
+      "ci_gap": 5.7
+    },
+    {
+      "emp_no": 15505,
+      "name": "孙守平",
+      "flight_cnt": 28,
+      "avg_ci": 91.1,
+      "avg_alt": 27770.0,
+      "avg_route_alt": 27438.0,
+      "alt_gap": 332.0,
+      "ci_gap": 4.4
+    },
+    {
+      "emp_no": 6086,
+      "name": "杨洋",
+      "flight_cnt": 34,
+      "avg_ci": 91.2,
+      "avg_alt": 27896.0,
+      "avg_route_alt": 27863.0,
+      "alt_gap": 33.0,
+      "ci_gap": 2.9
+    },
+    {
+      "emp_no": 1075,
+      "name": "姚平",
+      "flight_cnt": 23,
+      "avg_ci": 91.3,
+      "avg_alt": 29602.0,
+      "avg_route_alt": 29216.0,
+      "alt_gap": 386.0,
+      "ci_gap": 3.3
+    },
+    {
+      "emp_no": 11891,
+      "name": "ERIKSEN MORTEN NOERLUND",
+      "flight_cnt": 23,
+      "avg_ci": 91.3,
+      "avg_alt": 30170.0,
+      "avg_route_alt": 30183.0,
+      "alt_gap": -14.0,
+      "ci_gap": 3.0
+    },
+    {
+      "emp_no": 17557,
+      "name": "李中梁",
+      "flight_cnt": 23,
+      "avg_ci": 91.3,
+      "avg_alt": 28596.0,
+      "avg_route_alt": 28149.0,
+      "alt_gap": 446.0,
+      "ci_gap": 6.4
+    },
+    {
+      "emp_no": 20258,
+      "name": "MANTELLI DA FONTOURA RONAN",
+      "flight_cnt": 23,
+      "avg_ci": 91.3,
+      "avg_alt": 30087.0,
+      "avg_route_alt": 29136.0,
+      "alt_gap": 952.0,
+      "ci_gap": 4.1
+    },
+    {
+      "emp_no": 7287,
+      "name": "侯伊",
+      "flight_cnt": 29,
+      "avg_ci": 91.4,
+      "avg_alt": 30116.0,
+      "avg_route_alt": 29427.0,
+      "alt_gap": 689.0,
+      "ci_gap": 2.6
+    },
+    {
+      "emp_no": 8051,
+      "name": "陈盼",
+      "flight_cnt": 29,
+      "avg_ci": 91.4,
+      "avg_alt": 28383.0,
+      "avg_route_alt": 27788.0,
+      "alt_gap": 596.0,
+      "ci_gap": 1.3
+    },
+    {
+      "emp_no": 10308,
+      "name": "吕东强",
+      "flight_cnt": 27,
+      "avg_ci": 91.7,
+      "avg_alt": 27581.0,
+      "avg_route_alt": 26853.0,
+      "alt_gap": 728.0,
+      "ci_gap": 5.3
+    },
+    {
+      "emp_no": 1062,
+      "name": "万健",
+      "flight_cnt": 30,
+      "avg_ci": 91.7,
+      "avg_alt": 27751.0,
+      "avg_route_alt": 27601.0,
+      "alt_gap": 150.0,
+      "ci_gap": 7.4
+    },
+    {
+      "emp_no": 23135,
+      "name": "谢朝宗",
+      "flight_cnt": 24,
+      "avg_ci": 91.7,
+      "avg_alt": 30300.0,
+      "avg_route_alt": 29649.0,
+      "alt_gap": 651.0,
+      "ci_gap": 3.7
+    },
+    {
+      "emp_no": 7071,
+      "name": "徐志辉",
+      "flight_cnt": 24,
+      "avg_ci": 91.7,
+      "avg_alt": 29384.0,
+      "avg_route_alt": 29115.0,
+      "alt_gap": 269.0,
+      "ci_gap": 6.3
+    },
+    {
+      "emp_no": 1044,
+      "name": "李中元",
+      "flight_cnt": 25,
+      "avg_ci": 92.0,
+      "avg_alt": 28546.0,
+      "avg_route_alt": 27002.0,
+      "alt_gap": 1544.0,
+      "ci_gap": 5.0
+    },
+    {
+      "emp_no": 12002,
+      "name": "杨君",
+      "flight_cnt": 25,
+      "avg_ci": 92.0,
+      "avg_alt": 28278.0,
+      "avg_route_alt": 26355.0,
+      "alt_gap": 1923.0,
+      "ci_gap": 8.1
+    },
+    {
+      "emp_no": 12007,
+      "name": "李林",
+      "flight_cnt": 25,
+      "avg_ci": 92.0,
+      "avg_alt": 28346.0,
+      "avg_route_alt": 28773.0,
+      "alt_gap": -426.0,
+      "ci_gap": 4.6
+    },
+    {
+      "emp_no": 1234,
+      "name": "严万刚",
+      "flight_cnt": 25,
+      "avg_ci": 92.0,
+      "avg_alt": 30169.0,
+      "avg_route_alt": 29315.0,
+      "alt_gap": 854.0,
+      "ci_gap": -0.5
+    },
+    {
+      "emp_no": 12681,
+      "name": "严家苇",
+      "flight_cnt": 25,
+      "avg_ci": 92.0,
+      "avg_alt": 27947.0,
+      "avg_route_alt": 27753.0,
+      "alt_gap": 194.0,
+      "ci_gap": 4.7
+    },
+    {
+      "emp_no": 14895,
+      "name": "张琪",
+      "flight_cnt": 25,
+      "avg_ci": 92.0,
+      "avg_alt": 30310.0,
+      "avg_route_alt": 28957.0,
+      "alt_gap": 1353.0,
+      "ci_gap": 2.2
+    },
+    {
+      "emp_no": 11253,
+      "name": "MELO CARLOS ALBERTO",
+      "flight_cnt": 26,
+      "avg_ci": 92.3,
+      "avg_alt": 31523.0,
+      "avg_route_alt": 31441.0,
+      "alt_gap": 82.0,
+      "ci_gap": 0.5
+    },
+    {
+      "emp_no": 13227,
+      "name": "李明楠",
+      "flight_cnt": 26,
+      "avg_ci": 92.3,
+      "avg_alt": 31366.0,
+      "avg_route_alt": 29595.0,
+      "alt_gap": 1771.0,
+      "ci_gap": 0.2
+    },
+    {
+      "emp_no": 13627,
+      "name": "曹世洋",
+      "flight_cnt": 26,
+      "avg_ci": 92.3,
+      "avg_alt": 28442.0,
+      "avg_route_alt": 27533.0,
+      "alt_gap": 909.0,
+      "ci_gap": 4.6
+    },
+    {
+      "emp_no": 12057,
+      "name": "姜加龙",
+      "flight_cnt": 27,
+      "avg_ci": 92.6,
+      "avg_alt": 28743.0,
+      "avg_route_alt": 28108.0,
+      "alt_gap": 635.0,
+      "ci_gap": 3.7
+    },
+    {
+      "emp_no": 14901,
+      "name": "李刚",
+      "flight_cnt": 27,
+      "avg_ci": 92.6,
+      "avg_alt": 26656.0,
+      "avg_route_alt": 26219.0,
+      "alt_gap": 437.0,
+      "ci_gap": 6.7
+    },
+    {
+      "emp_no": 9302,
+      "name": "夏雨韵",
+      "flight_cnt": 27,
+      "avg_ci": 92.6,
+      "avg_alt": 28713.0,
+      "avg_route_alt": 30437.0,
+      "alt_gap": -1724.0,
+      "ci_gap": 1.7
+    },
+    {
+      "emp_no": 11787,
+      "name": "张坤",
+      "flight_cnt": 34,
+      "avg_ci": 92.6,
+      "avg_alt": 28834.0,
+      "avg_route_alt": 28126.0,
+      "alt_gap": 708.0,
+      "ci_gap": 5.5
+    },
+    {
+      "emp_no": 11018,
+      "name": "王强",
+      "flight_cnt": 21,
+      "avg_ci": 92.9,
+      "avg_alt": 29080.0,
+      "avg_route_alt": 28486.0,
+      "alt_gap": 594.0,
+      "ci_gap": 8.6
+    },
+    {
+      "emp_no": 11031,
+      "name": "刘小龙",
+      "flight_cnt": 28,
+      "avg_ci": 92.9,
+      "avg_alt": 31242.0,
+      "avg_route_alt": 31106.0,
+      "alt_gap": 136.0,
+      "ci_gap": -1.3
+    },
+    {
+      "emp_no": 1142,
+      "name": "王松",
+      "flight_cnt": 21,
+      "avg_ci": 92.9,
+      "avg_alt": 29211.0,
+      "avg_route_alt": 28328.0,
+      "alt_gap": 884.0,
+      "ci_gap": 2.9
+    },
+    {
+      "emp_no": 1282,
+      "name": "沙建强",
+      "flight_cnt": 35,
+      "avg_ci": 92.9,
+      "avg_alt": 29629.0,
+      "avg_route_alt": 28999.0,
+      "alt_gap": 630.0,
+      "ci_gap": 4.6
+    },
+    {
+      "emp_no": 13579,
+      "name": "GUZMAN ORLIC,JAIME YERKO ANDRE",
+      "flight_cnt": 28,
+      "avg_ci": 92.9,
+      "avg_alt": 29415.0,
+      "avg_route_alt": 29121.0,
+      "alt_gap": 294.0,
+      "ci_gap": 3.7
+    },
+    {
+      "emp_no": 3709,
+      "name": "陈浩",
+      "flight_cnt": 28,
+      "avg_ci": 92.9,
+      "avg_alt": 29755.0,
+      "avg_route_alt": 29333.0,
+      "alt_gap": 422.0,
+      "ci_gap": 0.8
+    },
+    {
+      "emp_no": 6073,
+      "name": "邓昌盛",
+      "flight_cnt": 21,
+      "avg_ci": 92.9,
+      "avg_alt": 29219.0,
+      "avg_route_alt": 29346.0,
+      "alt_gap": -127.0,
+      "ci_gap": 6.1
+    },
+    {
+      "emp_no": 7908,
+      "name": "GHESINI,NICOLA",
+      "flight_cnt": 21,
+      "avg_ci": 92.9,
+      "avg_alt": 29864.0,
+      "avg_route_alt": 30086.0,
+      "alt_gap": -222.0,
+      "ci_gap": 1.4
+    },
+    {
+      "emp_no": 9309,
+      "name": "何玉翔",
+      "flight_cnt": 21,
+      "avg_ci": 92.9,
+      "avg_alt": 29058.0,
+      "avg_route_alt": 29207.0,
+      "alt_gap": -149.0,
+      "ci_gap": 2.9
+    },
+    {
+      "emp_no": 9607,
+      "name": "陈康涛",
+      "flight_cnt": 28,
+      "avg_ci": 92.9,
+      "avg_alt": 30121.0,
+      "avg_route_alt": 29898.0,
+      "alt_gap": 223.0,
+      "ci_gap": 2.6
+    },
+    {
+      "emp_no": 1071,
+      "name": "孟银",
+      "flight_cnt": 29,
+      "avg_ci": 93.1,
+      "avg_alt": 28608.0,
+      "avg_route_alt": 27843.0,
+      "alt_gap": 766.0,
+      "ci_gap": 9.0
+    },
+    {
+      "emp_no": 15507,
+      "name": "唐子斐",
+      "flight_cnt": 29,
+      "avg_ci": 93.1,
+      "avg_alt": 28572.0,
+      "avg_route_alt": 29686.0,
+      "alt_gap": -1115.0,
+      "ci_gap": 5.8
+    },
+    {
+      "emp_no": 17217,
+      "name": "吴单保",
+      "flight_cnt": 29,
+      "avg_ci": 93.1,
+      "avg_alt": 30623.0,
+      "avg_route_alt": 29618.0,
+      "alt_gap": 1005.0,
+      "ci_gap": 1.0
+    },
+    {
+      "emp_no": 4741,
+      "name": "吴华东",
+      "flight_cnt": 29,
+      "avg_ci": 93.1,
+      "avg_alt": 29411.0,
+      "avg_route_alt": 29417.0,
+      "alt_gap": -5.0,
+      "ci_gap": 5.2
+    },
+    {
+      "emp_no": 6342,
+      "name": "马春晖",
+      "flight_cnt": 29,
+      "avg_ci": 93.1,
+      "avg_alt": 27978.0,
+      "avg_route_alt": 29786.0,
+      "alt_gap": -1808.0,
+      "ci_gap": 1.3
+    },
+    {
+      "emp_no": 12410,
+      "name": "孙凯",
+      "flight_cnt": 30,
+      "avg_ci": 93.3,
+      "avg_alt": 28793.0,
+      "avg_route_alt": 28555.0,
+      "alt_gap": 238.0,
+      "ci_gap": 3.4
+    },
+    {
+      "emp_no": 12416,
+      "name": "冯刚",
+      "flight_cnt": 30,
+      "avg_ci": 93.3,
+      "avg_alt": 29946.0,
+      "avg_route_alt": 29020.0,
+      "alt_gap": 926.0,
+      "ci_gap": 5.6
+    },
+    {
+      "emp_no": 1269,
+      "name": "钱超",
+      "flight_cnt": 30,
+      "avg_ci": 93.3,
+      "avg_alt": 31346.0,
+      "avg_route_alt": 30636.0,
+      "alt_gap": 710.0,
+      "ci_gap": 3.1
+    },
+    {
+      "emp_no": 13228,
+      "name": "陈汗",
+      "flight_cnt": 30,
+      "avg_ci": 93.3,
+      "avg_alt": 28432.0,
+      "avg_route_alt": 27935.0,
+      "alt_gap": 497.0,
+      "ci_gap": 6.3
+    },
+    {
+      "emp_no": 13559,
+      "name": "李文龙",
+      "flight_cnt": 30,
+      "avg_ci": 93.3,
+      "avg_alt": 29825.0,
+      "avg_route_alt": 29005.0,
+      "alt_gap": 820.0,
+      "ci_gap": 4.6
+    },
+    {
+      "emp_no": 4007,
+      "name": "何文浩",
+      "flight_cnt": 30,
+      "avg_ci": 93.3,
+      "avg_alt": 31721.0,
+      "avg_route_alt": 31261.0,
+      "alt_gap": 460.0,
+      "ci_gap": -0.0
+    },
+    {
+      "emp_no": 11925,
+      "name": "徐连密",
+      "flight_cnt": 23,
+      "avg_ci": 93.5,
+      "avg_alt": 29836.0,
+      "avg_route_alt": 28656.0,
+      "alt_gap": 1180.0,
+      "ci_gap": 3.5
+    },
+    {
+      "emp_no": 14903,
+      "name": "张亚钊",
+      "flight_cnt": 23,
+      "avg_ci": 93.5,
+      "avg_alt": 30979.0,
+      "avg_route_alt": 30039.0,
+      "alt_gap": 940.0,
+      "ci_gap": 2.8
+    },
+    {
+      "emp_no": 13621,
+      "name": "王毅",
+      "flight_cnt": 31,
+      "avg_ci": 93.5,
+      "avg_alt": 29168.0,
+      "avg_route_alt": 28128.0,
+      "alt_gap": 1040.0,
+      "ci_gap": 4.1
+    },
+    {
+      "emp_no": 14894,
+      "name": "药超",
+      "flight_cnt": 31,
+      "avg_ci": 93.5,
+      "avg_alt": 28535.0,
+      "avg_route_alt": 28489.0,
+      "alt_gap": 46.0,
+      "ci_gap": 3.9
+    },
+    {
+      "emp_no": 8371,
+      "name": "杨朋飞",
+      "flight_cnt": 21,
+      "avg_ci": 93.7,
+      "avg_alt": 30906.0,
+      "avg_route_alt": 30137.0,
+      "alt_gap": 768.0,
+      "ci_gap": 4.3
+    },
+    {
+      "emp_no": 1090,
+      "name": "刘俊辉",
+      "flight_cnt": 24,
+      "avg_ci": 93.8,
+      "avg_alt": 31365.0,
+      "avg_route_alt": 30142.0,
+      "alt_gap": 1223.0,
+      "ci_gap": 9.4
+    },
+    {
+      "emp_no": 12003,
+      "name": "高金国",
+      "flight_cnt": 32,
+      "avg_ci": 93.8,
+      "avg_alt": 29777.0,
+      "avg_route_alt": 29091.0,
+      "alt_gap": 686.0,
+      "ci_gap": 4.9
+    },
+    {
+      "emp_no": 1221,
+      "name": "胡乐建",
+      "flight_cnt": 32,
+      "avg_ci": 93.8,
+      "avg_alt": 27745.0,
+      "avg_route_alt": 27816.0,
+      "alt_gap": -71.0,
+      "ci_gap": 5.7
+    },
+    {
+      "emp_no": 6624,
+      "name": "赵威",
+      "flight_cnt": 32,
+      "avg_ci": 93.8,
+      "avg_alt": 29914.0,
+      "avg_route_alt": 28809.0,
+      "alt_gap": 1104.0,
+      "ci_gap": 6.7
+    },
+    {
+      "emp_no": 1049,
+      "name": "金建峰",
+      "flight_cnt": 33,
+      "avg_ci": 93.9,
+      "avg_alt": 27215.0,
+      "avg_route_alt": 28002.0,
+      "alt_gap": -787.0,
+      "ci_gap": 7.3
+    },
+    {
+      "emp_no": 8652,
+      "name": "裘彬",
+      "flight_cnt": 33,
+      "avg_ci": 93.9,
+      "avg_alt": 28019.0,
+      "avg_route_alt": 26936.0,
+      "alt_gap": 1083.0,
+      "ci_gap": 3.8
+    },
+    {
+      "emp_no": 5775,
+      "name": "孔伟捷",
+      "flight_cnt": 25,
+      "avg_ci": 94.0,
+      "avg_alt": 30513.0,
+      "avg_route_alt": 29250.0,
+      "alt_gap": 1262.0,
+      "ci_gap": 3.0
+    },
+    {
+      "emp_no": 7005,
+      "name": "郭世辉",
+      "flight_cnt": 25,
+      "avg_ci": 94.0,
+      "avg_alt": 31487.0,
+      "avg_route_alt": 30316.0,
+      "alt_gap": 1170.0,
+      "ci_gap": 3.3
+    },
+    {
+      "emp_no": 11979,
+      "name": "马骥",
+      "flight_cnt": 34,
+      "avg_ci": 94.1,
+      "avg_alt": 30290.0,
+      "avg_route_alt": 29948.0,
+      "alt_gap": 342.0,
+      "ci_gap": 4.5
+    },
+    {
+      "emp_no": 13329,
+      "name": "何宇",
+      "flight_cnt": 34,
+      "avg_ci": 94.1,
+      "avg_alt": 30122.0,
+      "avg_route_alt": 28844.0,
+      "alt_gap": 1278.0,
+      "ci_gap": 4.1
+    },
+    {
+      "emp_no": 13615,
+      "name": "王学超",
+      "flight_cnt": 36,
+      "avg_ci": 94.4,
+      "avg_alt": 29676.0,
+      "avg_route_alt": 29682.0,
+      "alt_gap": -6.0,
+      "ci_gap": 2.3
+    },
+    {
+      "emp_no": 7895,
+      "name": "王富军",
+      "flight_cnt": 27,
+      "avg_ci": 94.4,
+      "avg_alt": 30504.0,
+      "avg_route_alt": 29940.0,
+      "alt_gap": 564.0,
+      "ci_gap": 5.0
+    },
+    {
+      "emp_no": 6337,
+      "name": "黄云峰",
+      "flight_cnt": 24,
+      "avg_ci": 94.8,
+      "avg_alt": 29981.0,
+      "avg_route_alt": 29977.0,
+      "alt_gap": 4.0,
+      "ci_gap": 6.5
+    },
+    {
+      "emp_no": 9380,
+      "name": "朱灵杰",
+      "flight_cnt": 24,
+      "avg_ci": 94.8,
+      "avg_alt": 30244.0,
+      "avg_route_alt": 30225.0,
+      "alt_gap": 19.0,
+      "ci_gap": 4.6
+    },
+    {
+      "emp_no": 7069,
+      "name": "张鹏东",
+      "flight_cnt": 26,
+      "avg_ci": 94.9,
+      "avg_alt": 29778.0,
+      "avg_route_alt": 28432.0,
+      "alt_gap": 1346.0,
+      "ci_gap": 6.6
+    },
+    {
+      "emp_no": 10187,
+      "name": "韩铮",
+      "flight_cnt": 20,
+      "avg_ci": 95.0,
+      "avg_alt": 29065.0,
+      "avg_route_alt": 28367.0,
+      "alt_gap": 698.0,
+      "ci_gap": 11.2
+    },
+    {
+      "emp_no": 1086,
+      "name": "郭力",
+      "flight_cnt": 20,
+      "avg_ci": 95.0,
+      "avg_alt": 29330.0,
+      "avg_route_alt": 28417.0,
+      "alt_gap": 913.0,
+      "ci_gap": 4.9
+    },
+    {
+      "emp_no": 4902,
+      "name": "段炼",
+      "flight_cnt": 30,
+      "avg_ci": 95.0,
+      "avg_alt": 30093.0,
+      "avg_route_alt": 29503.0,
+      "alt_gap": 590.0,
+      "ci_gap": 6.7
+    },
+    {
+      "emp_no": 7411,
+      "name": "马克",
+      "flight_cnt": 20,
+      "avg_ci": 95.0,
+      "avg_alt": 29773.0,
+      "avg_route_alt": 28593.0,
+      "alt_gap": 1180.0,
+      "ci_gap": 5.7
+    },
+    {
+      "emp_no": 1224,
+      "name": "王曙光",
+      "flight_cnt": 21,
+      "avg_ci": 95.2,
+      "avg_alt": 30455.0,
+      "avg_route_alt": 29875.0,
+      "alt_gap": 580.0,
+      "ci_gap": 2.2
+    },
+    {
+      "emp_no": 12423,
+      "name": "葛京元",
+      "flight_cnt": 21,
+      "avg_ci": 95.2,
+      "avg_alt": 30754.0,
+      "avg_route_alt": 30471.0,
+      "alt_gap": 282.0,
+      "ci_gap": 3.0
+    },
+    {
+      "emp_no": 13613,
+      "name": "梁见见",
+      "flight_cnt": 21,
+      "avg_ci": 95.2,
+      "avg_alt": 28631.0,
+      "avg_route_alt": 27963.0,
+      "alt_gap": 668.0,
+      "ci_gap": 5.3
+    },
+    {
+      "emp_no": 3740,
+      "name": "顾浩",
+      "flight_cnt": 21,
+      "avg_ci": 95.2,
+      "avg_alt": 28635.0,
+      "avg_route_alt": 28718.0,
+      "alt_gap": -83.0,
+      "ci_gap": 4.0
+    },
+    {
+      "emp_no": 13590,
+      "name": "孙韬",
+      "flight_cnt": 28,
+      "avg_ci": 95.2,
+      "avg_alt": 28544.0,
+      "avg_route_alt": 27741.0,
+      "alt_gap": 803.0,
+      "ci_gap": 10.1
+    },
+    {
+      "emp_no": 11603,
+      "name": "石义鹤",
+      "flight_cnt": 32,
+      "avg_ci": 95.3,
+      "avg_alt": 29647.0,
+      "avg_route_alt": 29810.0,
+      "alt_gap": -163.0,
+      "ci_gap": 4.2
+    },
+    {
+      "emp_no": 15294,
+      "name": "费侨",
+      "flight_cnt": 29,
+      "avg_ci": 95.4,
+      "avg_alt": 29685.0,
+      "avg_route_alt": 29062.0,
+      "alt_gap": 624.0,
+      "ci_gap": 7.0
+    },
+    {
+      "emp_no": 1040,
+      "name": "陈民",
+      "flight_cnt": 22,
+      "avg_ci": 95.5,
+      "avg_alt": 32160.0,
+      "avg_route_alt": 30394.0,
+      "alt_gap": 1766.0,
+      "ci_gap": 6.8
+    },
+    {
+      "emp_no": 13225,
+      "name": "安博捷",
+      "flight_cnt": 22,
+      "avg_ci": 95.5,
+      "avg_alt": 28987.0,
+      "avg_route_alt": 28515.0,
+      "alt_gap": 473.0,
+      "ci_gap": 4.7
+    },
+    {
+      "emp_no": 4898,
+      "name": "季海峰",
+      "flight_cnt": 22,
+      "avg_ci": 95.5,
+      "avg_alt": 30452.0,
+      "avg_route_alt": 30294.0,
+      "alt_gap": 158.0,
+      "ci_gap": 3.3
+    },
+    {
+      "emp_no": 7653,
+      "name": "董青杰",
+      "flight_cnt": 22,
+      "avg_ci": 95.5,
+      "avg_alt": 32237.0,
+      "avg_route_alt": 32295.0,
+      "alt_gap": -58.0,
+      "ci_gap": -1.3
+    },
+    {
+      "emp_no": 13635,
+      "name": "肖磊",
+      "flight_cnt": 23,
+      "avg_ci": 95.7,
+      "avg_alt": 29334.0,
+      "avg_route_alt": 29212.0,
+      "alt_gap": 122.0,
+      "ci_gap": 1.8
+    },
+    {
+      "emp_no": 15287,
+      "name": "桂祥祥",
+      "flight_cnt": 23,
+      "avg_ci": 95.7,
+      "avg_alt": 29333.0,
+      "avg_route_alt": 29018.0,
+      "alt_gap": 315.0,
+      "ci_gap": 6.8
+    },
+    {
+      "emp_no": 17215,
+      "name": "张皓翔",
+      "flight_cnt": 23,
+      "avg_ci": 95.7,
+      "avg_alt": 29708.0,
+      "avg_route_alt": 30115.0,
+      "alt_gap": -407.0,
+      "ci_gap": 4.7
+    },
+    {
+      "emp_no": 4901,
+      "name": "冯潇",
+      "flight_cnt": 23,
+      "avg_ci": 95.7,
+      "avg_alt": 30631.0,
+      "avg_route_alt": 29423.0,
+      "alt_gap": 1209.0,
+      "ci_gap": 7.4
+    },
+    {
+      "emp_no": 6090,
+      "name": "郑晓冬",
+      "flight_cnt": 23,
+      "avg_ci": 95.7,
+      "avg_alt": 29266.0,
+      "avg_route_alt": 29079.0,
+      "alt_gap": 186.0,
+      "ci_gap": 4.5
+    },
+    {
+      "emp_no": 8839,
+      "name": "姜雪龙",
+      "flight_cnt": 23,
+      "avg_ci": 95.7,
+      "avg_alt": 29716.0,
+      "avg_route_alt": 29598.0,
+      "alt_gap": 118.0,
+      "ci_gap": 6.6
+    },
+    {
+      "emp_no": 12113,
+      "name": "谭磊",
+      "flight_cnt": 24,
+      "avg_ci": 95.8,
+      "avg_alt": 31938.0,
+      "avg_route_alt": 30575.0,
+      "alt_gap": 1363.0,
+      "ci_gap": 6.3
+    },
+    {
+      "emp_no": 4609,
+      "name": "陈岭",
+      "flight_cnt": 24,
+      "avg_ci": 95.8,
+      "avg_alt": 29363.0,
+      "avg_route_alt": 28525.0,
+      "alt_gap": 838.0,
+      "ci_gap": 9.9
+    },
+    {
+      "emp_no": 5737,
+      "name": "薛森",
+      "flight_cnt": 24,
+      "avg_ci": 95.8,
+      "avg_alt": 30907.0,
+      "avg_route_alt": 29800.0,
+      "alt_gap": 1107.0,
+      "ci_gap": 3.6
+    },
+    {
+      "emp_no": 6083,
+      "name": "王东",
+      "flight_cnt": 24,
+      "avg_ci": 95.8,
+      "avg_alt": 29608.0,
+      "avg_route_alt": 29105.0,
+      "alt_gap": 503.0,
+      "ci_gap": 6.1
+    },
+    {
+      "emp_no": 8054,
+      "name": "马笑",
+      "flight_cnt": 24,
+      "avg_ci": 95.8,
+      "avg_alt": 30150.0,
+      "avg_route_alt": 29382.0,
+      "alt_gap": 768.0,
+      "ci_gap": 5.9
+    },
+    {
+      "emp_no": 6074,
+      "name": "高三子",
+      "flight_cnt": 25,
+      "avg_ci": 96.0,
+      "avg_alt": 28659.0,
+      "avg_route_alt": 27328.0,
+      "alt_gap": 1330.0,
+      "ci_gap": 10.2
+    },
+    {
+      "emp_no": 1296,
+      "name": "刘玺",
+      "flight_cnt": 26,
+      "avg_ci": 96.2,
+      "avg_alt": 27153.0,
+      "avg_route_alt": 28172.0,
+      "alt_gap": -1019.0,
+      "ci_gap": 7.1
+    },
+    {
+      "emp_no": 13614,
+      "name": "董敬涛",
+      "flight_cnt": 26,
+      "avg_ci": 96.2,
+      "avg_alt": 28729.0,
+      "avg_route_alt": 27751.0,
+      "alt_gap": 978.0,
+      "ci_gap": 9.0
+    },
+    {
+      "emp_no": 4734,
+      "name": "洪伟",
+      "flight_cnt": 26,
+      "avg_ci": 96.2,
+      "avg_alt": 29311.0,
+      "avg_route_alt": 29137.0,
+      "alt_gap": 174.0,
+      "ci_gap": 5.5
+    },
+    {
+      "emp_no": 5721,
+      "name": "秦阔",
+      "flight_cnt": 26,
+      "avg_ci": 96.2,
+      "avg_alt": 28138.0,
+      "avg_route_alt": 28583.0,
+      "alt_gap": -445.0,
+      "ci_gap": 9.4
+    },
+    {
+      "emp_no": 5942,
+      "name": "陆海繁",
+      "flight_cnt": 26,
+      "avg_ci": 96.2,
+      "avg_alt": 28712.0,
+      "avg_route_alt": 27930.0,
+      "alt_gap": 782.0,
+      "ci_gap": 4.2
+    },
+    {
+      "emp_no": 12079,
+      "name": "单长波",
+      "flight_cnt": 27,
+      "avg_ci": 96.3,
+      "avg_alt": 28749.0,
+      "avg_route_alt": 28691.0,
+      "alt_gap": 58.0,
+      "ci_gap": 8.3
+    },
+    {
+      "emp_no": 17631,
+      "name": "魏子厚",
+      "flight_cnt": 28,
+      "avg_ci": 96.4,
+      "avg_alt": 30066.0,
+      "avg_route_alt": 29511.0,
+      "alt_gap": 555.0,
+      "ci_gap": 6.8
+    },
+    {
+      "emp_no": 19262,
+      "name": "王世宇",
+      "flight_cnt": 28,
+      "avg_ci": 96.4,
+      "avg_alt": 27718.0,
+      "avg_route_alt": 26835.0,
+      "alt_gap": 882.0,
+      "ci_gap": 11.3
+    },
+    {
+      "emp_no": 2768,
+      "name": "侯绍明",
+      "flight_cnt": 28,
+      "avg_ci": 96.4,
+      "avg_alt": 29721.0,
+      "avg_route_alt": 28977.0,
+      "alt_gap": 744.0,
+      "ci_gap": 3.4
+    },
+    {
+      "emp_no": 4743,
+      "name": "张强",
+      "flight_cnt": 28,
+      "avg_ci": 96.4,
+      "avg_alt": 31162.0,
+      "avg_route_alt": 29709.0,
+      "alt_gap": 1453.0,
+      "ci_gap": 6.7
+    },
+    {
+      "emp_no": 10756,
+      "name": "孙正彤",
+      "flight_cnt": 29,
+      "avg_ci": 96.6,
+      "avg_alt": 28939.0,
+      "avg_route_alt": 28898.0,
+      "alt_gap": 42.0,
+      "ci_gap": 8.4
+    },
+    {
+      "emp_no": 1288,
+      "name": "王谋",
+      "flight_cnt": 29,
+      "avg_ci": 96.6,
+      "avg_alt": 29538.0,
+      "avg_route_alt": 29580.0,
+      "alt_gap": -42.0,
+      "ci_gap": 5.0
+    },
+    {
+      "emp_no": 13508,
+      "name": "宁万盛",
+      "flight_cnt": 30,
+      "avg_ci": 96.7,
+      "avg_alt": 28304.0,
+      "avg_route_alt": 27348.0,
+      "alt_gap": 955.0,
+      "ci_gap": 9.7
+    },
+    {
+      "emp_no": 4380,
+      "name": "陈健",
+      "flight_cnt": 30,
+      "avg_ci": 96.7,
+      "avg_alt": 30102.0,
+      "avg_route_alt": 29140.0,
+      "alt_gap": 962.0,
+      "ci_gap": 5.7
+    },
+    {
+      "emp_no": 9085,
+      "name": "吴飞",
+      "flight_cnt": 30,
+      "avg_ci": 96.7,
+      "avg_alt": 30191.0,
+      "avg_route_alt": 29508.0,
+      "alt_gap": 683.0,
+      "ci_gap": 8.1
+    },
+    {
+      "emp_no": 14893,
+      "name": "黄益海",
+      "flight_cnt": 31,
+      "avg_ci": 96.8,
+      "avg_alt": 28796.0,
+      "avg_route_alt": 29122.0,
+      "alt_gap": -326.0,
+      "ci_gap": 4.9
+    },
+    {
+      "emp_no": 9705,
+      "name": "李金柱",
+      "flight_cnt": 31,
+      "avg_ci": 96.8,
+      "avg_alt": 28594.0,
+      "avg_route_alt": 28356.0,
+      "alt_gap": 238.0,
+      "ci_gap": 10.7
+    },
+    {
+      "emp_no": 12224,
+      "name": "苏锡强",
+      "flight_cnt": 32,
+      "avg_ci": 96.9,
+      "avg_alt": 29547.0,
+      "avg_route_alt": 28818.0,
+      "alt_gap": 729.0,
+      "ci_gap": 4.3
+    },
+    {
+      "emp_no": 15326,
+      "name": "周永峰",
+      "flight_cnt": 32,
+      "avg_ci": 96.9,
+      "avg_alt": 28803.0,
+      "avg_route_alt": 28531.0,
+      "alt_gap": 272.0,
+      "ci_gap": 5.4
+    },
+    {
+      "emp_no": 4735,
+      "name": "袁君杰",
+      "flight_cnt": 32,
+      "avg_ci": 96.9,
+      "avg_alt": 29762.0,
+      "avg_route_alt": 28756.0,
+      "alt_gap": 1006.0,
+      "ci_gap": 8.0
+    },
+    {
+      "emp_no": 15280,
+      "name": "崔明明",
+      "flight_cnt": 34,
+      "avg_ci": 97.1,
+      "avg_alt": 28782.0,
+      "avg_route_alt": 28142.0,
+      "alt_gap": 640.0,
+      "ci_gap": 9.1
+    },
+    {
+      "emp_no": 1039,
+      "name": "叶金城",
+      "flight_cnt": 39,
+      "avg_ci": 97.4,
+      "avg_alt": 28687.0,
+      "avg_route_alt": 27919.0,
+      "alt_gap": 768.0,
+      "ci_gap": 10.6
+    },
+    {
+      "emp_no": 2921,
+      "name": "KIM YOUNG HO",
+      "flight_cnt": 20,
+      "avg_ci": 97.5,
+      "avg_alt": 32563.0,
+      "avg_route_alt": 30860.0,
+      "alt_gap": 1703.0,
+      "ci_gap": 7.9
+    },
+    {
+      "emp_no": 13625,
+      "name": "高尚",
+      "flight_cnt": 22,
+      "avg_ci": 97.7,
+      "avg_alt": 29864.0,
+      "avg_route_alt": 29211.0,
+      "alt_gap": 653.0,
+      "ci_gap": 5.6
+    },
+    {
+      "emp_no": 5778,
+      "name": "徐涛",
+      "flight_cnt": 22,
+      "avg_ci": 97.7,
+      "avg_alt": 30221.0,
+      "avg_route_alt": 29828.0,
+      "alt_gap": 393.0,
+      "ci_gap": 6.7
+    },
+    {
+      "emp_no": 3970,
+      "name": "史凤春",
+      "flight_cnt": 25,
+      "avg_ci": 98.0,
+      "avg_alt": 32991.0,
+      "avg_route_alt": 29876.0,
+      "alt_gap": 3115.0,
+      "ci_gap": 6.6
+    },
+    {
+      "emp_no": 8852,
+      "name": "卢奕帆",
+      "flight_cnt": 29,
+      "avg_ci": 98.3,
+      "avg_alt": 30925.0,
+      "avg_route_alt": 29608.0,
+      "alt_gap": 1317.0,
+      "ci_gap": 8.2
+    },
+    {
+      "emp_no": 14425,
+      "name": "冯礁",
+      "flight_cnt": 20,
+      "avg_ci": 98.3,
+      "avg_alt": 29339.0,
+      "avg_route_alt": 28391.0,
+      "alt_gap": 948.0,
+      "ci_gap": 8.4
+    },
+    {
+      "emp_no": 10750,
+      "name": "虞诗忠",
+      "flight_cnt": 30,
+      "avg_ci": 100.0,
+      "avg_alt": 29980.0,
+      "avg_route_alt": 29026.0,
+      "alt_gap": 954.0,
+      "ci_gap": 10.6
+    },
+    {
+      "emp_no": 11607,
+      "name": "罗浩峰",
+      "flight_cnt": 24,
+      "avg_ci": 100.0,
+      "avg_alt": 30359.0,
+      "avg_route_alt": 28205.0,
+      "alt_gap": 2155.0,
+      "ci_gap": 13.2
+    },
+    {
+      "emp_no": 1218,
+      "name": "刘李春",
+      "flight_cnt": 20,
+      "avg_ci": 100.0,
+      "avg_alt": 32771.0,
+      "avg_route_alt": 31672.0,
+      "alt_gap": 1099.0,
+      "ci_gap": 7.2
+    },
+    {
+      "emp_no": 12412,
+      "name": "倪伟",
+      "flight_cnt": 24,
+      "avg_ci": 100.0,
+      "avg_alt": 28681.0,
+      "avg_route_alt": 28215.0,
+      "alt_gap": 466.0,
+      "ci_gap": 9.1
+    },
+    {
+      "emp_no": 1290,
+      "name": "李双星",
+      "flight_cnt": 22,
+      "avg_ci": 100.0,
+      "avg_alt": 30309.0,
+      "avg_route_alt": 28822.0,
+      "alt_gap": 1487.0,
+      "ci_gap": 10.8
+    },
+    {
+      "emp_no": 13234,
+      "name": "王钰程",
+      "flight_cnt": 21,
+      "avg_ci": 100.0,
+      "avg_alt": 29849.0,
+      "avg_route_alt": 29431.0,
+      "alt_gap": 418.0,
+      "ci_gap": 10.2
+    },
+    {
+      "emp_no": 14312,
+      "name": "徐春旸",
+      "flight_cnt": 26,
+      "avg_ci": 100.0,
+      "avg_alt": 28945.0,
+      "avg_route_alt": 28852.0,
+      "alt_gap": 93.0,
+      "ci_gap": 10.6
+    },
+    {
+      "emp_no": 14316,
+      "name": "陈昊熙",
+      "flight_cnt": 26,
+      "avg_ci": 100.0,
+      "avg_alt": 30548.0,
+      "avg_route_alt": 29967.0,
+      "alt_gap": 581.0,
+      "ci_gap": 9.3
+    },
+    {
+      "emp_no": 14367,
+      "name": "秦丰",
+      "flight_cnt": 24,
+      "avg_ci": 100.0,
+      "avg_alt": 29604.0,
+      "avg_route_alt": 28979.0,
+      "alt_gap": 625.0,
+      "ci_gap": 8.7
+    },
+    {
+      "emp_no": 14897,
+      "name": "严文亚",
+      "flight_cnt": 30,
+      "avg_ci": 100.0,
+      "avg_alt": 29082.0,
+      "avg_route_alt": 28590.0,
+      "alt_gap": 493.0,
+      "ci_gap": 9.5
+    },
+    {
+      "emp_no": 15515,
+      "name": "耿政",
+      "flight_cnt": 30,
+      "avg_ci": 100.0,
+      "avg_alt": 30030.0,
+      "avg_route_alt": 29261.0,
+      "alt_gap": 769.0,
+      "ci_gap": 10.1
+    },
+    {
+      "emp_no": 3815,
+      "name": "陆永森",
+      "flight_cnt": 25,
+      "avg_ci": 100.0,
+      "avg_alt": 31219.0,
+      "avg_route_alt": 30197.0,
+      "alt_gap": 1022.0,
+      "ci_gap": 8.9
+    },
+    {
+      "emp_no": 4013,
+      "name": "任昆相",
+      "flight_cnt": 26,
+      "avg_ci": 100.0,
+      "avg_alt": 29669.0,
+      "avg_route_alt": 29224.0,
+      "alt_gap": 446.0,
+      "ci_gap": 8.8
+    },
+    {
+      "emp_no": 4981,
+      "name": "陈鑫",
+      "flight_cnt": 20,
+      "avg_ci": 100.0,
+      "avg_alt": 33008.0,
+      "avg_route_alt": 31792.0,
+      "alt_gap": 1216.0,
+      "ci_gap": 5.2
+    },
+    {
+      "emp_no": 5754,
+      "name": "蒋骏鹏",
+      "flight_cnt": 27,
+      "avg_ci": 100.0,
+      "avg_alt": 29460.0,
+      "avg_route_alt": 28657.0,
+      "alt_gap": 803.0,
+      "ci_gap": 14.8
+    },
+    {
+      "emp_no": 5793,
+      "name": "ACUNA RIVAS LUIS FELIPE",
+      "flight_cnt": 20,
+      "avg_ci": 100.0,
+      "avg_alt": 30973.0,
+      "avg_route_alt": 30628.0,
+      "alt_gap": 345.0,
+      "ci_gap": 7.8
+    },
+    {
+      "emp_no": 6625,
+      "name": "叶挺",
+      "flight_cnt": 24,
+      "avg_ci": 100.0,
+      "avg_alt": 29879.0,
+      "avg_route_alt": 27878.0,
+      "alt_gap": 2001.0,
+      "ci_gap": 14.2
+    },
+    {
+      "emp_no": 8654,
+      "name": "苏伟冰",
+      "flight_cnt": 22,
+      "avg_ci": 100.0,
+      "avg_alt": 28925.0,
+      "avg_route_alt": 27896.0,
+      "alt_gap": 1029.0,
+      "ci_gap": 7.5
+    },
+    {
+      "emp_no": 9306,
+      "name": "王逸民",
+      "flight_cnt": 20,
+      "avg_ci": 100.0,
+      "avg_alt": 29953.0,
+      "avg_route_alt": 29201.0,
+      "alt_gap": 751.0,
+      "ci_gap": 6.0
+    }
+  ]
+}

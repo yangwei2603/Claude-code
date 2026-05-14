@@ -1,5 +1,5 @@
 """
-llm_client.py — MiniMax + DeepSeek + 公司本地大模型 三 LLM 统一客户端
+llm_client.py — MiniMax + DeepSeek + 公司本地大模型 + 向量嵌入 四 LLM 统一客户端
 
 使用方式：
     from llm_client import llm
@@ -13,6 +13,9 @@ llm_client.py — MiniMax + DeepSeek + 公司本地大模型 三 LLM 统一客�
 
     # 使用本地大模型（涉密/内部数据）
     resp = llm.chat("分析公司内部财务数据", model="local")
+
+    # 向量嵌入（Obsidian 等知识库检索）
+    vectors = llm.embedding.embed(["什么是 CASK", "春秋的 RPK 表现"])
 
     # 多轮对话
     messages = [
@@ -126,9 +129,12 @@ if _settings_path.exists():
     _cfg["deepseek_max_tokens"] = int(raw.get("llm_deepseek_max_tokens", 4096))
     _cfg["deepseek_temperature"] = float(raw.get("llm_deepseek_temperature", 0.7))
     _cfg["local_model"] = raw.get("llm_local_model", "Qwen3-VL-235B-A22B-Instruct-AWQ")
-    _cfg["local_base"] = raw.get("llm_local_base_url", "https://oneapi-test.springgroup.cn/v1")
-    _cfg["local_max_tokens"] = int(raw.get("llm_local_max_tokens", 4096))
+    _cfg["local_base"] = raw.get("llm_local_base_url", "https://llmui.springgroup.cn/v1")
+    _cfg["local_max_tokens"] = int(raw.get("llm_local_max_tokens", 8192))
     _cfg["local_temperature"] = float(raw.get("llm_local_temperature", 0.7))
+    _cfg["embedding_model"] = raw.get("llm_embedding_model", "Qwen3-Embedding-8B")
+    _cfg["embedding_base"] = raw.get("llm_embedding_base_url", "https://llmui.springgroup.cn/v1")
+    _cfg["embedding_dimensions"] = int(raw.get("llm_embedding_dimensions", 1536))
 
 MINIMAX_API_KEY = os.environ.get("MINIMAX_API_KEY", "")
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
@@ -273,8 +279,8 @@ class LocalClient:
     """
     name = "local"
     model: str = _cfg.get("local_model", "Qwen3-VL-235B-A22B-Instruct-AWQ")
-    base_url: str = _cfg.get("local_base", "https://oneapi-test.springgroup.cn/v1")
-    max_tokens: int = _cfg.get("local_max_tokens", 4096)
+    base_url: str = _cfg.get("local_base", "https://llmui.springgroup.cn/v1")
+    max_tokens: int = _cfg.get("local_max_tokens", 8192)
     temperature: float = _cfg.get("local_temperature", 0.7)
 
     def __init__(self, api_key: str = ""):
@@ -306,13 +312,46 @@ class LocalClient:
         return data["choices"][0]["message"]["content"]
 
 
+class EmbeddingClient:
+    """
+    向量嵌入模型客户端，用于 Obsidian 等知识库检索场景。
+    """
+    name = "embedding"
+    model: str = _cfg.get("embedding_model", "Qwen3-Embedding-8B")
+    base_url: str = _cfg.get("embedding_base", "https://llmui.springgroup.cn/v1")
+    dimensions: int = _cfg.get("embedding_dimensions", 1536)
+
+    def __init__(self, api_key: str = ""):
+        self.api_key = api_key or LOCAL_API_KEY or ""
+        if not self.api_key:
+            import warnings
+            warnings.warn("LOCAL_API_KEY 环境变量未设置，将以无密钥模式调用（部分 API 可能不支持）")
+
+    def embed(self, texts: Union[str, List[str]]) -> List[List[float]]:
+        normalized = [texts] if isinstance(texts, str) else texts
+        url = f"{self.base_url.rstrip('/')}/embeddings"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "model": self.model,
+            "dimensions": self.dimensions,
+            "input": normalized,
+        }
+        resp = requests.post(url, headers=headers, json=payload, timeout=120)
+        resp.raise_for_status()
+        data = resp.json()
+        return [item["embedding"] for item in data["data"]]
+
+
 # ---------------------------------------------------------------------------
 # 统一入口
 # ---------------------------------------------------------------------------
 
 class LLMClient:
     """
-    统一 LLM 客户端，支持 MiniMax、DeepSeek 和公司本地大模型，
+    统一 LLM 客户端，支持 MiniMax、DeepSeek、本地大模型和向量嵌入，
     按 provider 或 auto 策略调用。
     """
 
@@ -321,12 +360,24 @@ class LLMClient:
         self._minimax = None
         self._deepseek = None
         self._local = None
+        self._embedding = None
 
-    def _get_client(self, model: str = "") -> Union[MiniMaxClient, DeepSeekClient, LocalClient]:
+    @property
+    def embedding(self) -> EmbeddingClient:
+        """向量嵌入客户端（Obsidian 等知识库检索）"""
+        if self._embedding is None:
+            self._embedding = EmbeddingClient()
+        return self._embedding
+
+    def _get_client(self, model: str = "") -> Union[MiniMaxClient, DeepSeekClient, LocalClient, EmbeddingClient]:
         if model == "local":
             if self._local is None:
                 self._local = LocalClient()
             return self._local
+        if model == "embedding":
+            if self._embedding is None:
+                self._embedding = EmbeddingClient()
+            return self._embedding
         if model == "deepseek":
             if self._deepseek is None:
                 self._deepseek = DeepSeekClient()

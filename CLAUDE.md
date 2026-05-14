@@ -27,8 +27,8 @@ Claude Code/
 │       └── workflows/
 ├── projects/                          # Projects layer: 各项目独立目录
 │   └── <project-name>/              # 每个项目含独立 CLAUDE.md，项目会持续增加
-├── AI-Factory/                       # Read-only reference source (sync from root skills/agents/hooks)
-│   └── agent-skills/                # Origin — do not edit, synced to root
+├── AI-Factory/                       # Read-only origin — sync from here to skills/agents/hooks on demand
+│   └── agent-skills/                # Reference source, do not edit directly
 ├── 参考文件/                           # Architecture reference documents (Chinese)
 ├── data-analysis-local/              # 本地数据分析工作区（详见该目录 CLAUDE.md）
 │   └── <topic>-<YYYYMMDD>/          # Per-task analysis folder (SQL, reports, charts)
@@ -380,30 +380,7 @@ When creating a new project, use this template for `projects/<name>/CLAUDE.md`:
 
 ## Capability Domains
 
-### Frontend Development
-- React, Vue, Svelte component design
-- Responsive design and CSS architecture
-- Performance optimization, state management patterns
-
-### Backend Development
-- RESTful and GraphQL API design
-- Database design and optimization
-- Microservices architecture, authentication and authorization
-
-### DevOps & Cloud
-- CI/CD pipeline design
-- Docker and Kubernetes
-- Cloud deployment (AWS, GCP, Azure), Infrastructure as code
-
-### AI/ML Engineering
-- Claude API integration
-- Prompt engineering and optimization
-- Model fine-tuning, data pipeline processing
-
-### System Architecture
-- Distributed systems design
-- Security best practices
-- Scalability patterns, observability and monitoring
+> 详细技术能力见各项目 CLAUDE.md，本工作区不预判具体技术栈。
 
 ## Quick Reference
 
@@ -419,32 +396,4 @@ When creating a new project, use this template for `projects/<name>/CLAUDE.md`:
 
 ## Document Optimization Guide
 
-When optimizing technical documents, follow these principles:
-
-### 1. Structure First
-- Use clear hierarchy: H1 → H2 → H3
-- Table of contents for documents > 1000 words
-- Consistent formatting throughout
-
-### 2. Content Quality
-- One idea per paragraph
-- Bullet points for lists (max 7 items)
-- Tables for comparisons and specifications
-- Code blocks for technical examples
-
-### 3. Cross-References
-- Link to related skills and documents
-- Use relative paths for internal links
-- Version references for external dependencies
-
-### 4. Maintenance
-- Update date in header
-- Changelog for significant revisions
-- Deprecated content marked with ~~strikethrough~~
-
-### 5. Review Checklist
-- [ ] Technical accuracy verified
-- [ ] All links working
-- [ ] Code examples tested
-- [ ] Consistent terminology
-- [ ] Accessible language (avoid unnecessary jargon)
+文档规范参考：`skills/engineering/documentation-and-adrs/SKILL.md`。
