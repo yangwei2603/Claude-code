@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风险事件处理任务分析报告 — 2026年5月</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", "Arial Unicode MS", sans-serif; background: #f5f6fa; color: #2c3e50; font-size: 14px; line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+
+  /* Header */
+  .report-header { background: linear-gradient(135deg, #1a2a4a 0%, #2c5282 60%, #3182ce 100%); color: #fff; border-radius: 16px; padding: 48px 48px 40px; margin-bottom: 28px; position: relative; overflow: hidden; }
+  .report-header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+  .report-header::after { content: ''; position: absolute; bottom: -40px; right: 80px; width: 140px; height: 140px; background: rgba(255,255,255,0.04); border-radius: 50%; }
+  .report-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
+  .report-subtitle { font-size: 16px; opacity: 0.85; margin-bottom: 24px; }
+  .header-meta { display: flex; gap: 32px; font-size: 13px; opacity: 0.75; flex-wrap: wrap; }
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* KPI Cards */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .kpi-card { background: #fff; border-radius: 12px; padding: 22px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #edf2f7; }
+  .kpi-card .label { font-size: 12px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .kpi-card .value { font-size: 32px; font-weight: 700; color: #1a202c; line-height: 1; }
+  .kpi-card .sub { font-size: 12px; color: #a0aec0; margin-top: 6px; }
+  .kpi-card .value.red { color: #e53e3e; }
+  .kpi-card .value.orange { color: #dd6b20; }
+  .kpi-card .value.green { color: #38a169; }
+  .kpi-card .value.blue { color: #3182ce; }
+
+  /* Section */
+  .section { background: #fff; border-radius: 12px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #edf2f7; }
+  .section-title { font-size: 16px; font-weight: 700; color: #1a2a4a; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #edf2f7; display: flex; align-items: center; gap: 10px; }
+  .section-title .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: #2c5282; color: #fff; border-radius: 6px; font-size: 13px; font-weight: 700; }
+
+  /* Status Chart */
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  .chart-wrap { text-align: center; }
+  .chart-wrap img { max-width: 100%; border-radius: 8px; }
+  .chart-caption { font-size: 12px; color: #a0aec0; margin-top: 8px; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #f7fafc; color: #4a5568; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 2px solid #e2e8f0; }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid #f0f4f8; }
+  tbody tr:hover { background: #f7fafc; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .badge-red { background: #fed7d7; color: #c53030; }
+  .badge-orange { background: #feebc8; color: #c05621; }
+  .badge-yellow { background: #fefcbf; color: #975a16; }
+  .badge-green { background: #c6f6d5; color: #276749; }
+  .badge-blue { background: #bee3f8; color: #2b6cb0; }
+  .badge-gray { background: #edf2f7; color: #718096; }
+
+  /* Risk indicator */
+  .risk-high { color: #e53e3e; font-weight: 600; }
+  .risk-med { color: #dd6b20; font-weight: 600; }
+  .risk-low { color: #38a169; }
+
+  /* Alert Box */
+  .alert-box { background: #fff5f5; border: 1px solid #feb2b2; border-radius: 10px; padding: 18px 22px; margin-bottom: 20px; }
+  .alert-title { color: #c53030; font-weight: 700; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .alert-box p { color: #742a2a; font-size: 13px; }
+
+  /* Cause bars */
+  .cause-bar-wrap { margin-bottom: 14px; }
+  .cause-bar-label { display: flex; justify-content: space-between; font-size: 13px; color: #4a5568; margin-bottom: 5px; }
+  .cause-bar { height: 10px; background: #edf2f7; border-radius: 5px; overflow: hidden; }
+  .cause-bar-fill { height: 100%; border-radius: 5px; }
+
+  /* Two col layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* Footer */
+  .report-footer { text-align: center; color: #a0aec0; font-size: 11px; padding: 20px 0 8px; border-top: 1px solid #edf2f7; margin-top: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="report-header">
+    <div class="report-title">风险事件处理任务分析报告</div>
+    <div class="report-subtitle">春秋集团风险监控月度汇报 · 2026年5月</div>
+    <div class="header-meta">
+      <span>📅 报告日期：2026年5月11日</span>
+      <span>📂 数据来源：自定义模板.xlsx</span>
+      <span>👤 分析部门：数字化建设办公室</span>
+      <span>📊 数据期间：全量历史数据</span>
+    </div>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="label">风险事件总数</div>
+      <div class="value blue">1,849</div>
+      <div class="sub">全部历史记录</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">活跃事件</div>
+      <div class="value orange">216</div>
+      <div class="sub">处理中 + 审批中</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">超期未结事件</div>
+      <div class="value red">161</div>
+      <div class="sub">占活跃事件 74.5%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">已关闭率</div>
+      <div class="value green">84.6%</div>
+      <div class="sub">总体完结情况良好</div>
+    </div>
+  </div>
+
+  <!-- Alert -->
+  <div class="alert-box">
+    <div class="alert-title">⚠ 关键风险提示</div>
+    <p>当前有 <strong>161 条活跃事件已超期</strong>，占全部活跃事件的 <strong>74.5%</strong>。其中财务部超期48条、上海行付通17条、春秋航空14条，需要重点督办处理。</p>
+  </div>
+
+  <!-- Section 1: 任务状态分布 -->
+  <div class="section">
+    <div class="section-title"><span class="num">1</span>任务状态分布</div>
+    <div class="chart-row">
+      <div class="chart-wrap">
+        <img src="任务状态分布.png" alt="任务状态分布饼图">
+        <div class="chart-caption">图1：风险事件任务状态占比（全部1849条）</div>
+      </div>
+      <div style="padding-top: 10px;">
+        <table>
+          <thead><tr><th>任务状态</th><th class="num">数量</th><th class="num">占比</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">已关闭</span></td><td class="num">1,564</td><td class="num">84.59%</td><td>正常结案</td></tr>
+            <tr><td><span class="badge badge-orange">处理中</span></td><td class="num">138</td><td class="num">7.46%</td><td>处理中需跟进</td></tr>
+            <tr><td><span class="badge badge-yellow">审批中</span></td><td class="num">78</td><td class="num">4.22%</td><td>等待审批</td></tr>
+            <tr><td><span class="badge badge-blue">已完成</span></td><td class="num">65</td><td class="num">3.52%</td><td>正常完成流程</td></tr>
+            <tr><td><span class="badge badge-gray">已拒绝</span></td><td class="num">3</td><td class="num">0.16%</td><td>被拒绝</td></tr>
+            <tr><td><span class="badge badge-gray">待提交</span></td><td class="num">1</td><td class="num">0.05%</td><td>待提交</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p style="margin-top:16px; font-size:13px; color:#718096;">📌 <strong>洞察：</strong>84.59%的事件通过「已关闭」流程结案，仅3.52%走完标准「已完成」流程，说明风险事件处理以快速关闭为主。活跃事件（处理中+审批中）合计216条，需要持续跟踪。</p>
+  </div>
+
+  <!-- Section 2: 风险态势分析 -->
+  <div class="section">
+    <div class="section-title"><span class="num">2</span>风险态势分析 — 活跃事件部门分布</div>
+    <div class="chart-row">
+      <div class="chart-wrap">
+        <img src="风险态势与原因分析.png" alt="风险态势与原因分析">
+        <div class="chart-caption">图2：活跃事件部门分布与风险原因分类</div>
+      </div>
+      <div style="padding-top:10px;">
+        <table>
+          <thead><tr><th>责任部门</th><th class="num">处理中</th><th class="num">审批中</th><th class="num">合计</th><th class="num">超期</th><th>风险等级</th></tr></thead>
+          <tbody>
+            <tr style="background:#fff5f5;"><td class="risk-high">财务部</td><td class="num">51</td><td class="num">28</td><td class="num">79</td><td class="num risk-high">48</td><td><span class="badge badge-red">高</span></td></tr>
+            <tr style="background:#fffaf0;"><td class="risk-med">上海行付通支付有限公司</td><td class="num">2</td><td class="num">19</td><td class="num">21</td><td class="num risk-med">17</td><td><span class="badge badge-orange">高</span></td></tr>
+            <tr style="background:#fffaf0;"><td>春秋航空</td><td class="num">12</td><td class="num">4</td><td class="num">16</td><td class="num risk-med">14</td><td><span class="badge badge-orange">高</span></td></tr>
+            <tr><td>市场管理部</td><td class="num">14</td><td class="num">1</td><td class="num">15</td><td class="num">12</td><td><span class="badge badge-yellow">中</span></td></tr>
+            <tr><td>航材工装处</td><td class="num">10</td><td class="num">3</td><td class="num">13</td><td class="num">13</td><td><span class="badge badge-yellow">中</span></td></tr>
+            <tr><td>人力资源部</td><td class="num">2</td><td class="num">9</td><td class="num">11</td><td class="num">11</td><td><span class="badge badge-yellow">中</span></td></tr>
+            <tr><td>资源中心</td><td class="num">8</td><td class="num">3</td><td class="num">11</td><td class="num">11</td><td><span class="badge badge-yellow">中</span></td></tr>
+            <tr><td>投融资管理部</td><td class="num">9</td><td class="num">0</td><td class="num">9</td><td class="num">8</td><td><span class="badge badge-yellow">中</span></td></tr>
+            <tr><td>维修航线中心</td><td class="num">7</td><td class="num">0</td><td class="num">7</td><td class="num">0</td><td><span class="badge badge-green">低</span></td></tr>
+            <tr><td>航站管理处</td><td class="num">4</td><td class="num">2</td><td class="num">6</td><td class="num">5</td><td><span class="badge badge-yellow">中</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p style="margin-top:16px; font-size:13px; color:#718096;">📌 <strong>洞察：</strong>财务部以79条活跃事件（48条超期）成为风险积压最严重的部门，合计超期161条事件分布在20个部门。需要重点关注财务部、上海行付通、春秋航空三个高风险部门。</p>
+  </div>
+
+  <!-- Section 3: 风险原因分类 -->
+  <div class="section">
+    <div class="section-title"><span class="num">3</span>风险原因分类 — 活跃事件处理措施关键词分析</div>
+    <p style="font-size:13px; color:#718096; margin-bottom:16px;">基于活跃事件的「处理措施」字段提取关键词，统计各类风险原因的出现频次：</p>
+
+    <div class="two-col">
+      <div>
+        <div class="cause-bar-wrap">
+          <div class="cause-bar-label"><span>IT系统问题</span><span>51条 / 23.6%</span></div>
+          <div class="cause-bar"><div class="cause-bar-fill" style="width:100%; background:linear-gradient(90deg,#e53e3e,#fc8181);"></div></div>
+        </div>
+        <div class="cause-bar-wrap">
+          <div class="cause-bar-label"><span>流程/单据问题</span><span>32条 / 14.8%</span></div>
+          <div class="cause-bar"><div class="cause-bar-fill" style="width:62.7%; background:linear-gradient(90deg,#dd6b20,#f6ad55);"></div></div>
+        </div>
+        <div class="cause-bar-wrap">
+          <div class="cause-bar-label"><span>付款/结算问题</span><span>22条 / 10.2%</span></div>
+          <div class="cause-bar"><div class="cause-bar-fill" style="width:43.1%; background:linear-gradient(90deg,#d69e2e,#ecc94b);"></div></div>
+        </div>
+        <div class="cause-bar-wrap">
+          <div class="cause-bar-label"><span>派单/分配问题</span><span>16条 / 7.4%</span></div>
+          <div class="cause-bar"><div class="cause-bar-fill" style="width:31.4%; background:linear-gradient(90deg,#38a169,#68d391);"></div></div>
+        </div>
+        <div class="cause-bar-wrap">
+          <div class="cause-bar-label"><span>供应商/客户问题</span><span>9条 / 4.2%</span></div>
+          <div class="cause-bar"><div class="cause-bar-fill" style="width:17.6%; background:linear-gradient(90deg,#3182ce,#63b3ed);"></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="alert-box" style="background:#f0fff4; border-color:#9ae6b4;">
+          <div class="alert-title" style="color:#276749;">💡 原因分析要点</div>
+          <p style="color:#22543d;"><strong>IT系统问题</strong>是最突出的风险成因（51条），主要包括：信管架构处初始派单规则缺失、系统接口推送异常、架构处相关流程未配置等。这类问题需要<strong>信息部门</strong>从流程源头进行系统修复。</p>
+          <br>
+          <p style="color:#22543d;"><strong>流程/单据问题</strong>次之（32条），涉及付款单据缺失、审批流程不规范等。建议完善标准操作流程（SOP）并加强单据审核。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: 超期事件专项分析 -->
+  <div class="section">
+    <div class="section-title"><span class="num">4</span>超期事件专项分析</div>
+    <div class="kpi-row" style="grid-template-columns: repeat(3,1fr); margin-bottom: 20px;">
+      <div class="kpi-card" style="background:#fff5f5;">
+        <div class="label">超期事件总数</div>
+        <div class="value red">161</div>
+        <div class="sub">占活跃事件 74.5%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">涉及部门数</div>
+        <div class="value" style="color:#2c5282;">20</div>
+        <div class="sub">共20个部门有超期事件</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">平均超期部门</div>
+        <div class="value" style="color:#718096;">8条/部门</div>
+        <div class="sub">Top3部门占总量56%</div>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>排名</th><th>超期部门</th><th class="num">超期数量</th><th class="num">占超期总数</th></tr></thead>
+      <tbody>
+        <tr style="background:#fff5f5;"><td>1</td><td class="risk-high">财务部</td><td class="num risk-high">48</td><td class="num">29.8%</td></tr>
+        <tr style="background:#fffaf0;"><td>2</td><td class="risk-med">上海行付通支付有限公司</td><td class="num risk-med">17</td><td class="num">10.6%</td></tr>
+        <tr style="background:#fffaf0;"><td>3</td><td class="risk-med">春秋航空</td><td class="num risk-med">14</td><td class="num">8.7%</td></tr>
+        <tr><td>4</td><td>航材工装处</td><td class="num">13</td><td class="num">8.1%</td></tr>
+        <tr><td>5</td><td>市场管理部</td><td class="num">12</td><td class="num">7.5%</td></tr>
+        <tr><td>6</td><td>人力资源部</td><td class="num">11</td><td class="num">6.8%</td></tr>
+        <tr><td>7</td><td>资源中心</td><td class="num">11</td><td class="num">6.8%</td></tr>
+        <tr><td>8</td><td>投融资管理部</td><td class="num">8</td><td class="num">5.0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 5: 总结与建议 -->
+  <div class="section">
+    <div class="section-title"><span class="num">5</span>总结与处理建议</div>
+    <div class="two-col">
+      <div>
+        <h3 style="font-size:14px; color:#1a2a4a; margin-bottom:12px;">📋 核心发现</h3>
+        <ul style="font-size:13px; color:#4a5568; padding-left:18px; line-height:2;">
+          <li>全部1849条风险事件中，已关闭1564条（84.6%），整体处理效率良好</li>
+          <li>当前活跃事件216条，其中<strong style="color:#e53e3e;">161条已超期</strong>，超期率74.5%，风险较高</li>
+          <li>财务部积压最严重（79条活跃/48条超期），上海行付通次之</li>
+          <li><strong>IT系统问题</strong>是首要风险成因（51条），主要是派单规则缺失和系统接口异常</li>
+          <li>活跃事件中仍有125条未分类，说明部分事件记录信息不完整</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:14px; color:#1a2a4a; margin-bottom:12px;">✅ 处理建议</h3>
+        <ul style="font-size:13px; color:#4a5568; padding-left:18px; line-height:2;">
+          <li><strong>优先处理财务部超期事件</strong>（48条），建议数字化建设办公室发起专项督办</li>
+          <li><strong>修复IT派单规则</strong>，由信息技术部/信管架构处确认各业务派单逻辑并补全</li>
+          <li><strong>建立超时预警机制</strong>，对计划完成日期前2天仍未关闭的事件自动提醒</li>
+          <li><strong>规范完成情况说明填写</strong>，减少「未分类」记录，便于后续分析追溯</li>
+          <li>建议每月输出风险事件分析报告，形成常态化监控</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <p>本报告由数字化建设办公室 AI 分析助手自动生成 · 报告日期：2026年5月11日</p>
+    <p>数据来源：自定义模板.xlsx · 分析工具：Python + Pandas + Matplotlib</p>
+  </div>
+
+</div>
+</body>
+</html>
