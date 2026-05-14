@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>春秋航空财务内控系统二期 - 原型方案</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent-light: #ff6b6b;
+            --gold: #d4af37;
+            --text: #eaeaea;
+            --text-muted: #8b8b9a;
+            --bg: #0f0f1a;
+            --card-bg: rgba(22, 33, 62, 0.8);
+            --border: rgba(233, 69, 96, 0.3);
+            --shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--secondary) 50%, var(--primary) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(233, 69, 96, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--accent-light);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease-out 0.6s backwards;
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(15, 15, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 69, 96, 0.1);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 8rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-number {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.875rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Module Cards */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .module-tag {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 100px;
+            font-size: 0.7rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .module-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .module-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .module-features {
+            list-style: none;
+        }
+
+        .module-features li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .module-features li:last-child {
+            border-bottom: none;
+        }
+
+        .module-features li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Prototype Gallery */
+        .prototype-section {
+            background: var(--secondary);
+            padding: 6rem 2rem;
+        }
+
+        .prototype-gallery {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .prototype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .prototype-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--primary);
+            aspect-ratio: 16/10;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .prototype-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .prototype-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .prototype-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 1.5rem 1.5rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .prototype-item:hover .prototype-overlay {
+            opacity: 1;
+        }
+
+        .prototype-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Detail Sections */
+        .detail-section {
+            padding: 6rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .detail-grid.reverse {
+            direction: rtl;
+        }
+
+        .detail-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .detail-content h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .detail-content p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .detail-list {
+            list-style: none;
+        }
+
+        .detail-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--text);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .detail-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .detail-image {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .detail-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 6rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e94560' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--primary);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            line-height: 1;
+        }
+
+        .modal-caption {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .detail-grid.reverse {
+                direction: ltr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-meta {
+                gap: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">春秋航空 · 财务内控系统</div>
+            <ul class="nav-links">
+                <li><a href="#overview">总览</a></li>
+                <li><a href="#modules">九大模块</a></li>
+                <li><a href="#prototypes">原型展示</a></li>
+                <li><a href="#timeline">实施计划</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">项目二期 · 2026</div>
+        <h1>财务内控系统二期<br>原型方案</h1>
+        <p class="hero-subtitle">
+            基于一期基础，新增AI智能填报、知会功能、合规闭环管理等核心功能，
+            进一步完善内控管理数字化体系
+        </p>
+        <div class="hero-meta">
+            <div class="meta-item">
+                <div class="meta-label">项目周期</div>
+                <div class="meta-value">2026年Q2-Q3</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">核心目标</div>
+                <div class="meta-value">风险规则体系 + 智能风控中枢</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">需求数量</div>
+                <div class="meta-value">9大模块 · 40+需求点</div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>向下滚动</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item fade-in">
+                <div class="stat-number">20+</div>
+                <div class="stat-label">业务系统预警规则</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">60+</div>
+                <div class="stat-label">财务系统预警规则</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">9</div>
+                <div class="stat-label">功能模块</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">3</div>
+                <div class="stat-label">智能体核心能力</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Overview -->
+    <section class="section" id="modules">
+        <div class="section-header">
+            <span class="section-number">MODULE OVERVIEW</span>
+            <h2 class="section-title">九大功能模块</h2>
+            <p class="section-desc">覆盖风险事件全生命周期管理，实现从上报到闭环的智能化升级</p>
+        </div>
+
+        <div class="modules-grid">
+            <!-- Module 1 -->
+            <div class="module-card fade-in" onclick="openModal('image4.png', '风险事件上报表单 - AI智能填报')">
+                <span class="module-tag">核心模块</span>
+                <div class="module-icon">📝</div>
+                <h3 class="module-title">风险事件上报增强</h3>
+                <p class="module-desc">AI智能填报、匿名上报、知会功能、标准接口对接、智能机器人</p>
+                <ul class="module-features">
+                    <li>5W1H智能推荐循环子流程</li>
+                    <li>匿名/不匿名切换</li>
+                    <li>CDP标准接口对接</li>
+                    <li>处理措施智能推荐</li>
+                </ul>
+            </div>
+
+            <!-- Module 2 -->
+            <div class="module-card fade-in" onclick="openModal('image5.png', '风险任务处理 - 处理计划反馈')">
+                <span class="module-tag">核心模块</span>
+                <div class="module-icon">⚡</div>
+                <h3 class="module-title">风险任务处理优化</h3>
+                <p class="module-desc">处理计划反馈节点、财务数据明细表、超期通知、加签驳回功能</p>
+                <ul class="module-features">
+                    <li>新增处理进度字段</li>
+                    <li>拟定措施+计划完成日期</li>
+                    <li>财务数据明细表链接</li>
+                    <li>多人抢签超期通知</li>
+                </ul>
+            </div>
+
+            <!-- Module 3 -->
+            <div class="module-card fade-in" onclick="openModal('image6.png', '风险规则库 - 全生命周期管理')">
+                <span class="module-tag">战略模块</span>
+                <div class="module-icon">📋</div>
+                <h3 class="module-title">风险规则库</h3>
+                <p class="module-desc">CDP规则/共享运营规则/内控规则统一管理，参数可视化配置</p>
+                <ul class="module-features">
+                    <li>规则上线/下线管理</li>
+                    <li>多版本控制</li>
+                    <li>参数配置界面化</li>
+                    <li>计划完成日期修改历史</li>
+                </ul>
+            </div>
+
+            <!-- Module 4 -->
+            <div class="module-card fade-in" onclick="openModal('image7.png', '内控智能体 - 智能风控中枢')">
+                <span class="module-tag">新增模块</span>
+                <div class="module-icon">🤖</div>
+                <h3 class="module-title">内控智能体</h3>
+                <p class="module-desc">绩效分析、风险态势分析、内控指标智能展示、报告自动生成</p>
+                <ul class="module-features">
+                    <li>部门/科室/人员考核分析</li>
+                    <li>风险态势多维分析</li>
+                    <li>内审报告自动分拆</li>
+                    <li>批量导入辅助填报</li>
+                </ul>
+            </div>
+
+            <!-- Module 5 -->
+            <div class="module-card fade-in">
+                <span class="module-tag">体验优化</span>
+                <div class="module-icon">🔔</div>
+                <h3 class="module-title">通知提醒优化</h3>
+                <p class="module-desc">统一待办入口、待办转办加签、逾期消息通知</p>
+                <ul class="module-features">
+                    <li>停用原生待办提醒</li>
+                    <li>配置化消息推送</li>
+                    <li>统一链接跳转</li>
+                    <li>任务逾期前7天提醒</li>
+                </ul>
+            </div>
+
+            <!-- Module 6 -->
+            <div class="module-card fade-in">
+                <span class="module-tag">指标管理</span>
+                <div class="module-icon">📊</div>
+                <h3 class="module-title">内控指标增强</h3>
+                <p class="module-desc">子表明细填写、二级指标金额自动累加、数据导出功能</p>
+                <ul class="module-features">
+                    <li>子表明细信息填写</li>
+                    <li>金额自动汇总</li>
+                    <li>支持导出</li>
+                    <li>序号/公司/事由/金额</li>
+                </ul>
+            </div>
+
+            <!-- Module 7 -->
+            <div class="module-card fade-in">
+                <span class="module-tag">待办优化</span>
+                <div class="module-icon">📌</div>
+                <h3 class="module-title">待办管理优化</h3>
+                <p class="module-desc">已离职人员待办自动转交、流程授权通知</p>
+                <ul class="module-features">
+                    <li>离职自动转交主管</li>
+                    <li>流程转办授权</li>
+                    <li>被转办人消息提醒</li>
+                    <li>指定时间范围授权</li>
+                </ul>
+            </div>
+
+            <!-- Module 8 -->
+            <div class="module-card fade-in">
+                <span class="module-tag">展示优化</span>
+                <div class="module-icon">🏠</div>
+                <h3 class="module-title">首页展示优化</h3>
+                <p class="module-desc">智能体内控月报嵌入、统计型图表展示</p>
+                <ul class="module-features">
+                    <li>内控智能体日推送</li>
+                    <li>首页月报展示</li>
+                    <li>智能体结果嵌入</li>
+                    <li>数据可视化图表</li>
+                </ul>
+            </div>
+
+            <!-- Module 9 -->
+            <div class="module-card fade-in">
+                <span class="module-tag">基础维护</span>
+                <div class="module-icon">⚙️</div>
+                <h3 class="module-title">数据字典维护</h3>
+                <p class="module-desc">事件类别、业务循环、子流程、风险隐患类型等基础数据管理</p>
+                <ul class="module-features">
+                    <li>事件类别管理</li>
+                    <li>业务循环大类</li>
+                    <li>子流程小类</li>
+                    <li>隐患类型一二三级</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prototype Gallery -->
+    <section class="prototype-section" id="prototypes">
+        <div class="prototype-gallery">
+            <div class="section-header">
+                <span class="section-number">PROTOTYPE GALLERY</span>
+                <h2 class="section-title">原型图展示</h2>
+                <p class="section-desc">点击查看大图，了解各模块详细交互设计</p>
+            </div>
+
+            <div class="prototype-grid">
+                <div class="prototype-item fade-in" onclick="openModal('image4.png', '风险事件上报 - 表单字段设计')">
+                    <img src="prototype/image4.png" alt="风险事件上报表单">
+                    <div class="prototype-overlay">
+                        <div class="prototype-label">风险事件上报表单</div>
+                    </div>
+                </div>
+                <div class="prototype-item fade-in" onclick="openModal('image5.png', '风险任务处理 - 处理计划反馈')">
+                    <img src="prototype/image5.png" alt="风险任务处理">
+                    <div class="prototype-overlay">
+                        <div class="prototype-label">风险任务处理</div>
+                    </div>
+                </div>
+                <div class="prototype-item fade-in" onclick="openModal('image6.png', '风险规则库 - 规则管理')">
+                    <img src="prototype/image6.png" alt="风险规则库">
+                    <div class="prototype-overlay">
+                        <div class="prototype-label">风险规则库</div>
+                    </div>
+                </div>
+                <div class="prototype-item fade-in" onclick="openModal('image7.png', '内控智能体 - 智能中枢')">
+                    <img src="prototype/image7.png" alt="内控智能体">
+                    <div class="prototype-overlay">
+                        <div class="prototype-label">内控智能体</div>
+                    </div>
+                </div>
+                <div class="prototype-item fade-in" onclick="openModal('image8.png', '审批历史 - 记录展示')">
+                    <img src="prototype/image8.png" alt="审批历史记录">
+                    <div class="prototype-overlay">
+                        <div class="prototype-label">审批历史记录</div>
+                    </div>
+                </div>
+                <div class="prototype-item fade-in" onclick="openModal('image9.png', '通知提醒 - 配置优化')">
+                    <img src="prototype/image9.png" alt="通知提醒">
+                    <div class="prototype-overlay">
+                        <div class="prototype-label">通知提醒优化</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detail Sections -->
+    <section class="detail-section" id="overview">
+        <div class="detail-grid">
+            <div class="detail-content">
+                <h3>风险事件上报 · AI智能填报</h3>
+                <p>用户按5W1H方式填写，智能体自动推荐循环子循环、风险等级、事件类型，智能体处理措施智能推荐。内控专员在内控分发节点、内控审核节点进行确认。</p>
+                <ul class="detail-list">
+                    <li>事件描述（智能填报）必输，点击【AI一键生成】</li>
+                    <li>智能体返回：事件标题、事件描述、业务循环、子流程、事件严重等级、关联风险源、事件类型</li>
+                    <li>处理措施智能推荐：固定返回3条，可追加到处理措施子表</li>
+                    <li>支持匿名上报，隐藏姓名工号字段</li>
+                </ul>
+            </div>
+            <div class="detail-image">
+                <img src="prototype/image4.png" alt="风险事件上报">
+            </div>
+        </div>
+    </section>
+
+    <section class="detail-section">
+        <div class="detail-grid reverse">
+            <div class="detail-content">
+                <h3>风险任务处理 · 处理计划反馈</h3>
+                <p>新增处理计划反馈节点，包含拟定处理措施、计划完成日期等字段。处理进度字段新增选项：已拟定措施/待解决、已解决/申请验证。当处理进度=已拟定措施/待解决时，显示处理计划反馈数据块。</p>
+                <ul class="detail-list">
+                    <li>处理进度：单选（已拟定措施/待解决；已解决/申请验证）</li>
+                    <li>拟定处理措施：文本200</li>
+                    <li>计划完成日期：日期格式</li>
+                    <li>完成情况说明：文本200</li>
+                    <li>实际完成日期：原计划完成日期</li>
+                </ul>
+            </div>
+            <div class="detail-image">
+                <img src="prototype/image5.png" alt="风险任务处理">
+            </div>
+        </div>
+    </section>
+
+    <section class="detail-section">
+        <div class="detail-grid">
+            <div class="detail-content">
+                <h3>风险规则库 · 全生命周期管理</h3>
+                <p>优化拓展预警规则库，将风险监控从财务系统扩展至核心业务系统（ MIS、ACS等），建立覆盖业财的统一动态风险规则库。</p>
+                <ul class="detail-list">
+                    <li>三大模块：CDP规则、共享运营规则、内控规则</li>
+                    <li>功能：规则上线/下线、多版本管理、参数配置</li>
+                    <li>配置参数：阈值、收信人、业财负责人、处理措施、要求完成日期</li>
+                    <li>计划完成日期可改，保留修改历史</li>
+                </ul>
+            </div>
+            <div class="detail-image">
+                <img src="prototype/image6.png" alt="风险规则库">
+            </div>
+        </div>
+    </section>
+
+    <section class="detail-section">
+        <div class="detail-grid reverse">
+            <div class="detail-content">
+                <h3>内控智能体 · 智能风控中枢</h3>
+                <p>开发具备多智能体协同能力的"合规风控智能体"，实现智能风险监测、舆情采集、知识问答、报告生成与辅助填报。</p>
+                <ul class="detail-list">
+                    <li>绩效分析：部门、科室、人员、条线考核</li>
+                    <li>风险态势分析：整体、部门、科室、个人、风险类别、影响金额</li>
+                    <li>内控指标展示：内审报告自动分拆转内控事件</li>
+                    <li>支持批量导入内审文件，自动记录和报送</li>
+                </ul>
+            </div>
+            <div class="detail-image">
+                <img src="prototype/image7.png" alt="内控智能体">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">春秋航空 · 财务内控系统</div>
+        <p class="footer-text">二期项目 · 2026年 · 原型方案设计</p>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img src="" alt="" id="modal-img">
+            <div class="modal-caption" id="modal-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function openModal(imgSrc, caption) {
+            const modal = document.getElementById('modal');
+            const img = document.getElementById('modal-img');
+            const cap = document.getElementById('modal-caption');
+            img.src = 'prototype/' + imgSrc;
+            cap.textContent = caption;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Navigation visibility
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > window.innerHeight * 0.5) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+
+        // Scroll animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        fadeElements.forEach(function(el) {
+            observer.observe(el);
+        });
+
+        // Stagger animation for stat items
+        document.querySelectorAll('.stat-item').forEach(function(item, index) {
+            item.style.transitionDelay = (index * 0.1) + 's';
+        });
+    </script>
+</body>
+</html>
