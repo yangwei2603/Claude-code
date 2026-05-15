@@ -1,8 +1,112 @@
 # CLAUDE.md
-<!-- Last updated: 2026-05-09 -->
-<!-- Version: 1.4 -->
 
-This file provides guidance to Claude Code when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Workspace
+
+```
+Claude Code/
+├── .claude/commands/          # 7 slash commands: /spec /plan /build /test /review /code-simplify /ship
+├── .claude/hooks/             # Session lifecycle hooks (session-start.sh 等)
+├── skills/
+│   ├── engineering/           # 21 工程技能（技能名/SKILL.md）
+│   └── domain/                 # 4 领域技能：data-analysis, financial-analysis, sql-generation, machine-learning
+├── agents/
+│   ├── personas/             # code-reviewer, security-auditor, test-engineer
+│   └── orchestration/        # Python 多 Agent 框架（9 agents + llm_client）
+│       ├── llm_client.py      # MiniMax / DeepSeek / 本地大模型 统一客户端
+│       ├── main.py            # 入口
+│       └── agents/           # pm/task/dev/test/fix/review/git/deploy/monitor
+├── projects/                  # 各项目含独立 CLAUDE.md
+│   ├── file-organizer/        # 智能文件分类 Agent（Python/macOS）
+│   ├── fin-product-forecast/  # 金融产品价格预测（Python/sklearn/SQLite）
+│   ├── futures-signal/        # 期货信号系统（Python）
+│   └── 内控二期/              # 内控系统二期
+├── data-analysis-local/       # 本地数据分析工作区（详见其 CLAUDE.md）
+│   └── <主题>-<YYYYMMDD>/    # 每次分析任务独立目录
+└── hooks/                     # 完整钩子集（SDD-cache, simplify-ignore, git-hooks）
+```
+
+## Skill System
+
+**技能路径**：`skills/engineering/<name>/SKILL.md` 或 `skills/domain/<name>/SKILL.md`
+
+### 何时使用技能（Intent → Skill）
+
+| 场景 | 技能 |
+|------|------|
+| 新功能 / 需求定义 | `spec-driven-development` → `incremental-implementation` |
+| 任务分解 | `planning-and-task-breakdown` |
+| 写测试 / TDD | `test-driven-development` |
+| Bug 修复 | `debugging-and-error-recovery` |
+| 代码审查 | `code-review-and-quality` |
+| 重构 / 简化 | `code-simplification` |
+| UI 开发 | `frontend-ui-engineering` |
+| API 设计 | `api-and-interface-design` |
+| 安全审查 | `security-and-hardening` |
+| 性能优化 | `performance-optimization` |
+| CI/CD / 自动化 | `ci-cd-and-automation` |
+| 文档 / ADR | `documentation-and-adrs` |
+| 部署发布 | `shipping-and-launch` |
+| **数据分析流程** | `data-analysis`（domain）|
+| **财务数据 / 报表** | `financial-analysis`（domain）|
+| **SQL 生成** | `sql-generation`（domain）|
+
+**规则**：任务匹配技能时，**必须**调用该技能，不直接实现。技能是工作流，不是建议。
+
+## Development Workflow
+
+所有代码变更（功能 / Bug 修复 / 重构）必须经过：
+
+```
+/spec → /plan → /build → /test → /review → /ship
+```
+
+非平凡项目必须从 `/spec` 开始。新项目在 `projects/` 下创建，先写项目级 `CLAUDE.md`。
+
+## Agent System
+
+| 组件 | 用途 |
+|------|------|
+| `agents/personas/` | 可复用角色：code-reviewer, security-auditor, test-engineer |
+| `agents/orchestration/` | Python 多 Agent 框架，9 个专业化 Agent |
+| `agents/orchestration/llm_client.py` | MiniMax + DeepSeek + 本地大模型统一客户端 |
+
+调用方式：
+```python
+from agents.orchestration.llm_client import llm
+resp = llm.chat(prompt, model="local")  # 本地模型（涉密数据）
+resp = llm.chat(prompt, model="deepseek")  # DeepSeek
+```
+
+## 本地模型约束（硬约束）
+
+触发词：本地数据、内部数据、私有化、涉密、财务数据、航班收益、供应商、成本、合同
+
+→ 强制使用 `model="local"`，本地模型不可达时**直接终止**，不得回退到云端。
+
+## Data Analysis
+
+`data-analysis-local/CLAUDE.md` 包含：
+- 本地 SQLite 数据库路径（`/Users/fox/DB/analysis.db` / `external_data.db`）
+- 报告输出规范（格式选择、Obsidian 同步）
+- SQL 数据字典位置
+
+## Karpathy Coding Guidelines（必须遵守）
+
+1. **Think Before Coding** — 明确假设，不确定则提问，多种解释则列出
+2. **Simplicity First** — 只写解决问题所需的最小代码，不做投机性抽象
+3. **Surgical Changes** — 只改必须改的，不改善相邻代码
+4. **Goal-Driven Execution** — 定义可验证的成功标准，循环验证
+
+## Core Operating Behaviors
+
+1. **Surface assumptions** — 非平凡实现前显式声明假设并确认
+2. **Manage confusion actively** — 遇不一致立即停止，说清问题，不猜测
+3. **Push back when warranted** — 有具体问题时直接指出
+4. **Enforce simplicity** — 倾向显而易见方案，复杂有代价
+5. **Scope discipline** — 只改被要求改的，不主动翻新
+6. **Verify, don't assume** — 验证通过才算完成
 
 ## Workspace Structure
 

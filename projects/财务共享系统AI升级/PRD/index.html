@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>财务共享系统 AI 升级 - 需求概览</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text-primary: #1a202c;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --accent: #0369a1;
+      --accent-light: #e0f2fe;
+      --p0-bg: #fef2f2;
+      --p0-border: #fca5a5;
+      --p0-text: #991b1b;
+      --p1-bg: #f0fdf4;
+      --p1-border: #86efac;
+      --p1-text: #166534;
+      --radius: 6px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .header .meta {
+      display: flex;
+      gap: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Stats Cards */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-card .label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.25rem;
+    }
+
+    /* Tab Navigation */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 0.75rem 1.25rem;
+      background: none;
+      border: none;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      color: var(--text-primary);
+    }
+
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 500;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Requirement Cards */
+    .req-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .req-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .req-header:hover {
+      background: #f8fafc;
+    }
+
+    .req-id {
+      font-family: ui-monospace, monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .req-title {
+      flex: 1;
+      font-weight: 500;
+      font-size: 0.9375rem;
+    }
+
+    .req-module {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      background: var(--bg);
+      padding: 0.25rem 0.625rem;
+      border-radius: 4px;
+    }
+
+    .req-priority {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .req-priority.p0 {
+      background: var(--p0-bg);
+      color: var(--p0-text);
+      border: 1px solid var(--p0-border);
+    }
+
+    .req-priority.p1 {
+      background: var(--p1-bg);
+      color: var(--p1-text);
+      border: 1px solid var(--p1-border);
+    }
+
+    .req-chevron {
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+
+    .req-card.open .req-chevron {
+      transform: rotate(180deg);
+    }
+
+    .req-body {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 1.25rem;
+      background: #fafbfc;
+    }
+
+    .req-card.open .req-body {
+      display: block;
+    }
+
+    .req-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .req-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .req-section-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .req-section p {
+      font-size: 0.875rem;
+      color: var(--text-primary);
+    }
+
+    .req-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+    }
+
+    .req-table th,
+    .req-table td {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .req-table th {
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg);
+    }
+
+    .req-table td {
+      color: var(--text-primary);
+    }
+
+    .req-table code {
+      font-family: ui-monospace, monospace;
+      font-size: 0.75rem;
+      background: var(--bg);
+      padding: 0.125rem 0.375rem;
+      border-radius: 3px;
+      color: var(--accent);
+    }
+
+    .warning-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .warning-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      color: var(--text-primary);
+    }
+
+    .warning-item::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: #f59e0b;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .logic-flow {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-size: 0.8125rem;
+    }
+
+    .logic-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+    }
+
+    .logic-step:not(:last-child) {
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .step-num {
+      width: 1.5rem;
+      height: 1.5rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .logic-text {
+      flex: 1;
+      padding-top: 0.125rem;
+    }
+
+    .logic-text code {
+      font-family: ui-monospace, monospace;
+      font-size: 0.75rem;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 0.125rem 0.375rem;
+      border-radius: 3px;
+    }
+
+    /* Summary Table */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+    }
+
+    .summary-table th {
+      text-align: left;
+      padding: 0.75rem;
+      background: var(--bg);
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .summary-table tr:hover td {
+      background: #f8fafc;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.375rem 0.875rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .header h1 {
+        font-size: 1.375rem;
+      }
+
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .stat-card .number {
+        font-size: 1.5rem;
+      }
+
+      .req-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .req-module {
+        order: 3;
+        margin-left: 2.5rem;
+      }
+
+      .warning-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>财务共享系统 AI 升级功能需求</h1>
+      <div class="meta">
+        <span>版本：v1.0</span>
+        <span>日期：2026-05-15</span>
+        <span>状态：草稿</span>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="number">7</div>
+        <div class="label">需求总数</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">2</div>
+        <div class="label">P0 高优先级</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">5</div>
+        <div class="label">P1 普通优先级</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">7</div>
+        <div class="label">涉及模块</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="list">需求列表</button>
+      <button class="tab" data-tab="summary">汇总概览</button>
+      <button class="tab" data-tab="p0">P0 详情</button>
+    </div>
+
+    <!-- Tab: List -->
+    <div id="tab-list" class="tab-content active">
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">全部 (7)</button>
+        <button class="filter-btn" data-filter="p0">P0 (2)</button>
+        <button class="filter-btn" data-filter="p1">P1 (5)</button>
+      </div>
+
+      <!-- CH-GN260502 -->
+      <div class="req-card open" data-priority="p0">
+        <div class="req-header">
+          <span class="req-id">CH-GN260502</span>
+          <span class="req-title">共享单据相关预警落表</span>
+          <span class="req-module">AI预警</span>
+          <span class="req-priority p0">P0</span>
+          <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="req-body">
+          <div class="req-section">
+            <div class="req-section-title">功能说明</div>
+            <p>后台增加 AI 预警表，单据每次提交成功时，如有相关规则提示，则写入预警表。字段：提单人工号、单据编号、预警提示信息、创建时间。在初审审核界面-智能审单区域的最下方增加预警信息，展示最后一次单据提交预警情况。</p>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">AI 预警规则（8条）</div>
+            <div class="warning-list">
+              <div class="warning-item">借款核销提醒</div>
+              <div class="warning-item">预付核销提醒</div>
+              <div class="warning-item">住宿超标提醒</div>
+              <div class="warning-item">预提关联提醒</div>
+              <div class="warning-item">供应商黑名单提醒</div>
+              <div class="warning-item">发票购买方和核算主体校验</div>
+              <div class="warning-item">发票销售方和供应商校验</div>
+              <div class="warning-item">发票不合规提醒</div>
+            </div>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">AI 推送标识</div>
+            <p>如果有任何一项预警信息，给 AI 推送审核信息时推送 <code>warning_flag = "Y"</code>，没有则推送 <code>warning_flag = "N"</code>。</p>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">预警表结构</div>
+            <table class="req-table">
+              <thead>
+                <tr>
+                  <th>字段</th>
+                  <th>类型</th>
+                  <th>说明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>id</td><td>INTEGER</td><td>主键，自增</td></tr>
+                <tr><td>submitter_no</td><td>TEXT</td><td>提单人工号</td></tr>
+                <tr><td>bill_no</td><td>TEXT</td><td>单据编号</td></tr>
+                <tr><td>warning_message</td><td>TEXT</td><td>预警提示信息</td></tr>
+                <tr><td>created_at</td><td>TEXT</td><td>创建时间</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH-GN260505 -->
+      <div class="req-card" data-priority="p0">
+        <div class="req-header">
+          <span class="req-id">CH-GN260505</span>
+          <span class="req-title">增加AI问答入口</span>
+          <span class="req-module">AI问答</span>
+          <span class="req-priority p0">P0</span>
+          <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="req-body">
+          <div class="req-section">
+            <div class="req-section-title">功能说明</div>
+            <p>系统所有界面都加个图标，点击图标请求闪信接口，闪信完成：检查闪信有没有打开（端口），没打开就报错（用户自行打开，不做程序拉起）。第二点正常，则再调用另外一个接口，闪信完成打开和财务机器人的会话。</p>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">交互流程</div>
+            <div class="logic-flow">
+              <div class="logic-step">
+                <span class="step-num">1</span>
+                <div class="logic-text">用户在任意界面点击 AI 图标</div>
+              </div>
+              <div class="logic-step">
+                <span class="step-num">2</span>
+                <div class="logic-text">请求闪信接口，检查端口是否打开</div>
+              </div>
+              <div class="logic-step">
+                <span class="step-num">3</span>
+                <div class="logic-text">端口未打开 → 报错提示用户自行打开</div>
+              </div>
+              <div class="logic-step">
+                <span class="step-num">4</span>
+                <div class="logic-text">端口正常 → 调用接口打开财务机器人会话</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH-GN260501 -->
+      <div class="req-card" data-priority="p1">
+        <div class="req-header">
+          <span class="req-id">CH-GN260501</span>
+          <span class="req-title">发票拆票推送百望优化</span>
+          <span class="req-module">发票接口</span>
+          <span class="req-priority p1">P1</span>
+          <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="req-body">
+          <div class="req-section">
+            <div class="req-section-title">功能说明</div>
+            <p>LINK2ACC_STATUS_VAT_BATCH 百望发票信息推送接口：拆票目前推送的已审核状态 <code>accountStatus = -1</code>，增加逻辑：若当前拆票完成报销时，汇总所有已报销子票的实际报销税额，如果等于母票税额，则状态传已记账 <code>accountStatus = -2</code>，否则传 <code>accountStatus = -1</code>。推送的金额逻辑不变，还是当次实际报销税额。</p>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">判断逻辑</div>
+            <div class="logic-flow">
+              <div class="logic-step">
+                <span class="step-num">1</span>
+                <div class="logic-text">拆票完成报销</div>
+              </div>
+              <div class="logic-step">
+                <span class="step-num">2</span>
+                <div class="logic-text">汇总所有已报销子票的实际报销税额</div>
+              </div>
+              <div class="logic-step">
+                <span class="step-num">3</span>
+                <div class="logic-text">判断汇总税额 <strong>等于</strong> 母票税额？</div>
+              </div>
+              <div class="logic-step">
+                <span class="step-num">4</span>
+                <div class="logic-text">是 → 推送 <code>accountStatus = -2</code>（已记账）</div>
+              </div>
+              <div class="logic-step">
+                <span class="step-num">5</span>
+                <div class="logic-text">否 → 推送 <code>accountStatus = -1</code>（已审核）</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH-GN260503 -->
+      <div class="req-card" data-priority="p1">
+        <div class="req-header">
+          <span class="req-id">CH-GN260503</span>
+          <span class="req-title">合同接口部分功能调整</span>
+          <span class="req-module">合同接口</span>
+          <span class="req-priority p1">P1</span>
+          <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="req-body">
+          <div class="req-section">
+            <div class="req-section-title">功能说明</div>
+            <p>合同同步接口，不能直接取客商编码，要取接口字段 <code>supplierEBSID</code>，对应 <code>zfs_sys.sys_vendors</code> 表的 <code>EXTEND_S1</code>。合同列表同步接口 BIP_CONTRACT_LIST 用 <code>pubtsBegin</code> 字段同步，不要用 <code>valiDateBegin</code>。</p>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">接口调整明细</div>
+            <table class="req-table">
+              <thead>
+                <tr>
+                  <th>调整项</th>
+                  <th>原逻辑</th>
+                  <th>新逻辑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>合同同步-字段</td>
+                  <td>取客商编码</td>
+                  <td>取 <code>supplierEBSID</code> → <code>EXTEND_S1</code></td>
+                </tr>
+                <tr>
+                  <td>列表同步-字段</td>
+                  <td><code>valiDateBegin</code></td>
+                  <td><code>pubtsBegin</code></td>
+                </tr>
+                <tr>
+                  <td>请求接口-bustype</td>
+                  <td><code>"CWGX"</code></td>
+                  <td><code>"CWGX,EBSJCWGX"</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH-GN260504 -->
+      <div class="req-card" data-priority="p1">
+        <div class="req-header">
+          <span class="req-id">CH-GN260504</span>
+          <span class="req-title">审批授权增加单据类型规则</span>
+          <span class="req-module">审批授权</span>
+          <span class="req-priority p1">P1</span>
+          <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="req-body">
+          <div class="req-section">
+            <div class="req-section-title">功能说明</div>
+            <p>审批授权规则加个单据类型多选框，空代表全部，勾选代表指定。</p>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">交互说明</div>
+            <table class="req-table">
+              <thead>
+                <tr>
+                  <th>选择状态</th>
+                  <th>含义</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>空（未勾选）</td><td>不限制单据类型，适用于全部</td></tr>
+                <tr><td>勾选了具体类型</td><td>仅对选中的单据类型生效</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH-GN260506 -->
+      <div class="req-card" data-priority="p1">
+        <div class="req-header">
+          <span class="req-id">CH-GN260506</span>
+          <span class="req-title">批量上传发票改造</span>
+          <span class="req-module">发票上传</span>
+          <span class="req-priority p1">P1</span>
+          <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="req-body">
+          <div class="req-section">
+            <div class="req-section-title">功能说明</div>
+            <p>PC电子发票上传按钮改成可多选发票文件，最多可选择20张。如果失败，则在界面报错：文件名称+错误信息，报错信息不自动关闭，用户点X或者关闭再关闭。重名可以在WEB也做处理。</p>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">改造要点</div>
+            <table class="req-table">
+              <thead>
+                <tr>
+                  <th>改造项</th>
+                  <th>说明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>多选支持</td><td>最多 20 张发票</td></tr>
+                <tr><td>错误展示</td><td>显示文件名 + 具体错误信息</td></tr>
+                <tr><td>关闭方式</td><td>用户手动点 X 关闭，不自动关闭</td></tr>
+                <tr><td>重名处理</td><td>WEB 端也做重名处理</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH-GN260507 -->
+      <div class="req-card" data-priority="p1">
+        <div class="req-header">
+          <span class="req-id">CH-GN260507</span>
+          <span class="req-title">新增业务类型和发票明细的关系菜单</span>
+          <span class="req-module">基础数据</span>
+          <span class="req-priority p1">P1</span>
+          <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="req-body">
+          <div class="req-section">
+            <div class="req-section-title">功能说明</div>
+            <p>在基础数据平台-报账基础增加业务类型与发票明细菜单。查询条件：业务大类（LOV单选）、业务小类（LOV单选）、发票项目（文本精确查询）、是否有效（下拉框）。按钮：新增、删除、启用、禁用、下载模板、导入模板、导出。</p>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">新增界面字段</div>
+            <table class="req-table">
+              <thead>
+                <tr>
+                  <th>字段</th>
+                  <th>类型</th>
+                  <th>必填</th>
+                  <th>说明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>业务大类</td><td>LOV选择框</td><td>是</td><td>单选</td></tr>
+                <tr><td>业务小类</td><td>LOV选择框</td><td>否</td><td>单选</td></tr>
+                <tr><td>发票项目名称</td><td>文本</td><td>是</td><td>手工输入</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="req-section">
+            <div class="req-section-title">结果列表字段</div>
+            <p>业务大类、业务小类、发票项目、是否有效</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Summary -->
+    <div id="tab-summary" class="tab-content">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>需求名称</th>
+            <th>模块</th>
+            <th>优先级</th>
+            <th>功能类型</th>
+            <th>涉及表/接口</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>CH-GN260501</code></td>
+            <td>发票拆票推送百望优化</td>
+            <td>发票接口</td>
+            <td><span class="req-priority p1">P1</span></td>
+            <td>接口改造</td>
+            <td>LINK2ACC_STATUS_VAT_BATCH</td>
+          </tr>
+          <tr>
+            <td><code>CH-GN260502</code></td>
+            <td>共享单据相关预警落表</td>
+            <td>AI预警</td>
+            <td><span class="req-priority p0">P0</span></td>
+            <td>新建功能</td>
+            <td>AI预警表（新建）</td>
+          </tr>
+          <tr>
+            <td><code>CH-GN260503</code></td>
+            <td>合同接口部分功能调整</td>
+            <td>合同接口</td>
+            <td><span class="req-priority p1">P1</span></td>
+            <td>接口改造</td>
+            <td>合同同步接口</td>
+          </tr>
+          <tr>
+            <td><code>CH-GN260504</code></td>
+            <td>审批授权增加单据类型规则</td>
+            <td>审批授权</td>
+            <td><span class="req-priority p1">P1</span></td>
+            <td>功能增强</td>
+            <td>审批授权规则表</td>
+          </tr>
+          <tr>
+            <td><code>CH-GN260505</code></td>
+            <td>增加AI问答入口</td>
+            <td>AI问答</td>
+            <td><span class="req-priority p0">P0</span></td>
+            <td>新建功能</td>
+            <td>全局图标 + 闪信接口</td>
+          </tr>
+          <tr>
+            <td><code>CH-GN260506</code></td>
+            <td>批量上传发票改造</td>
+            <td>发票上传</td>
+            <td><span class="req-priority p1">P1</span></td>
+            <td>功能增强</td>
+            <td>发票上传组件</td>
+          </tr>
+          <tr>
+            <td><code>CH-GN260507</code></td>
+            <td>新增业务类型和发票明细的关系菜单</td>
+            <td>基础数据</td>
+            <td><span class="req-priority p1">P1</span></td>
+            <td>新建功能</td>
+            <td>业务类型发票关系表</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab: P0 Detail -->
+    <div id="tab-p0" class="tab-content">
+      <div style="display: grid; gap: 1.5rem;">
+        <div class="req-card open">
+          <div class="req-header">
+            <span class="req-id">CH-GN260502</span>
+            <span class="req-title">共享单据相关预警落表</span>
+            <span class="req-module">AI预警</span>
+            <span class="req-priority p0">P0</span>
+            <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="req-body">
+            <div class="req-section">
+              <div class="req-section-title">核心价值</div>
+              <p>将 AI 预警信息持久化存储，支持历史查询和统计分析，为评审决策提供数据支撑。</p>
+            </div>
+            <div class="req-section">
+              <div class="req-section-title">AI 预警规则（8条）</div>
+              <div class="warning-list">
+                <div class="warning-item">借款核销提醒</div>
+                <div class="warning-item">预付核销提醒</div>
+                <div class="warning-item">住宿超标提醒</div>
+                <div class="warning-item">预提关联提醒</div>
+                <div class="warning-item">供应商黑名单提醒</div>
+                <div class="warning-item">发票购买方和核算主体校验</div>
+                <div class="warning-item">发票销售方和供应商校验</div>
+                <div class="warning-item">发票不合规提醒</div>
+              </div>
+            </div>
+            <div class="req-section">
+              <div class="req-section-title">数据流</div>
+              <div class="logic-flow">
+                <div class="logic-step">
+                  <span class="step-num">1</span>
+                  <div class="logic-text">单据提交成功</div>
+                </div>
+                <div class="logic-step">
+                  <span class="step-num">2</span>
+                  <div class="logic-text">执行 AI 预警规则检测</div>
+                </div>
+                <div class="logic-step">
+                  <span class="step-num">3</span>
+                  <div class="logic-text">如有预警 → 写入 AI 预警表</div>
+                </div>
+                <div class="logic-step">
+                  <span class="step-num">4</span>
+                  <div class="logic-text">初审界面展示预警信息</div>
+                </div>
+                <div class="logic-step">
+                  <span class="step-num">5</span>
+                  <div class="logic-text">推送 AI 审核信息（<code>warning_flag</code>）</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="req-card open">
+          <div class="req-header">
+            <span class="req-id">CH-GN260505</span>
+            <span class="req-title">增加AI问答入口</span>
+            <span class="req-module">AI问答</span>
+            <span class="req-priority p0">P0</span>
+            <svg class="req-chevron" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="req-body">
+            <div class="req-section">
+              <div class="req-section-title">核心价值</div>
+              <p>用户可在任意界面快速唤起 AI 问答，提升操作效率，实现即时 AI 辅助。</p>
+            </div>
+            <div class="req-section">
+              <div class="req-section-title">前置条件检测</div>
+              <div class="logic-flow">
+                <div class="logic-step">
+                  <span class="step-num">1</span>
+                  <div class="logic-text">用户点击全局 AI 图标</div>
+                </div>
+                <div class="logic-step">
+                  <span class="step-num">2</span>
+                  <div class="logic-text">请求闪信接口，检查端口状态</div>
+                </div>
+                <div class="logic-step">
+                  <span class="step-num">3</span>
+                  <div class="logic-text">端口未打开 → 报错，提示用户手动打开</div>
+                </div>
+                <div class="logic-step">
+                  <span class="step-num">4</span>
+                  <div class="logic-text">端口正常 → 打开财务机器人会话</div>
+                </div>
+              </div>
+            </div>
+            <div class="req-section">
+              <div class="req-section-title">约束说明</div>
+              <p>不做程序拉起闪信，需用户自行打开。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      财务共享系统 AI 升级功能需求 · 2026年5月 · 来源：CQHK5月需求.docx
+    </footer>
+  </div>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Card toggle
+    document.querySelectorAll('.req-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const card = header.parentElement;
+        card.classList.toggle('open');
+      });
+    });
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.req-card').forEach(card => {
+          if (filter === 'all' || card.dataset.priority === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
