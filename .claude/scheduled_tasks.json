@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "id": "61f1d0e3",
+      "cron": "0 9 * * *",
+      "prompt": "Run /Users/fox/Claude\\ Code/.claude/scripts/daily-push.sh and push Claude Code repo to GitHub.",
+      "createdAt": 1778898848011,
+      "recurring": true,
+      "createdBySessionId": "e8a877f4-3d94-4b92-954e-57cf13565ccc",
+      "createdByPid": 6633,
+      "createdByProcStart": "Sat May 16 02:30:16 2026"
+    }
+  ]
+}

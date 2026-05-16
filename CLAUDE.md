@@ -501,3 +501,55 @@ When creating a new project, use this template for `projects/<name>/CLAUDE.md`:
 ## Document Optimization Guide
 
 文档规范参考：`skills/engineering/documentation-and-adrs/SKILL.md`。
+
+---
+
+## Hermes Agent 协作
+
+Hermes Agent (v0.13.0) 已安装在独立虚拟环境中，可作为上下文数据源和 MCP Server 为 Claude Code 提供跨工作空间信息整合。
+
+### Hermes 工作空间
+
+| 项目 | 路径 |
+|------|------|
+| 工作空间 | `/Users/fox/Hermes` |
+| 虚拟环境 | `/Users/fox/Hermes/.venv` |
+| 命令 | `~/.local/bin/hermes` |
+| 配置 | `~/.hermes/config.yaml` |
+
+### 已索引数据源
+
+| 数据源 | 路径 | 索引位置 |
+|--------|------|----------|
+| Obsidian Vault | `/Users/fox/Documents/Obsidian Vault` | `/Users/fox/Hermes/context/obsidian_index.json` (162 篇笔记) |
+| 个人数据库 | `/Users/fox/DB/analysis.db` | `/Users/fox/Hermes/context/database_index.json` (9 表, 2,556,370 行) |
+| 个人数据库(临时) | `/Users/fox/DB/analysis_temp.db` | 同上 (1 表, 232,495 行) |
+
+### 通过 Hermes 查询数据
+
+```bash
+# 搜索 Obsidian 笔记内容
+rg -i "关键词" "/Users/fox/Documents/Obsidian Vault/"
+
+# 查询个人数据库
+sqlite3 /Users/fox/DB/analysis.db "SELECT * FROM table_name LIMIT 10;"
+
+# 通过索引检索笔记元数据
+python3 -c "import json; idx=json.load(open('/Users/fox/Hermes/context/obsidian_index.json')); [print(n['title'], n['relative_path']) for n in idx['notes'] if '关键词' in n.get('tags',[])]"
+```
+
+### Hermes MCP Server
+
+Hermes 已配置为 Claude Code 的 MCP Server（见 `.claude/mcp.json`）：
+
+```bash
+# 启动 Hermes MCP Server
+hermes mcp serve
+```
+
+### 更新索引
+
+```bash
+python3 /Users/fox/Hermes/scripts/index_obsidian.py   # 更新 Obsidian 索引
+python3 /Users/fox/Hermes/scripts/index_database.py   # 更新数据库索引
+```

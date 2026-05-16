@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "hermes": {
+      "command": "/Users/fox/Hermes/.venv/bin/hermes",
+      "args": ["mcp", "serve"],
+      "env": {
+        "HERMES_HOME": "/Users/fox/.hermes"
+      }
+    }
+  }
+}
