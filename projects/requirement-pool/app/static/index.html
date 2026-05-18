@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>需求池管理系统</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f6f8; color: #222; }
+  header { background: #1f2a44; color: #fff; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 18px; margin: 0; font-weight: 600; }
+  nav button { background: transparent; border: 1px solid #4a587a; color: #fff; padding: 6px 14px; margin-left: 8px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  nav button.active, nav button:hover { background: #3b82f6; border-color: #3b82f6; }
+  main { padding: 20px 24px; max-width: 1440px; margin: 0 auto; }
+  .kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 18px; }
+  .kpi-card { background: #fff; padding: 14px 16px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .kpi-card .label { color: #6b7280; font-size: 12px; }
+  .kpi-card .value { color: #111; font-size: 26px; font-weight: 600; margin-top: 4px; }
+  .kpi-card.urgent .value { color: #dc2626; }
+  .kpi-card.expired .value { color: #ea580c; }
+  .panel { background: #fff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); padding: 16px 20px; margin-bottom: 16px; }
+  .panel h2 { font-size: 15px; margin: 0 0 12px 0; color: #111; display: flex; justify-content: space-between; align-items: center; }
+  .panel.alert { border-left: 4px solid #dc2626; }
+  .panel.warn { border-left: 4px solid #f59e0b; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #eee; vertical-align: top; }
+  th { background: #fafafa; color: #555; font-weight: 600; }
+  tr:hover td { background: #fafbff; }
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .chart-box { background: #fff; padding: 14px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); height: 320px; }
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .filter-bar input, .filter-bar select { padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 13px; }
+  .filter-bar button { padding: 6px 16px; background: #3b82f6; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+  .badge.urgent { background: #fee2e2; color: #dc2626; }
+  .badge.normal { background: #e5e7eb; color: #4b5563; }
+  .badge.active { background: #dbeafe; color: #1d4ed8; }
+  .badge.closed { background: #f3f4f6; color: #6b7280; }
+  .badge.green { background: #d1fae5; color: #065f46; }
+  .badge.yellow { background: #fef3c7; color: #92400e; }
+  .badge.red { background: #fee2e2; color: #b91c1c; }
+  .pill { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 11px; background: #eef2ff; color: #4338ca; margin-right: 4px; }
+  .modal-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 999; }
+  .modal { background: #fff; border-radius: 8px; padding: 24px; width: 600px; max-height: 85vh; overflow-y: auto; }
+  .modal h3 { margin: 0 0 14px 0; font-size: 16px; }
+  .modal label { display: block; font-size: 13px; color: #555; margin: 10px 0 4px 0; }
+  .modal input, .modal select, .modal textarea { width: 100%; padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 13px; font-family: inherit; }
+  .modal textarea { min-height: 70px; resize: vertical; }
+  .modal-footer { margin-top: 18px; display: flex; gap: 8px; justify-content: flex-end; }
+  .btn { padding: 6px 16px; border: 1px solid #d1d5db; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  .btn-primary { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+  .btn-danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+  .row-btn { padding: 3px 10px; font-size: 12px; border: 1px solid #d1d5db; background: #fff; border-radius: 4px; cursor: pointer; margin-right: 4px; }
+  .row-btn:hover { background: #f3f4f6; }
+  .empty { color: #9ca3af; text-align: center; padding: 20px; }
+  .detail-section { margin-bottom: 16px; }
+  .detail-section h4 { font-size: 13px; color: #6b7280; margin: 0 0 8px 0; font-weight: 500; }
+  .detail-grid { display: grid; grid-template-columns: 120px 1fr; gap: 6px 14px; font-size: 13px; }
+  .detail-grid .k { color: #6b7280; }
+  .timeline { border-left: 2px solid #e5e7eb; padding-left: 14px; margin-left: 4px; }
+  .timeline-item { position: relative; padding-bottom: 12px; font-size: 13px; }
+  .timeline-item::before { content: ''; position: absolute; left: -19px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; }
+  .timeline-item .meta { color: #6b7280; font-size: 11px; }
+  .hidden { display: none; }
+  .actions-bar { display: flex; gap: 6px; margin-bottom: 12px; }
+  .stat-line { font-size: 12px; color: #6b7280; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>需求池管理系统</h1>
+  <nav>
+    <button data-view="dashboard" class="active">看板</button>
+    <button data-view="list">需求列表</button>
+    <button data-view="review">评审管理</button>
+    <button data-view="import">导入</button>
+    <button data-view="export">导出</button>
+  </nav>
+</header>
+<main>
+
+<section id="view-dashboard">
+  <div class="kpi-row" id="kpi-cards"></div>
+
+  <div class="panel warn">
+    <h2>⚠️ 积压超时预警（>20 工作日无操作且无关联业务需求） <span id="backlog-count" style="font-size:12px;color:#6b7280;font-weight:normal"></span></h2>
+    <div id="backlog-list"></div>
+  </div>
+
+  <div class="panel">
+    <h2>📋 当月评审统计</h2>
+    <div id="review-summary"></div>
+  </div>
+
+  <div class="panel">
+    <h2>📊 描述质量分布</h2>
+    <div id="quality-dist"></div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-box" id="chart-status"></div>
+    <div class="chart-box" id="chart-month"></div>
+    <div class="chart-box" id="chart-creator"></div>
+    <div class="chart-box" id="chart-project"></div>
+  </div>
+</section>
+
+<section id="view-list" class="hidden">
+  <div class="panel">
+    <div class="filter-bar">
+      <input id="f-search" placeholder="搜索需求名称/编号" />
+      <select id="f-status"><option value="">全部状态</option><option value="active">活跃</option><option value="closed">已关闭</option></select>
+      <select id="f-importance"><option value="">全部重要程度</option><option value="紧急">紧急</option><option value="一般">一般</option></select>
+      <select id="f-department"><option value="">全部部门</option></select>
+      <button onclick="loadList()">查询</button>
+      <button onclick="resetFilters()" class="btn">重置</button>
+    </div>
+    <div class="stat-line" id="list-count"></div>
+    <table id="list-table">
+      <thead><tr>
+        <th>编号</th><th>名称</th><th>状态</th><th>重要程度</th><th>部门</th><th>创建人</th><th>期望上线</th><th>评审</th><th>操作</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="view-review" class="hidden">
+  <div class="panel">
+    <h2>待评审需求 <span id="todo-count" style="font-size:12px;color:#6b7280;font-weight:normal"></span></h2>
+    <table id="todo-table">
+      <thead><tr><th>编号</th><th>名称</th><th>重要程度</th><th>部门</th><th>是否更新</th><th>操作</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="panel">
+    <h2>已评审需求 <span id="done-count" style="font-size:12px;color:#6b7280;font-weight:normal"></span></h2>
+    <table id="done-table">
+      <thead><tr><th>编号</th><th>结论</th><th>优先级</th><th>上线时间</th><th>评审人</th><th>评审时间</th><th>操作</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="view-import" class="hidden">
+  <div class="panel">
+    <h2>批量导入 CSV</h2>
+    <input type="file" id="csv-file" accept=".csv" />
+    <button class="btn btn-primary" onclick="uploadCsv()" style="margin-left:8px;">上传导入</button>
+    <pre id="import-result" style="background:#f9fafb;padding:12px;border-radius:4px;margin-top:14px;font-size:13px;"></pre>
+  </div>
+</section>
+
+<section id="view-export" class="hidden">
+  <div class="panel">
+    <h2>导出评审结果</h2>
+    <div class="filter-bar">
+      <label>开始日期 <input type="date" id="exp-from" /></label>
+      <label>结束日期 <input type="date" id="exp-to" /></label>
+      <select id="exp-decision">
+        <option value="">全部</option>
+        <option value="pass">通过</option>
+        <option value="reject">驳回</option>
+        <option value="future">未来规划</option>
+      </select>
+      <button onclick="previewExport()">预览</button>
+      <button class="btn btn-primary" onclick="downloadExport()">导出 Excel</button>
+    </div>
+    <table id="exp-table">
+      <thead><tr><th>编号</th><th>名称</th><th>优先级</th><th>评审分类</th><th>上线时间</th><th>描述</th><th>原因</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<div id="modal-root"></div>
+
+<script>
+const API = '/api';
+
+document.querySelectorAll('nav button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+    document.getElementById('view-' + b.dataset.view).classList.remove('hidden');
+    if (b.dataset.view === 'dashboard') loadDashboard();
+    else if (b.dataset.view === 'list') loadList();
+    else if (b.dataset.view === 'review') loadReviewView();
+  };
+});
+
+async function fetchJson(url, opts = {}) {
+  const r = await fetch(url, opts);
+  return r.json();
+}
+
+function escapeHtml(s) {
+  return (s || '').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function loadDashboard() {
+  const stats = (await fetchJson(`${API}/requirements/stats`)).data;
+  const reviewStats = (await fetchJson(`${API}/reviews/stats`)).data;
+  const backlog = (await fetchJson(`${API}/requirements/backlog`)).data;
+  const quality = (await fetchJson(`${API}/requirements/quality-dist`)).data;
+
+  const cards = [
+    {label: '总需求数', value: stats.total},
+    {label: '活跃', value: stats.active, cls: 'active'},
+    {label: '已关闭', value: stats.closed, cls: 'closed'},
+    {label: '紧急', value: stats.urgent, cls: 'urgent'},
+  ];
+  document.getElementById('kpi-cards').innerHTML = cards.map(c =>
+    `<div class="kpi-card ${c.cls || ''}"><div class="label">${c.label}</div><div class="value">${c.value}</div></div>`
+  ).join('');
+
+  document.getElementById('backlog-count').innerText = `共 ${backlog.length} 条`;
+  document.getElementById('backlog-list').innerHTML = backlog.length === 0
+    ? '<div class="empty">暂无积压超时需求</div>'
+    : `<table><thead><tr><th>编号</th><th>名称</th><th>创建人</th><th>最后修改</th><th>已闲置(工作日)</th><th>操作</th></tr></thead><tbody>${
+        backlog.map(r => `<tr><td>${escapeHtml(r.demand_id)}</td><td>${escapeHtml(r.demand_name)}</td><td>${escapeHtml(r.creator)}</td><td>${escapeHtml((r.last_modified||'').slice(0,10))}</td><td style="color:#dc2626">${r.workdays_since_modified}</td><td><button class="row-btn" onclick="showDetail('${r.demand_id}')">详情</button></td></tr>`).join('')
+      }</tbody></table>`;
+
+  document.getElementById('review-summary').innerHTML = `
+    <div style="display:flex;gap:30px;font-size:14px;">
+      <div><span style="color:#6b7280;">本月(${reviewStats.month})新增：</span><b>${reviewStats.new}</b></div>
+      <div><span style="color:#6b7280;">已评审：</span><b>${reviewStats.reviewed}</b></div>
+      <div><span style="color:#6b7280;">通过：</span><b style="color:#10b981">${reviewStats.passed}</b></div>
+      <div><span style="color:#6b7280;">驳回：</span><b style="color:#dc2626">${reviewStats.rejected}</b></div>
+      <div><span style="color:#6b7280;">未来规划：</span><b>${reviewStats.future}</b></div>
+    </div>`;
+
+  document.getElementById('quality-dist').innerHTML = Object.entries(quality).map(([k, v]) => {
+    const total = v.red + v.yellow + v.green;
+    const fieldName = {demand_desc:'需求描述', businessobjective:'业务效果', businessdesc:'业务现状'}[k] || k;
+    return `<div style="margin-bottom:8px;">
+      <div style="font-size:13px;margin-bottom:4px;">${fieldName} <span style="color:#6b7280;font-size:11px;">(总数 ${total})</span></div>
+      <div style="display:flex;height:18px;border-radius:3px;overflow:hidden;">
+        <div style="flex:${v.red};background:#ef4444;text-align:center;color:#fff;font-size:11px;line-height:18px;">${v.red}</div>
+        <div style="flex:${v.yellow};background:#f59e0b;text-align:center;color:#fff;font-size:11px;line-height:18px;">${v.yellow}</div>
+        <div style="flex:${v.green};background:#10b981;text-align:center;color:#fff;font-size:11px;line-height:18px;">${v.green}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  drawPie('chart-status', '状态分布', stats.by_status);
+  drawBar('chart-month', '期望上线月份分布', stats.by_month);
+  drawBar('chart-creator', 'TOP10 创建人', topN(stats.by_creator, 10));
+  drawPie('chart-project', 'TOP10 项目', topN(stats.by_project, 10));
+}
+
+function topN(obj, n) {
+  return Object.fromEntries(Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0, n));
+}
+function drawPie(id, title, data) {
+  const c = echarts.init(document.getElementById(id));
+  c.setOption({
+    title: {text: title, left: 'center', textStyle: {fontSize: 13}},
+    tooltip: {trigger: 'item'},
+    series: [{type: 'pie', radius: '60%', data: Object.entries(data).map(([n,v]) => ({name:n, value:v}))}]
+  });
+}
+function drawBar(id, title, data) {
+  const c = echarts.init(document.getElementById(id));
+  const keys = Object.keys(data).sort();
+  c.setOption({
+    title: {text: title, left: 'center', textStyle: {fontSize: 13}},
+    tooltip: {trigger: 'axis'},
+    grid: {top: 40, bottom: 60, left: 40, right: 20},
+    xAxis: {type: 'category', data: keys, axisLabel: {rotate: 30, fontSize: 10}},
+    yAxis: {type: 'value'},
+    series: [{type: 'bar', data: keys.map(k => data[k]), itemStyle: {color: '#3b82f6'}}]
+  });
+}
+
+let allReqs = [];
+async function loadList() {
+  const params = new URLSearchParams();
+  const status = document.getElementById('f-status').value;
+  const importance = document.getElementById('f-importance').value;
+  const department = document.getElementById('f-department').value;
+  const search = document.getElementById('f-search').value.trim();
+  if (status) params.set('demand_status', status);
+  if (department) params.set('department', department);
+  params.set('limit', '300');
+  const data = (await fetchJson(`${API}/requirements?${params}`)).data;
+  allReqs = data.items;
+  let items = allReqs;
+  if (importance) items = items.filter(r => (r.importance||'').trim() === importance);
+  if (search) items = items.filter(r => (r.demand_name||'').includes(search) || (r.demand_id||'').includes(search));
+  document.getElementById('list-count').innerText = `共 ${items.length} 条`;
+  const tbody = document.querySelector('#list-table tbody');
+  tbody.innerHTML = items.map(r => `
+    <tr>
+      <td>${escapeHtml(r.demand_id)}</td>
+      <td>${escapeHtml(r.demand_name)}</td>
+      <td><span class="badge ${r.demand_status==='active'?'active':'closed'}">${r.demand_status}</span></td>
+      <td>${(r.importance||'').trim()==='紧急' ? '<span class="badge urgent">紧急</span>' : '<span class="badge normal">一般</span>'}</td>
+      <td>${escapeHtml(r.department)}</td>
+      <td>${escapeHtml(r.creator)}</td>
+      <td>${escapeHtml(r.end_time || r.deadline)}</td>
+      <td>
+        <button class="row-btn" onclick="showDetail('${r.demand_id}')">详情</button>
+        ${r.demand_status==='active' ? `<button class="row-btn" onclick="showClose('${r.demand_id}')">关闭</button>` : ''}
+      </td>
+    </tr>`).join('');
+
+  const depts = [...new Set(allReqs.map(r => r.department).filter(Boolean))].sort();
+  const sel = document.getElementById('f-department');
+  if (sel.options.length <= 1) {
+    depts.forEach(d => { const o = document.createElement('option'); o.value = d; o.textContent = d; sel.appendChild(o); });
+  }
+}
+
+function resetFilters() {
+  ['f-search','f-status','f-importance','f-department'].forEach(id => document.getElementById(id).value = '');
+  loadList();
+}
+
+async function showDetail(id) {
+  const d = (await fetchJson(`${API}/requirements/${id}`)).data;
+  const logs = (await fetchJson(`${API}/status-logs/${id}`)).data;
+  openModal(`
+    <h3>需求详情：${escapeHtml(d.demand_id)} - ${escapeHtml(d.demand_name)}</h3>
+    <div class="detail-section">
+      <h4>基本信息</h4>
+      <div class="detail-grid">
+        <div class="k">状态</div><div><span class="badge ${d.demand_status==='active'?'active':'closed'}">${d.demand_status}</span></div>
+        <div class="k">重要程度</div><div>${(d.importance||'').trim()==='紧急'?'<span class="badge urgent">紧急</span>':'一般'}</div>
+        <div class="k">所属阶段</div><div>${escapeHtml(d.stage)}</div>
+        <div class="k">归属项目</div><div>${escapeHtml(d.project)}</div>
+        <div class="k">干系部门</div><div>${escapeHtml(d.department)}</div>
+        <div class="k">项目上线</div><div>${escapeHtml(d.end_time || d.deadline)}</div>
+        <div class="k">创建人</div><div>${escapeHtml(d.creator)}</div>
+        <div class="k">创建时间</div><div>${escapeHtml(d.business_created_date)}</div>
+        <div class="k">最后修改</div><div>${escapeHtml(d.last_modified)}</div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <h4>业务描述</h4>
+      <div class="detail-grid">
+        <div class="k">业务现状</div><div>${escapeHtml(d.businessdesc)}</div>
+        <div class="k">需求描述</div><div>${escapeHtml(d.demand_desc)}</div>
+        <div class="k">期望效果</div><div>${escapeHtml(d.businessobjective)}</div>
+      </div>
+    </div>
+    ${d.business_id || d.approval_status ? `
+    <div class="detail-section">
+      <h4>下游状态参考</h4>
+      <div class="detail-grid">
+        <div class="k">业务需求ID</div><div>${escapeHtml(d.business_id)}</div>
+        <div class="k">业务需求状态</div><div>${escapeHtml(d.business_status)}</div>
+        <div class="k">项目阶段</div><div>${escapeHtml(d.approval_status)}</div>
+        <div class="k">负责人</div><div>${escapeHtml(d.business_pm_name)}</div>
+        <div class="k">负责部门</div><div>${escapeHtml(d.responsible_dept_name)}</div>
+      </div>
+    </div>` : ''}
+    <div class="detail-section">
+      <h4>状态流转</h4>
+      ${logs.length === 0 ? '<div class="empty">暂无状态变更</div>' :
+        `<div class="timeline">${logs.map(l => `<div class="timeline-item"><b>${l.from_status||'—'} → ${l.to_status}</b><div class="meta">${l.operator} · ${l.operated_at} · ${escapeHtml(l.remark||'')}</div></div>`).join('')}</div>`}
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">关闭</button>
+      ${d.demand_status==='active' ? `<button class="btn btn-primary" onclick="closeModal();showReview('${d.demand_id}','${escapeHtml(d.demand_name)}')">评审</button>` : ''}
+    </div>
+  `);
+}
+
+function showClose(id) {
+  openModal(`
+    <h3>关闭需求 ${id}</h3>
+    <label>操作人 <input id="cl-op" /></label>
+    <label>关闭原因（必填） <textarea id="cl-remark"></textarea></label>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-danger" onclick="submitClose('${id}')">确认关闭</button>
+    </div>
+  `);
+}
+async function submitClose(id) {
+  const op = document.getElementById('cl-op').value.trim();
+  const rk = document.getElementById('cl-remark').value.trim();
+  if (!op) { alert('请填写操作人'); return; }
+  if (!rk) { alert('关闭原因为必填'); return; }
+  const r = await fetchJson(`${API}/requirements/${id}/close`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({operator: op, remark: rk})
+  });
+  if (r.code === 0) { closeModal(); loadList(); alert('已关闭'); }
+  else alert('失败：' + (r.detail || r.message));
+}
+
+let rejectionTypes = [];
+async function loadRejectionTypes() {
+  if (rejectionTypes.length === 0) {
+    rejectionTypes = (await fetchJson(`${API}/reviews/rejection-types`)).data;
+  }
+  return rejectionTypes;
+}
+
+async function showReview(id, name) {
+  await loadRejectionTypes();
+  openModal(`
+    <h3>评审需求：${id} - ${escapeHtml(name)}</h3>
+    <label>评审结论
+      <select id="rv-decision" onchange="onDecisionChange()">
+        <option value="pass">通过</option>
+        <option value="reject">驳回</option>
+        <option value="future">未来规划</option>
+      </select>
+    </label>
+    <div id="rv-pass-fields">
+      <label>优先级 <select id="rv-priority"><option>高</option><option>中</option><option>低</option></select></label>
+      <label>评审确定上线时间 <input type="date" id="rv-date" /></label>
+    </div>
+    <div id="rv-reject-fields" class="hidden">
+      <label>驳回类型 <select id="rv-rtype">${rejectionTypes.map(t => `<option value="${t.code}">${t.code} - ${t.name}</option>`).join('')}</select></label>
+      <label>驳回原因（必填） <textarea id="rv-rreason"></textarea></label>
+    </div>
+    <label>评审备注 <textarea id="rv-notes"></textarea></label>
+    <label>评审人 <input id="rv-reviewer" /></label>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" onclick="submitReview('${id}')">提交评审</button>
+    </div>
+  `);
+}
+
+function onDecisionChange() {
+  const d = document.getElementById('rv-decision').value;
+  document.getElementById('rv-pass-fields').classList.toggle('hidden', d !== 'pass');
+  document.getElementById('rv-reject-fields').classList.toggle('hidden', d !== 'reject');
+}
+
+async function submitReview(id) {
+  const decision = document.getElementById('rv-decision').value;
+  const reviewer = document.getElementById('rv-reviewer').value.trim();
+  if (!reviewer) { alert('请填写评审人'); return; }
+  const body = {decision, reviewer, review_notes: document.getElementById('rv-notes').value.trim() || null};
+  if (decision === 'pass') {
+    body.priority = document.getElementById('rv-priority').value;
+    body.review_date = document.getElementById('rv-date').value || null;
+  } else if (decision === 'reject') {
+    body.rejection_type = document.getElementById('rv-rtype').value;
+    body.rejection_reason = document.getElementById('rv-rreason').value.trim();
+    if (!body.rejection_reason) { alert('驳回原因为必填'); return; }
+  }
+  const r = await fetchJson(`${API}/reviews/${id}`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  if (r.code === 0) { closeModal(); alert('评审已保存'); loadReviewView(); }
+  else alert('失败：' + (r.detail || r.message));
+}
+
+async function loadReviewView() {
+  const reviews = (await fetchJson(`${API}/reviews`)).data;
+  const reqs = (await fetchJson(`${API}/requirements?limit=300`)).data.items;
+  const reqMap = Object.fromEntries(reqs.map(r => [r.demand_id, r]));
+
+  const todo = reviews.filter(r => r.is_reviewed === 0).filter(r => reqMap[r.requirement_id]);
+  const done = reviews.filter(r => r.is_reviewed === 1).filter(r => reqMap[r.requirement_id]);
+
+  document.getElementById('todo-count').innerText = `共 ${todo.length} 条`;
+  document.querySelector('#todo-table tbody').innerHTML = todo.map(r => {
+    const req = reqMap[r.requirement_id];
+    return `<tr>
+      <td>${escapeHtml(req.demand_id)}</td>
+      <td>${escapeHtml(req.demand_name)}</td>
+      <td>${(req.importance||'').trim()==='紧急'?'<span class="badge urgent">紧急</span>':'一般'}</td>
+      <td>${escapeHtml(req.department)}</td>
+      <td>${r.is_updated ? '<span class="badge yellow">已更新</span>' : ''}</td>
+      <td>
+        <button class="row-btn" onclick="showDetail('${req.demand_id}')">详情</button>
+        <button class="row-btn" onclick="showReview('${req.demand_id}','${escapeHtml(req.demand_name)}')">评审</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('done-count').innerText = `共 ${done.length} 条`;
+  document.querySelector('#done-table tbody').innerHTML = done.map(r => {
+    let dec = '通过';
+    if (r.rejection_type) dec = '<span class="badge red">驳回 ' + r.rejection_type + '</span>';
+    else if (r.plan_status === '未来规划') dec = '<span class="badge yellow">未来规划</span>';
+    else dec = '<span class="badge green">通过</span>';
+    return `<tr>
+      <td>${escapeHtml(r.requirement_id)}</td>
+      <td>${dec}</td>
+      <td>${escapeHtml(r.priority||'')}</td>
+      <td>${escapeHtml(r.review_date||'')}</td>
+      <td>${escapeHtml(r.reviewer||'')}</td>
+      <td>${escapeHtml((r.reviewed_at||'').slice(0,19))}</td>
+      <td><button class="row-btn" onclick="showDetail('${r.requirement_id}')">详情</button></td>
+    </tr>`;
+  }).join('');
+}
+
+async function uploadCsv() {
+  const file = document.getElementById('csv-file').files[0];
+  if (!file) { alert('请选择 CSV 文件'); return; }
+  const fd = new FormData(); fd.append('file', file);
+  const r = await fetchJson(`${API}/import/csv`, {method:'POST', body: fd});
+  document.getElementById('import-result').innerText = JSON.stringify(r, null, 2);
+}
+
+async function previewExport() {
+  const params = new URLSearchParams();
+  const f = document.getElementById('exp-from').value;
+  const t = document.getElementById('exp-to').value;
+  const d = document.getElementById('exp-decision').value;
+  if (f) params.set('date_from', f);
+  if (t) params.set('date_to', t);
+  if (d) params.set('decision', d);
+  const r = await fetchJson(`${API}/reviews/export-preview?${params}`);
+  document.querySelector('#exp-table tbody').innerHTML = r.data.map(row => `<tr>
+    <td>${escapeHtml(row.demand_id)}</td>
+    <td>${escapeHtml(row.demand_name)}</td>
+    <td>${escapeHtml(row.priority||'')}</td>
+    <td>${escapeHtml(row.decision)}</td>
+    <td>${escapeHtml(row.review_date||'')}</td>
+    <td>${escapeHtml(row.description||'')}</td>
+    <td>${escapeHtml(row.reason||'')}</td>
+  </tr>`).join('');
+}
+
+function downloadExport() {
+  const params = new URLSearchParams();
+  const f = document.getElementById('exp-from').value;
+  const t = document.getElementById('exp-to').value;
+  const d = document.getElementById('exp-decision').value;
+  if (f) params.set('date_from', f);
+  if (t) params.set('date_to', t);
+  if (d) params.set('decision', d);
+  window.location.href = `${API}/reviews/export?${params}`;
+}
+
+function openModal(html) {
+  document.getElementById('modal-root').innerHTML = `<div class="modal-mask" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`;
+}
+function closeModal() {
+  document.getElementById('modal-root').innerHTML = '';
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

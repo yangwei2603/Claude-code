@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>需求池管理系统 v2</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-base: #f0f2f5;
+  --bg-card: #ffffff;
+  --bg-sidebar: #1a1f2e;
+  --bg-sidebar-hover: #252b3d;
+  --bg-sidebar-active: #2d3548;
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-urgent: #ef4444;
+  --color-warn: #f59e0b;
+  --color-success: #10b981;
+  --color-future: #8b5cf6;
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--bg-base);
+  color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ===== SIDEBAR NAVIGATION ===== */
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: var(--bg-sidebar);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 20px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-logo h1 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.3px;
+}
+
+.sidebar-logo span {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
+  display: block;
+  margin-top: 2px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item:hover {
+  background: var(--bg-sidebar-hover);
+  color: #fff;
+}
+
+.nav-item.active {
+  background: var(--bg-sidebar-active);
+  color: #fff;
+}
+
+.nav-item svg {
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+}
+
+.nav-item.active svg {
+  opacity: 1;
+}
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.nav-badge.warn {
+  background: var(--color-warn);
+}
+
+.nav-section-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: rgba(255,255,255,0.3);
+  padding: 16px 12px 6px;
+  margin-top: 8px;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  margin-left: 220px;
+  min-height: 100vh;
+}
+
+.page-header {
+  background: var(--bg-card);
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.page-subtitle {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.page-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.page-body {
+  padding: 24px 28px;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-base);
+}
+
+.btn-danger {
+  background: var(--color-urgent);
+  color: #fff;
+}
+
+.btn-success {
+  background: var(--color-success);
+  color: #fff;
+}
+
+/* ===== KPI CARDS ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.kpi-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-primary);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.kpi-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.kpi-card:hover::before {
+  opacity: 1;
+}
+
+.kpi-card .kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.kpi-card .kpi-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.kpi-card .kpi-sub {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 6px;
+}
+
+.kpi-card.urgent .kpi-value { color: var(--color-urgent); }
+.kpi-card.urgent::before { background: var(--color-urgent); }
+
+.kpi-card.warn .kpi-value { color: var(--color-warn); }
+.kpi-card.warn::before { background: var(--color-warn); }
+
+.kpi-card.success .kpi-value { color: var(--color-success); }
+.kpi-card.success::before { background: var(--color-success); }
+
+/* ===== ALERT PANELS ===== */
+.alert-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.alert-panel {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.alert-panel.alert-urgent {
+  border-top: 3px solid var(--color-urgent);
+}
+
+.alert-panel.alert-warn {
+  border-top: 3px solid var(--color-warn);
+}
+
+.alert-panel.alert-info {
+  border-top: 3px solid var(--color-primary);
+}
+
+.alert-header {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.alert-header h3 {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-header h3 .icon {
+  font-size: 16px;
+}
+
+.alert-header h3 .count {
+  background: var(--color-urgent);
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.alert-warn .count {
+  background: var(--color-warn);
+}
+
+.alert-body {
+  padding: 12px 18px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.alert-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 4px;
+  margin: 0 -6px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.alert-item:hover {
+  background: #f9fafb;
+}
+
+.alert-item:last-child {
+  border-bottom: none;
+}
+
+.alert-item .id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.alert-item .name {
+  font-size: 13px;
+  color: var(--color-text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alert-item .meta {
+  font-size: 11px;
+  color: var(--color-urgent);
+  text-align: right;
+  font-weight: 600;
+}
+
+.alert-item .meta.warn {
+  color: var(--color-warn);
+}
+
+/* ===== CHARTS GRID ===== */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 18px;
+}
+
+.chart-card .chart-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 14px;
+}
+
+.chart-card .chart-area {
+  height: 200px;
+}
+
+/* ===== REVIEW MANAGEMENT ===== */
+.review-container {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+}
+
+.review-list-panel {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.review-list-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-list-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.review-filters {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-tab {
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: var(--bg-card);
+  color: var(--color-text-muted);
+  transition: all 0.15s;
+}
+
+.filter-tab.active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.review-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.review-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  background: #fafbfc;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.review-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 13px;
+}
+
+.review-table tr {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.review-table tr:hover td {
+  background: #f9fafb;
+}
+
+.review-table tr:last-child td {
+  border-bottom: none;
+}
+
+.review-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.review-name {
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.review-project {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.pass {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.reject {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.future {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.status-badge.updated {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.review-table .actions {
+  display: flex;
+  gap: 6px;
+}
+
+.review-table .btn-sm {
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  background: var(--bg-card);
+  cursor: pointer;
+  color: var(--color-text);
+  transition: all 0.15s;
+}
+
+.review-table .btn-sm:hover {
+  background: var(--bg-base);
+}
+
+.review-table .btn-sm.primary {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+/* ===== REVIEW SIDEBAR ===== */
+.review-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.sidebar-card-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sidebar-card-body {
+  padding: 16px 18px;
+}
+
+/* ===== EXPORT SECTION ===== */
+.export-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.export-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.export-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.export-filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.export-filters label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.export-filters input,
+.export-filters select {
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 12px;
+  background: var(--bg-card);
+}
+
+.export-preview {
+  margin-top: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.export-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.export-preview th {
+  background: #f8f9fa;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.export-preview td {
+  padding: 10px 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ===== LIFECYCLE KANBAN ===== */
+.lifecycle-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lifecycle-filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--bg-card);
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.lifecycle-filters label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.lifecycle-filters select,
+.lifecycle-filters input {
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.kanban-column {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.kanban-header {
+  padding: 14px 16px;
+  background: linear-gradient(to bottom, #fafbfc, #f5f6f8);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kanban-header h4 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text);
+}
+
+.kanban-count {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.kanban-body {
+  padding: 10px;
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.kanban-card {
+  background: var(--bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.kanban-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.kanban-card .card-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.kanban-card .card-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.kanban-card .card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.kanban-card .card-meta .dept {
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.kanban-overflow {
+  text-align: center;
+  padding: 8px;
+  font-size: 11px;
+  color: var(--color-primary);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.kanban-overflow:hover {
+  background: #f0f4ff;
+  border-radius: 4px;
+}
+
+/* Unassigned section */
+.unassigned-section {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.unassigned-section .icon {
+  font-size: 32px;
+}
+
+.unassigned-section .content {
+  flex: 1;
+}
+
+.unassigned-section h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: 2px;
+}
+
+.unassigned-section p {
+  font-size: 12px;
+  color: #b45309;
+}
+
+.unassigned-section .count {
+  font-size: 28px;
+  font-weight: 700;
+  color: #92400e;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  width: 560px;
+  max-height: 85vh;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+}
+
+.modal-overlay.active .modal {
+  transform: scale(1);
+}
+
+.modal-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modal-header .close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: #f3f4f6;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-body {
+  padding: 20px 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* ===== CHATBOT FLOATING BUTTON ===== */
+.chatbot-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), #6366f1);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 500;
+}
+
+.chatbot-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+}
+
+.chatbot-fab svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ===== UTILITIES ===== */
+.hidden { display: none !important; }
+
+.text-urgent { color: var(--color-urgent); }
+.text-warn { color: var(--color-warn); }
+.text-success { color: var(--color-success); }
+.text-muted { color: var(--color-text-muted); }
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ===== PAGE TRANSITIONS ===== */
+.page {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1400px) {
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .charts-grid { grid-template-columns: repeat(2, 1fr); }
+  .kanban-board { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 1100px) {
+  .review-container { grid-template-columns: 1fr; }
+  .alert-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>需求池<span>v2.0</span></h1>
+  </div>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" data-page="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+      看板
+    </button>
+    <button class="nav-item" data-page="import">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      导入
+    </button>
+    <button class="nav-item" data-page="review">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      评审管理
+      <span class="nav-badge warn">12</span>
+    </button>
+    <button class="nav-item" data-page="lifecycle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      需求全生命周期
+    </button>
+
+    <div class="nav-section-title">辅助功能</div>
+
+    <button class="nav-item" data-page="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      系统设置
+    </button>
+  </nav>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content">
+
+  <!-- ===== DASHBOARD PAGE ===== -->
+  <div id="page-dashboard" class="page">
+    <div class="page-header">
+      <div>
+        <div class="page-title">需求池看板</div>
+        <div class="page-subtitle">实时监控需求状态，支持点击查看明细数据</div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-secondary">📅 本月</button>
+        <button class="btn btn-primary">🔄 刷新</button>
+      </div>
+    </div>
+    <div class="page-body">
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card" onclick="drillDown('total')">
+          <div class="kpi-label">总需求数</div>
+          <div class="kpi-value">195</div>
+          <div class="kpi-sub">点击查看全部</div>
+        </div>
+        <div class="kpi-card" onclick="drillDown('active')">
+          <div class="kpi-label">进行中</div>
+          <div class="kpi-value">118</div>
+          <div class="kpi-sub">60.5%</div>
+        </div>
+        <div class="kpi-card" onclick="drillDown('closed')">
+          <div class="kpi-label">已关闭</div>
+          <div class="kpi-value">77</div>
+          <div class="kpi-sub">39.5%</div>
+        </div>
+        <div class="kpi-card urgent" onclick="drillDown('expired')">
+          <div class="kpi-label">已过期</div>
+          <div class="kpi-value">43</div>
+          <div class="kpi-sub">22% of total</div>
+        </div>
+        <div class="kpi-card warn" onclick="drillDown('urgent')">
+          <div class="kpi-label">紧急</div>
+          <div class="kpi-value">19</div>
+          <div class="kpi-sub">需处理</div>
+        </div>
+        <div class="kpi-card success" onclick="drillDown('reviewed')">
+          <div class="kpi-label">已评审</div>
+          <div class="kpi-value">65</div>
+          <div class="kpi-sub">本月</div>
+        </div>
+      </div>
+
+      <!-- Alert Panels -->
+      <div class="alert-grid">
+        <div class="alert-panel alert-urgent">
+          <div class="alert-header">
+            <h3><span class="icon">🚨</span> 过期紧急需求 <span class="count">3</span></h3>
+            <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;">查看全部</button>
+          </div>
+          <div class="alert-body">
+            <div class="alert-item">
+              <span class="id">1852</span>
+              <span class="name">航班调整自动通知系统</span>
+              <span class="meta">已超时 45 天</span>
+            </div>
+            <div class="alert-item">
+              <span class="id">1574</span>
+              <span class="name">旅客行李追踪功能优化</span>
+              <span class="meta">已超时 32 天</span>
+            </div>
+            <div class="alert-item">
+              <span class="id">1573</span>
+              <span class="name">会员积分兑换规则调整</span>
+              <span class="meta">已超时 28 天</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert-panel alert-warn">
+          <div class="alert-header">
+            <h3><span class="icon">⚠️</span> 积压超时预警 <span class="count warn">8</span></h3>
+            <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;">查看全部</button>
+          </div>
+          <div class="alert-body">
+            <div class="alert-item">
+              <span class="id">2001</span>
+              <span class="name">新客服系统需求对接</span>
+              <span class="meta warn">闲置 25 天</span>
+            </div>
+            <div class="alert-item">
+              <span class="id">1892</span>
+              <span class="name">财务对账自动化</span>
+              <span class="meta warn">闲置 22 天</span>
+            </div>
+            <div class="alert-item">
+              <span class="id">1788</span>
+              <span class="name">运营数据看板升级</span>
+              <span class="meta warn">闲置 21 天</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Grid -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title">状态分布</div>
+          <div class="chart-area" id="chart-status"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">部门分布</div>
+          <div class="chart-area" id="chart-dept"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">创建人分布</div>
+          <div class="chart-area" id="chart-creator"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">项目分布</div>
+          <div class="chart-area" id="chart-project"></div>
+        </div>
+      </div>
+
+      <!-- Review Stats + Quality -->
+      <div class="alert-grid">
+        <div class="alert-panel alert-info">
+          <div class="alert-header">
+            <h3><span class="icon">📋</span> 当月评审统计</h3>
+          </div>
+          <div class="alert-body" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center;">
+            <div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--color-text);">12</div>
+              <div style="font-size: 11px; color: var(--color-text-muted);">本月新增</div>
+            </div>
+            <div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--color-primary);">8</div>
+              <div style="font-size: 11px; color: var(--color-text-muted);">已评审</div>
+            </div>
+            <div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--color-success);">5</div>
+              <div style="font-size: 11px; color: var(--color-text-muted);">通过</div>
+            </div>
+            <div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--color-urgent);">3</div>
+              <div style="font-size: 11px; color: var(--color-text-muted);">驳回</div>
+            </div>
+          </div>
+        </div>
+        <div class="alert-panel alert-info">
+          <div class="alert-header">
+            <h3><span class="icon">📊</span> 描述质量分布</h3>
+          </div>
+          <div class="alert-body">
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                <span>需求描述</span>
+                <span class="text-urgent">35 差 / 28 中 / 132 好</span>
+              </div>
+              <div style="height: 8px; background: #fee2e2; border-radius: 4px; overflow: hidden;">
+                <div style="width: 18%; height: 100%; background: #ef4444; float: left;"></div>
+                <div style="width: 14%; height: 100%; background: #f59e0b; float: left;"></div>
+                <div style="width: 68%; height: 100%; background: #10b981; float: left;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                <span>业务效果</span>
+                <span class="text-warn">42 差 / 35 中 / 118 好</span>
+              </div>
+              <div style="height: 8px; background: #fef3c7; border-radius: 4px; overflow: hidden;">
+                <div style="width: 22%; height: 100%; background: #f59e0b; float: left;"></div>
+                <div style="width: 18%; height: 100%; background: #fbbf24; float: left;"></div>
+                <div style="width: 60%; height: 100%; background: #10b981; float: left;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                <span>业务现状</span>
+                <span class="text-urgent">51 差 / 40 中 / 104 好</span>
+              </div>
+              <div style="height: 8px; background: #fee2e2; border-radius: 4px; overflow: hidden;">
+                <div style="width: 26%; height: 100%; background: #ef4444; float: left;"></div>
+                <div style="width: 20%; height: 100%; background: #f59e0b; float: left;"></div>
+                <div style="width: 54%; height: 100%; background: #10b981; float: left;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== REVIEW MANAGEMENT PAGE ===== -->
+  <div id="page-review" class="page hidden">
+    <div class="page-header">
+      <div>
+        <div class="page-title">评审管理</div>
+        <div class="page-subtitle">评审需求、选择项目归属、确认录入禅道</div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-success">✅ 确认录入禅道 (5)</button>
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="review-container">
+        <!-- Review List -->
+        <div class="review-list-panel">
+          <div class="review-list-header">
+            <h3>待评审列表</h3>
+            <div class="review-filters">
+              <button class="filter-tab active">待评审 (12)</button>
+              <button class="filter-tab">本次评审 (5)</button>
+              <button class="filter-tab">历史评审 (48)</button>
+            </div>
+          </div>
+          <table class="review-table">
+            <thead>
+              <tr>
+                <th>编号</th>
+                <th>需求名称</th>
+                <th>优先级</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="openReviewModal('2001')">
+                <td><span class="review-id">2001</span></td>
+                <td>
+                  <div class="review-name">新客服系统需求对接</div>
+                  <div class="review-project">业务部门：运营部</div>
+                </td>
+                <td><span class="status-badge pending">高</span></td>
+                <td><span class="status-badge updated">已更新</span></td>
+                <td class="actions">
+                  <button class="btn-sm primary">评审</button>
+                </td>
+              </tr>
+              <tr onclick="openReviewModal('2002')">
+                <td><span class="review-id">2002</span></td>
+                <td>
+                  <div class="review-name">财务对账自动化需求</div>
+                  <div class="review-project">业务部门：财务部</div>
+                </td>
+                <td><span class="status-badge pending">中</span></td>
+                <td></td>
+                <td class="actions">
+                  <button class="btn-sm primary">评审</button>
+                </td>
+              </tr>
+              <tr onclick="openReviewModal('2003')">
+                <td><span class="review-id">2003</span></td>
+                <td>
+                  <div class="review-name">运营数据看板升级方案</div>
+                  <div class="review-project">业务部门：市场部</div>
+                </td>
+                <td><span class="status-badge pending">低</span></td>
+                <td></td>
+                <td class="actions">
+                  <button class="btn-sm primary">评审</button>
+                </td>
+              </tr>
+              <tr onclick="openReviewModal('2004')">
+                <td><span class="review-id">2004</span></td>
+                <td>
+                  <div class="review-name">会员积分系统优化</div>
+                  <div class="review-project">业务部门：会员部</div>
+                </td>
+                <td><span class="status-badge pending">高</span></td>
+                <td><span class="status-badge updated">已更新</span></td>
+                <td class="actions">
+                  <button class="btn-sm primary">评审</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="review-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-card-header">📤 导出区域</div>
+            <div class="sidebar-card-body">
+              <div class="export-filters" style="flex-direction: column; align-items: stretch; gap: 10px;">
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <label style="width: 50px;">日期</label>
+                  <input type="date" value="2026-05-01" style="flex: 1;">
+                  <span>-</span>
+                  <input type="date" value="2026-05-17" style="flex: 1;">
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <label style="width: 50px;">分类</label>
+                  <select style="flex: 1;">
+                    <option>全部</option>
+                    <option>通过</option>
+                    <option>驳回</option>
+                    <option>未来规划</option>
+                  </select>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <label style="width: 50px;">范围</label>
+                  <select style="flex: 1;">
+                    <option>本次评审</option>
+                    <option>历史评审</option>
+                    <option>全部</option>
+                  </select>
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 4px;">
+                  <button class="btn btn-secondary" style="flex: 1;">预览</button>
+                  <button class="btn btn-primary" style="flex: 1;">下载 Excel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-card-header">📊 本次评审统计</div>
+            <div class="sidebar-card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="text-align: center; padding: 12px; background: #fef3c7; border-radius: 6px;">
+                  <div style="font-size: 22px; font-weight: 700; color: #92400e;">5</div>
+                  <div style="font-size: 11px; color: #b45309;">待评审</div>
+                </div>
+                <div style="text-align: center; padding: 12px; background: #d1fae5; border-radius: 6px;">
+                  <div style="font-size: 22px; font-weight: 700; color: #065f46;">2</div>
+                  <div style="font-size: 11px; color: #047857;">已通过</div>
+                </div>
+                <div style="text-align: center; padding: 12px; background: #fee2e2; border-radius: 6px;">
+                  <div style="font-size: 22px; font-weight: 700; color: #991b1b;">1</div>
+                  <div style="font-size: 11px; color: #b91c1c;">已驳回</div>
+                </div>
+                <div style="text-align: center; padding: 12px; background: #ede9fe; border-radius: 6px;">
+                  <div style="font-size: 22px; font-weight: 700; color: #5b21b6;">1</div>
+                  <div style="font-size: 11px; color: #6d28d9;">未来规划</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LIFECYCLE PAGE ===== -->
+  <div id="page-lifecycle" class="page hidden">
+    <div class="page-header">
+      <div>
+        <div class="page-title">需求全生命周期</div>
+        <div class="page-subtitle">跟踪需求从待评审到已关闭的完整生命周期</div>
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="lifecycle-container">
+        <!-- Filters -->
+        <div class="lifecycle-filters">
+          <label>筛选：</label>
+          <select>
+            <option>全部阶段</option>
+            <option>待评审</option>
+            <option>已评审及分类</option>
+            <option>已通过</option>
+            <option>已立项</option>
+            <option>已上线</option>
+            <option>已关闭</option>
+          </select>
+          <select>
+            <option>全部部门</option>
+            <option>运营部</option>
+            <option>财务部</option>
+            <option>市场部</option>
+          </select>
+          <select>
+            <option>全部重要程度</option>
+            <option>紧急</option>
+            <option>一般</option>
+          </select>
+          <input type="text" placeholder="搜索需求名称或编号..." style="flex: 1; max-width: 240px;">
+        </div>
+
+        <!-- Unassigned Alert -->
+        <div class="unassigned-section">
+          <div class="icon">⚠️</div>
+          <div class="content">
+            <h4>未归属项目需求</h4>
+            <p>评审通过但未选择项目归属的需求，需要项目经理确认</p>
+          </div>
+          <div class="count">5</div>
+        </div>
+
+        <!-- Kanban Board -->
+        <div class="kanban-board">
+          <div class="kanban-column">
+            <div class="kanban-header">
+              <h4>待评审</h4>
+              <span class="kanban-count">12</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="openDetail('2001')">
+                <div class="card-id">#2001</div>
+                <div class="card-name">新客服系统需求对接</div>
+                <div class="card-meta">
+                  <span class="dept">运营部</span>
+                  <span>高优先级</span>
+                </div>
+              </div>
+              <div class="kanban-card" onclick="openDetail('2002')">
+                <div class="card-id">#2002</div>
+                <div class="card-name">财务对账自动化需求</div>
+                <div class="card-meta">
+                  <span class="dept">财务部</span>
+                  <span>中优先级</span>
+                </div>
+              </div>
+              <div class="kanban-card" onclick="openDetail('2003')">
+                <div class="card-id">#2003</div>
+                <div class="card-name">运营数据看板升级方案</div>
+                <div class="card-meta">
+                  <span class="dept">市场部</span>
+                  <span>低优先级</span>
+                </div>
+              </div>
+              <div class="kanban-overflow">+9 more</div>
+            </div>
+          </div>
+
+          <div class="kanban-column">
+            <div class="kanban-header">
+              <h4>已通过</h4>
+              <span class="kanban-count" style="background: var(--color-success);">8</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="openDetail('1852')">
+                <div class="card-id">#1852</div>
+                <div class="card-name">航班调整自动通知系统</div>
+                <div class="card-meta">
+                  <span class="dept">运力部</span>
+                  <span>高优先级</span>
+                </div>
+              </div>
+              <div class="kanban-card" onclick="openDetail('1855')">
+                <div class="card-id">#1855</div>
+                <div class="card-name">会员积分兑换规则调整</div>
+                <div class="card-meta">
+                  <span class="dept">会员部</span>
+                  <span>中优先级</span>
+                </div>
+              </div>
+              <div class="kanban-overflow">+6 more</div>
+            </div>
+          </div>
+
+          <div class="kanban-column">
+            <div class="kanban-header">
+              <h4>已立项</h4>
+              <span class="kanban-count" style="background: var(--color-primary);">15</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="openDetail('1800')">
+                <div class="card-id">#1800</div>
+                <div class="card-name">旅客行李追踪功能优化</div>
+                <div class="card-meta">
+                  <span class="dept">客服部</span>
+                  <span>高优先级</span>
+                </div>
+              </div>
+              <div class="kanban-card" onclick="openDetail('1801')">
+                <div class="card-id">#1801</div>
+                <div class="card-name">机组排班系统升级</div>
+                <div class="card-meta">
+                  <span class="dept">运力部</span>
+                  <span>中优先级</span>
+                </div>
+              </div>
+              <div class="kanban-overflow">+13 more</div>
+            </div>
+          </div>
+
+          <div class="kanban-column">
+            <div class="kanban-header">
+              <h4>已上线</h4>
+              <span class="kanban-count" style="background: var(--color-success);">23</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="openDetail('1700')">
+                <div class="card-id">#1700</div>
+                <div class="card-name">地服结算系统优化</div>
+                <div class="card-meta">
+                  <span class="dept">财务部</span>
+                  <span>已完成</span>
+                </div>
+              </div>
+              <div class="kanban-card" onclick="openDetail('1701')">
+                <div class="card-id">#1701</div>
+                <div class="card-name">常旅客里程显示改造</div>
+                <div class="card-meta">
+                  <span class="dept">会员部</span>
+                  <span>已完成</span>
+                </div>
+              </div>
+              <div class="kanban-overflow">+21 more</div>
+            </div>
+          </div>
+
+          <div class="kanban-column">
+            <div class="kanban-header">
+              <h4>已关闭</h4>
+              <span class="kanban-count" style="background: var(--color-text-muted);">77</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="openDetail('1600')">
+                <div class="card-id">#1600</div>
+                <div class="card-name">旧版官网数据迁移</div>
+                <div class="card-meta">
+                  <span class="dept">IT部</span>
+                  <span>已关闭</span>
+                </div>
+              </div>
+              <div class="kanban-card" onclick="openDetail('1601')">
+                <div class="card-id">#1601</div>
+                <div class="card-name">投诉处理流程优化</div>
+                <div class="card-meta">
+                  <span class="dept">客服部</span>
+                  <span>已关闭</span>
+                </div>
+              </div>
+              <div class="kanban-overflow">+75 more</div>
+            </div>
+          </div>
+
+          <div class="kanban-column">
+            <div class="kanban-header">
+              <h4>未来规划</h4>
+              <span class="kanban-count" style="background: var(--color-future);">6</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="openDetail('1500')">
+                <div class="card-id">#1500</div>
+                <div class="card-name">AI客服机器人试点</div>
+                <div class="card-meta">
+                  <span class="dept">客服部</span>
+                  <span>暂不推进</span>
+                </div>
+              </div>
+              <div class="kanban-card" onclick="openDetail('1501')">
+                <div class="card-id">#1501</div>
+                <div class="card-name">区块链积分系统预研</div>
+                <div class="card-meta">
+                  <span class="dept">IT部</span>
+                  <span>暂不推进</span>
+                </div>
+              </div>
+              <div class="kanban-overflow">+4 more</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== IMPORT PAGE ===== -->
+  <div id="page-import" class="page hidden">
+    <div class="page-header">
+      <div>
+        <div class="page-title">CSV 导入</div>
+        <div class="page-subtitle">批量导入需求数据，支持版本对比和状态追溯</div>
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="sidebar-card" style="max-width: 700px;">
+        <div class="sidebar-card-header">📥 上传 CSV 文件</div>
+        <div class="sidebar-card-body">
+          <div style="border: 2px dashed var(--color-border); border-radius: var(--radius-md); padding: 40px; text-align: center; cursor: pointer; transition: all 0.2s;" onclick="document.getElementById('csv-input').click()">
+            <div style="font-size: 32px; margin-bottom: 12px;">📁</div>
+            <div style="font-weight: 600; margin-bottom: 4px;">点击选择文件或拖拽到此处</div>
+            <div style="font-size: 12px; color: var(--color-text-muted);">支持 .csv 格式</div>
+            <input type="file" id="csv-input" accept=".csv" style="display: none;">
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-card" style="max-width: 700px; margin-top: 20px;">
+        <div class="sidebar-card-header">📋 CSV 导入模板说明</div>
+        <div class="sidebar-card-body">
+          <div style="font-size: 13px; line-height: 1.8;">
+            <p style="margin-bottom: 12px;"><strong>必填字段：</strong></p>
+            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 6px; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+              <div style="color: var(--color-urgent);">demand_id</div><div style="color: var(--color-text-muted);">需求编号（主键）</div>
+              <div style="color: var(--color-urgent);">demand_name</div><div style="color: var(--color-text-muted);">需求名称</div>
+              <div style="color: var(--color-urgent);">demand_status</div><div style="color: var(--color-text-muted);">active / closed</div>
+            </div>
+            <p style="margin-bottom: 12px;"><strong>可选字段：</strong></p>
+            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 6px; font-size: 12px; font-family: 'JetBrains Mono', monospace;">
+              <div>stage</div><div style="color: var(--color-text-muted);">所属阶段</div>
+              <div>project</div><div style="color: var(--color-text-muted);">归属项目</div>
+              <div>department</div><div style="color: var(--color-text-muted);">干系部门</div>
+              <div>demand_desc</div><div style="color: var(--color-text-muted);">需求描述</div>
+              <div>businessobjective</div><div style="color: var(--color-text-muted);">期望达成的业务效果</div>
+              <div>businessdesc</div><div style="color: var(--color-text-muted);">业务现状</div>
+              <div>business_id</div><div style="color: var(--color-text-muted);">关联业务需求 ID</div>
+              <div>importance</div><div style="color: var(--color-text-muted);">一般 / 紧急</div>
+              <div>deadline</div><div style="color: var(--color-text-muted);">期望上线日期</div>
+              <div>creator</div><div style="color: var(--color-text-muted);">创建人</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ===== REVIEW MODAL ===== -->
+<div class="modal-overlay" id="review-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>评审需求 #2001</h3>
+      <button class="close-btn" onclick="closeReviewModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="background: #f9fafb; padding: 14px 16px; border-radius: var(--radius-sm); margin-bottom: 18px;">
+        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">新客服系统需求对接</div>
+        <div style="font-size: 12px; color: var(--color-text-muted);">运营部 | 高优先级 | 创建人：张三</div>
+      </div>
+
+      <div class="form-group">
+        <label>评审结论</label>
+        <div style="display: flex; gap: 10px; margin-top: 6px;">
+          <button class="btn btn-success" style="flex: 1;" onclick="showProjectSelect()">✅ 通过</button>
+          <button class="btn" style="flex: 1; background: #ede9fe; color: #5b21b6; border-color: #c4b5fd;">📅 未来规划</button>
+          <button class="btn btn-danger" style="flex: 1;" onclick="showRejectForm()">❌ 驳回</button>
+        </div>
+      </div>
+
+      <div id="reject-form" class="hidden">
+        <div class="form-group">
+          <label>驳回类型</label>
+          <select>
+            <option value="">请选择驳回原因</option>
+            <option value="P001">优先级过高 - 需求紧急程度与业务价值不匹配</option>
+            <option value="P002">重复需求 - 与已有需求重复</option>
+            <option value="P003">范围不清 - 需求描述模糊</option>
+            <option value="P004">依赖缺失 - 存在未识别的上游依赖</option>
+            <option value="P005">资源不足 - 无足够人力或技术资源</option>
+            <option value="P006">业务调整 - 业务方向调整或战略变更</option>
+            <option value="P007">条件不成熟 - 前提条件不满足</option>
+            <option value="P999">其他原因</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>驳回原因说明</label>
+          <textarea placeholder="请详细说明驳回原因，便于需求提出方修改..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>优先级</label>
+        <select>
+          <option>高</option>
+          <option>中</option>
+          <option>低</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>评审确定上线时间</label>
+        <input type="date" value="">
+      </div>
+
+      <div class="form-group">
+        <label>评审备注</label>
+        <textarea placeholder="填写评审意见..."></textarea>
+      </div>
+
+      <div id="project-select" class="hidden">
+        <div class="form-group">
+          <label>项目归属</label>
+          <div style="display: flex; gap: 10px; margin-top: 6px;">
+            <button class="btn btn-secondary" style="flex: 1;" onclick="showNewProject()">🏗️ 新建项目</button>
+            <button class="btn btn-secondary" style="flex: 1;" onclick="showExistingProject()">📁 归属现有项目</button>
+          </div>
+        </div>
+
+        <div id="new-project-form" class="hidden form-group">
+          <label>新项目名称</label>
+          <input type="text" placeholder="输入新项目名称">
+        </div>
+
+        <div id="existing-project-form" class="hidden form-group">
+          <label>选择现有项目</label>
+          <select>
+            <option value="">从项目列表选择...</option>
+            <option>旅客服务系统优化</option>
+            <option>会员积分平台升级</option>
+            <option>财务结算自动化</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeReviewModal()">取消</button>
+      <button class="btn btn-primary">提交评审</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHATBOT FAB ===== -->
+<button class="chatbot-fab" onclick="window.open('https://your-data-analysis-workspace-url', '_blank')">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+    <circle cx="12" cy="10" r="1" fill="currentColor"/>
+    <circle cx="8" cy="10" r="1" fill="currentColor"/>
+    <circle cx="16" cy="10" r="1" fill="currentColor"/>
+  </svg>
+</button>
+
+<script>
+// Navigation
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    const pageId = 'page-' + item.dataset.page;
+    document.getElementById(pageId).classList.remove('hidden');
+  });
+});
+
+// Drill down
+function drillDown(type) {
+  alert('下钻到 ' + type + ' 需求列表');
+}
+
+// Review Modal
+function openReviewModal(id) {
+  document.getElementById('review-modal').classList.add('active');
+}
+
+function closeReviewModal() {
+  document.getElementById('review-modal').classList.remove('active');
+}
+
+function showRejectForm() {
+  document.getElementById('reject-form').classList.remove('hidden');
+}
+
+function showProjectSelect() {
+  document.getElementById('project-select').classList.remove('hidden');
+}
+
+function showNewProject() {
+  document.getElementById('new-project-form').classList.remove('hidden');
+  document.getElementById('existing-project-form').classList.add('hidden');
+}
+
+function showExistingProject() {
+  document.getElementById('existing-project-form').classList.remove('hidden');
+  document.getElementById('new-project-form').classList.add('hidden');
+}
+
+function openDetail(id) {
+  alert('打开需求详情: ' + id);
+}
+
+// Initialize charts
+document.addEventListener('DOMContentLoaded', () => {
+  const chartStatus = echarts.init(document.getElementById('chart-status'));
+  chartStatus.setOption({
+    tooltip: { trigger: 'item' },
+    legend: { bottom: 0 },
+    series: [{
+      type: 'pie',
+      radius: ['45%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: { borderRadius: 4, borderColor: '#fff', borderWidth: 2 },
+      label: { show: false },
+      data: [
+        { value: 118, name: '进行中', itemStyle: { color: '#3b82f6' } },
+        { value: 77, name: '已关闭', itemStyle: { color: '#6b7280' } },
+        { value: 43, name: '已过期', itemStyle: { color: '#ef4444' } }
+      ]
+    }]
+  });
+
+  const chartDept = echarts.init(document.getElementById('chart-dept'));
+  chartDept.setOption({
+    tooltip: { trigger: 'axis' },
+    grid: { left: 10, right: 10, bottom: 10, top: 10, containLabel: true },
+    xAxis: { type: 'category', data: ['运力', '财务', '客服', '会员', '市场', 'IT'] },
+    yAxis: { type: 'value' },
+    series: [{
+      type: 'bar',
+      barWidth: '50%',
+      itemStyle: { borderRadius: [4, 4, 0, 0], color: '#8b5cf6' },
+      data: [45, 32, 28, 24, 18, 12]
+    }]
+  });
+
+  const chartCreator = echarts.init(document.getElementById('chart-creator'));
+  chartCreator.setOption({
+    tooltip: { trigger: 'axis' },
+    grid: { left: 10, right: 10, bottom: 10, top: 10, containLabel: true },
+    xAxis: { type: 'value' },
+    yAxis: { type: 'category', data: ['李四', '王五', '赵六', '张三', '陈七'] },
+    series: [{
+      type: 'bar',
+      barWidth: '50%',
+      itemStyle: { borderRadius: [0, 4, 4, 0], color: '#10b981' },
+      data: [38, 29, 24, 18, 15]
+    }]
+  });
+
+  const chartProject = echarts.init(document.getElementById('chart-project'));
+  chartProject.setOption({
+    tooltip: { trigger: 'item' },
+    legend: { orient: 'vertical', right: 10, top: 'center' },
+    series: [{
+      type: 'pie',
+      radius: ['45%', '70%'],
+      center: ['35%', '50%'],
+      itemStyle: { borderRadius: 4, borderColor: '#fff', borderWidth: 2 },
+      label: { show: false },
+      data: [
+        { value: 42, name: '旅客服务', itemStyle: { color: '#3b82f6' } },
+        { value: 35, name: '会员平台', itemStyle: { color: '#8b5cf6' } },
+        { value: 28, name: '财务系统', itemStyle: { color: '#10b981' } },
+        { value: 18, name: '其他', itemStyle: { color: '#6b7280' } }
+      ]
+    }]
+  });
+});
+</script>
+</body>
+</html>

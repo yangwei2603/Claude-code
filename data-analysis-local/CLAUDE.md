@@ -5,6 +5,68 @@
 
 ---
 
+## AI 任务规划与执行流程
+
+本工作区由 AI（Hermes）担任**主规划者**，负责：接收分析需求 → 制定计划 → 分配任务 → 质量把关 → 交付报告。
+
+### 流程总览
+
+```
+用户提出需求
+    ↓
+AI 规划任务（判断数据源 + 拆解分析步骤 + 分配执行路径）
+    ↓
+使用 Claude Code 执行具体分析（cd 到本目录后运行分析脚本）
+    ↓
+AI 整合结果 → 生成报告 → 用户确认
+```
+
+### AI 规划原则
+
+1. **先确认数据源，再拆解任务** — 不清楚数据在哪之前不拆解具体步骤
+2. **判断使用哪个数据源**：
+   - `/Users/fox/DB/analysis.db` → 内部数据，必须本地模型
+   - `/Users/fox/DB/external_data.db` → 外部数据，可用外网补充
+   - Excel/CSV 文件 → 读取文件或入库后分析
+3. **每次分析创建独立目录**：`data-analysis-local/<主题>-<YYYYMMDD>/`
+4. **先问输出格式**（HTML优先 / Markdown / PDF），不擅自决定
+5. **用户无特殊要求时默认生成交互式 HTML 报告**
+
+### 数据缺失处理约定
+
+| 情况 | 处理方式 |
+|------|---------|
+| Excel 源文件不在预期路径 | 立即告知用户**文件路径**，不自行搜索替代位置 |
+| SQLite 期间数据不完整（记录数异常少） | 告知用户**数据不完整**，说明哪些科目缺失，不自行补充 |
+| 多个可能的源文件 | 列出所有候选路径，请用户确认使用哪一个 |
+| 分析结论无法生成（缺数据） | 明确告知**缺什么数据 + 数据应在何处**，不捏造结论 |
+
+---
+
+### Claude Code 执行方式
+
+所有具体分析脚本通过以下方式执行：
+
+```bash
+cd /Users/fox/Claude\ Code/data-analysis-local/<任务目录>/
+# 然后运行分析脚本
+python analyze_*.py
+```
+
+AI 在规划好分析步骤后，自己进入该目录执行脚本、读取结果，再整合成报告。
+
+### 任务分配参考
+
+| 分析类型 | 数据源 | 执行路径 |
+|---------|-------|---------|
+| 成本费用多维分析 | Excel（帆软导出）或 GL 日记账 | 用户需提供 Excel 路径；GL 数据检查 `fin_gl_journal_m` 表完整性 |
+| 航司对比/行业对标 | `external_data.db` | 可用外网补充，Claude Code执行 |
+| 节油/飞行员绩效 | `analysis.db` pilot表 | 本地模型分析 |
+| 供应商/合同分析 | 文件导入 或 合同库 | 本地模型分析 |
+| 需求池分析 | `zt_demand_pool`表 | 本地模型分析 |
+
+---
+
 ## 目录结构
 
 ```
@@ -260,6 +322,39 @@ conn.close()
 | 内部数据（Excel/CSV） | `pd.read_csv()` / `pd.read_excel()`，文件路径记录在分析目录或者用户指定路径 |
 | 内部数据（结构化） | `/Users/fox/DB/analysis.db`，按本地模型约束处理 |
 | 外部数据 | `/Users/fox/DB/external_data.db`（见上节），覆盖11大类数据源 |
+
+---
+
+## 数据质量规范
+
+### SQLite TEXT 类型字段的数值处理
+
+部分表（如 `t_ads_sfuel_stat_dtl`）的数值字段存储为 TEXT 类型，
+使用**逗号作为千位分隔符**（如 `30,854.42`），直接使用 SQLite 的 `AVG()`/`SUM()`
+等聚合函数会导致结果错误（只取逗号前的整数部分）。
+
+**正确做法**：在 SQL 查询中使用 `CAST(REPLACE(col, ',', '') AS REAL)` 转换后再聚合。
+
+```python
+# ❌ 错误：直接 AVG 得到错误结果（如 30 而不是 30854）
+SELECT AVG(plan_altitude) FROM t_ads_sfuel_stat_dtl ...
+
+# ✅ 正确：先替换逗号再转换
+SELECT AVG(CAST(REPLACE(plan_altitude, ',', '') AS REAL)) FROM t_ads_sfuel_stat_dtl ...
+```
+
+**涉及字段（已知）**：
+
+| 字段 | 说明 |
+|------|------|
+| `plan_altitude` | 计划高度（ft） |
+| `actual_altitude` | 实际高度（ft） |
+| `above_plan_altitude` | 高于计划高度（ft） |
+| `below_plan_altitude` | 低于计划高度（ft） |
+| 其他数值字段 | 入库前应检查是否含逗号格式 |
+
+**Python 端补救**：`pandas.read_sql()` 读取 TEXT 类型字段时，数值列会自动转换，
+但在做二次聚合（如 `df.groupby().mean()`）前仍需确认数据格式正确。
 
 ---
 
