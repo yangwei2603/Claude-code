@@ -1,0 +1,2625 @@
+{
+  "fleet_stats": {
+    "avg_ci": 91.8,
+    "avg_alt": 82.9,
+    "std_ci": 5.2,
+    "std_alt": 7.4
+  },
+  "thresholds": {
+    "ci": 85,
+    "alt": 15
+  },
+  "top10_dual_low": [
+    {
+      "pilot_code": "001133",
+      "pilot_name": "马桂力",
+      "total_flights": 49,
+      "ci_yes": 46,
+      "ci_total": 49,
+      "alt_yes": 18,
+      "alt_total": 49,
+      "ci_rate": 93.9,
+      "alt_rate": 36.7,
+      "ci_below": 3,
+      "alt_below": 31,
+      "euclidean_dist": 63.59323863430765,
+      "ci_zscore": 0.39724174332672485,
+      "alt_zscore": -6.24710029697324,
+      "combined_zscore": -2.9249292768232578,
+      "threshold_product": 0,
+      "threshold_sum": 0,
+      "flights": [
+        {
+          "date": "2026-04-28 00:00:00",
+          "route": "ZLLL-ZSPD",
+          "ci_executed": 0,
+          "actual_alt": 29099.7750949804,
+          "plan_alt": 34561.26340882,
+          "alt_gap": -5461.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZPPP-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 28727.3219559114,
+          "plan_alt": 32618.0505415162,
+          "alt_gap": -3891.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZLLL-ZPPP",
+          "ci_executed": 1,
+          "actual_alt": 30899.7952406181,
+          "plan_alt": 28888.9830508475,
+          "alt_gap": 2011.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZLLL-ZPPP",
+          "ci_executed": 1,
+          "actual_alt": 32076.7248321921,
+          "plan_alt": 33092.3728813559,
+          "alt_gap": -1016.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZPPP-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 33156.8303276756,
+          "plan_alt": 32618.0505415162,
+          "alt_gap": 539.0
+        },
+        {
+          "date": "2026-04-25 00:00:00",
+          "route": "ZSPD-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 32925.9070646525,
+          "plan_alt": 32718.8073394495,
+          "alt_gap": 207.0
+        },
+        {
+          "date": "2026-04-22 00:00:00",
+          "route": "WMKP-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 32999.2335536581,
+          "plan_alt": 34378.1185031185,
+          "alt_gap": -1379.0
+        },
+        {
+          "date": "2026-04-20 00:00:00",
+          "route": "ZSPD-WMKP",
+          "ci_executed": 1,
+          "actual_alt": 32937.3377085387,
+          "plan_alt": 35518.224789916,
+          "alt_gap": -2581.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "RJAA-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 29999.8917084018,
+          "plan_alt": 29221.7237308146,
+          "alt_gap": 778.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZSPD-RJAA",
+          "ci_executed": 1,
+          "actual_alt": 33625.6381846674,
+          "plan_alt": 33829.7872340425,
+          "alt_gap": -204.0
+        },
+        {
+          "date": "2026-04-16 00:00:00",
+          "route": "WMKK-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 34677.3733686981,
+          "plan_alt": 34536.5414307772,
+          "alt_gap": 141.0
+        },
+        {
+          "date": "2026-04-15 00:00:00",
+          "route": "ZSPD-WMKK",
+          "ci_executed": 1,
+          "actual_alt": 34616.0724052193,
+          "plan_alt": 32027.3,
+          "alt_gap": 2589.0
+        },
+        {
+          "date": "2026-04-12 00:00:00",
+          "route": "ZSPD-ZPLJ",
+          "ci_executed": 1,
+          "actual_alt": 31124.0016294839,
+          "plan_alt": 34411.7117117117,
+          "alt_gap": -3288.0
+        },
+        {
+          "date": "2026-04-12 00:00:00",
+          "route": "ZPLJ-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 34583.2905009214,
+          "plan_alt": 34566.6666666667,
+          "alt_gap": 17.0
+        },
+        {
+          "date": "2026-04-11 00:00:00",
+          "route": "ZWWW-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 34487.2503156858,
+          "plan_alt": 31169.0448791715,
+          "alt_gap": 3318.0
+        },
+        {
+          "date": "2026-04-10 00:00:00",
+          "route": "ZWWW-ZWYT",
+          "ci_executed": 1,
+          "actual_alt": 29099.4953689813,
+          "plan_alt": 30100.0,
+          "alt_gap": -1001.0
+        },
+        {
+          "date": "2026-04-10 00:00:00",
+          "route": "ZSSS-ZWWW",
+          "ci_executed": 1,
+          "actual_alt": 30453.7450973795,
+          "plan_alt": 33383.7837837838,
+          "alt_gap": -2930.0
+        },
+        {
+          "date": "2026-04-07 00:00:00",
+          "route": "ZSSS-ZPPP",
+          "ci_executed": 1,
+          "actual_alt": 29512.7745477025,
+          "plan_alt": 30100.0,
+          "alt_gap": -587.0
+        },
+        {
+          "date": "2026-04-07 00:00:00",
+          "route": "ZPPP-ZSSS",
+          "ci_executed": 0,
+          "actual_alt": 29657.9602221864,
+          "plan_alt": 30268.6879823594,
+          "alt_gap": -611.0
+        },
+        {
+          "date": "2026-04-03 00:00:00",
+          "route": "ZSPD-ZPLJ",
+          "ci_executed": 1,
+          "actual_alt": 31418.1010277888,
+          "plan_alt": 34411.7117117117,
+          "alt_gap": -2994.0
+        },
+        {
+          "date": "2026-04-03 00:00:00",
+          "route": "ZPLJ-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 34623.9538679062,
+          "plan_alt": 34566.6666666667,
+          "alt_gap": 57.0
+        },
+        {
+          "date": "2026-04-02 00:00:00",
+          "route": "ZSPD-RJFF",
+          "ci_executed": 1,
+          "actual_alt": 27000.2682529293,
+          "plan_alt": 23011.9402985075,
+          "alt_gap": 3988.0
+        },
+        {
+          "date": "2026-04-02 00:00:00",
+          "route": "RJFF-ZSPD",
+          "ci_executed": 0,
+          "actual_alt": 27986.8723026767,
+          "plan_alt": 26587.2340425532,
+          "alt_gap": 1400.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZPLJ-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 33213.3012898593,
+          "plan_alt": 33100.0,
+          "alt_gap": 113.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZSPD-ZPLJ",
+          "ci_executed": 1,
+          "actual_alt": 30066.6936116799,
+          "plan_alt": 34404.0421792619,
+          "alt_gap": -4337.0
+        },
+        {
+          "date": "2026-03-28 00:00:00",
+          "route": "ZWYN-ZLXY",
+          "ci_executed": 1,
+          "actual_alt": 35098.6010784045,
+          "plan_alt": 29951.4851485148,
+          "alt_gap": 5147.0
+        },
+        {
+          "date": "2026-03-28 00:00:00",
+          "route": "ZLXY-ZWYN",
+          "ci_executed": 1,
+          "actual_alt": 30336.251465169,
+          "plan_alt": 35009.9402092676,
+          "alt_gap": -4674.0
+        },
+        {
+          "date": "2026-03-27 00:00:00",
+          "route": "VTBS-ZLXY",
+          "ci_executed": 1,
+          "actual_alt": 34209.0724708437,
+          "plan_alt": 33888.1558028617,
+          "alt_gap": 321.0
+        },
+        {
+          "date": "2026-03-27 00:00:00",
+          "route": "ZLXY-VTBS",
+          "ci_executed": 1,
+          "actual_alt": 31836.8241599308,
+          "plan_alt": 33560.11816839,
+          "alt_gap": -1723.0
+        },
+        {
+          "date": "2026-03-24 00:00:00",
+          "route": "VTBS-ZLXY",
+          "ci_executed": 1,
+          "actual_alt": 33842.1142855133,
+          "plan_alt": 33806.5699658703,
+          "alt_gap": 36.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "001041",
+      "pilot_name": "李彤",
+      "total_flights": 46,
+      "ci_yes": 35,
+      "ci_total": 46,
+      "alt_yes": 32,
+      "alt_total": 46,
+      "ci_rate": 76.1,
+      "alt_rate": 69.6,
+      "ci_below": 11,
+      "alt_below": 14,
+      "euclidean_dist": 38.67001422290921,
+      "ci_zscore": -2.9962479167035965,
+      "alt_zscore": -1.802854308427895,
+      "combined_zscore": -2.399551112565746,
+      "threshold_product": 0.0,
+      "threshold_sum": 8.900000000000006,
+      "flights": [
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZBSJ-ZWWW",
+          "ci_executed": 1,
+          "actual_alt": 33320.8933435614,
+          "plan_alt": 31735.0037397158,
+          "alt_gap": 1586.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZWWW-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 33638.7407218452,
+          "plan_alt": 31899.4207096307,
+          "alt_gap": 1739.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZGBH-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 30377.2180803972,
+          "plan_alt": 30207.1805702218,
+          "alt_gap": 170.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZBSJ-ZGBH",
+          "ci_executed": 1,
+          "actual_alt": 30140.5879404021,
+          "plan_alt": 29077.6915615907,
+          "alt_gap": 1063.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZBSJ-ZSNB",
+          "ci_executed": 1,
+          "actual_alt": 25390.5975554694,
+          "plan_alt": 24454.4141252007,
+          "alt_gap": 936.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZSNB-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 28484.1222448777,
+          "plan_alt": 27873.121869783,
+          "alt_gap": 611.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZBSJ-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 26904.4639044292,
+          "plan_alt": 26852.4590163934,
+          "alt_gap": 52.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZUCK-ZBSJ",
+          "ci_executed": 0,
+          "actual_alt": 27937.4854155452,
+          "plan_alt": 30358.4670231729,
+          "alt_gap": -2421.0
+        },
+        {
+          "date": "2026-04-22 00:00:00",
+          "route": "ZUCK-ZBSJ",
+          "ci_executed": 0,
+          "actual_alt": 27371.2586016904,
+          "plan_alt": 30358.4670231729,
+          "alt_gap": -2987.0
+        },
+        {
+          "date": "2026-04-22 00:00:00",
+          "route": "ZBSJ-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 26927.6769640879,
+          "plan_alt": 26852.4590163934,
+          "alt_gap": 75.0
+        },
+        {
+          "date": "2026-04-21 00:00:00",
+          "route": "ZGSD-ZBSJ",
+          "ci_executed": 0,
+          "actual_alt": 30305.6377207062,
+          "plan_alt": 31018.6991869919,
+          "alt_gap": -713.0
+        },
+        {
+          "date": "2026-04-21 00:00:00",
+          "route": "ZBSJ-ZGSD",
+          "ci_executed": 0,
+          "actual_alt": 27597.5635699256,
+          "plan_alt": 28701.2295081967,
+          "alt_gap": -1104.0
+        },
+        {
+          "date": "2026-04-20 00:00:00",
+          "route": "ZUMY-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 27539.3331791033,
+          "plan_alt": 28300.1610305958,
+          "alt_gap": -761.0
+        },
+        {
+          "date": "2026-04-20 00:00:00",
+          "route": "ZBSJ-ZUMY",
+          "ci_executed": 1,
+          "actual_alt": 26866.4058200059,
+          "plan_alt": 26483.3333333333,
+          "alt_gap": 383.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZGSD-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 31342.2215539768,
+          "plan_alt": 31071.3603818616,
+          "alt_gap": 271.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZBSJ-ZGSD",
+          "ci_executed": 1,
+          "actual_alt": 30575.5756939053,
+          "plan_alt": 28701.2295081967,
+          "alt_gap": 1874.0
+        },
+        {
+          "date": "2026-04-16 00:00:00",
+          "route": "ZUMY-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 26895.3967426822,
+          "plan_alt": 26135.9098228663,
+          "alt_gap": 759.0
+        },
+        {
+          "date": "2026-04-16 00:00:00",
+          "route": "ZBSJ-ZUMY",
+          "ci_executed": 1,
+          "actual_alt": 26652.6347433565,
+          "plan_alt": 26483.3333333333,
+          "alt_gap": 169.0
+        },
+        {
+          "date": "2026-04-14 00:00:00",
+          "route": "ZSAM-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 24601.1554899206,
+          "plan_alt": 23553.2934131737,
+          "alt_gap": 1048.0
+        },
+        {
+          "date": "2026-04-14 00:00:00",
+          "route": "ZSSS-ZSAM",
+          "ci_executed": 1,
+          "actual_alt": 26116.4709817464,
+          "plan_alt": 25353.8461538462,
+          "alt_gap": 763.0
+        },
+        {
+          "date": "2026-04-05 00:00:00",
+          "route": "ZWWW-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 31199.2307311414,
+          "plan_alt": 32306.2827225131,
+          "alt_gap": -1107.0
+        },
+        {
+          "date": "2026-04-04 00:00:00",
+          "route": "ZSSS-ZWWW",
+          "ci_executed": 1,
+          "actual_alt": 32344.9570645209,
+          "plan_alt": 33383.7837837838,
+          "alt_gap": -1039.0
+        },
+        {
+          "date": "2026-03-31 00:00:00",
+          "route": "ZGGG-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 30285.2552779397,
+          "plan_alt": 30440.7360406091,
+          "alt_gap": -155.0
+        },
+        {
+          "date": "2026-03-31 00:00:00",
+          "route": "ZBSJ-ZGGG",
+          "ci_executed": 0,
+          "actual_alt": 31968.3945712662,
+          "plan_alt": 32100.0,
+          "alt_gap": -132.0
+        },
+        {
+          "date": "2026-03-30 00:00:00",
+          "route": "ZUMY-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 26951.1507025538,
+          "plan_alt": 26135.9098228663,
+          "alt_gap": 815.0
+        },
+        {
+          "date": "2026-03-30 00:00:00",
+          "route": "ZBSJ-ZUMY",
+          "ci_executed": 1,
+          "actual_alt": 26954.1867007238,
+          "plan_alt": 26483.3333333333,
+          "alt_gap": 471.0
+        },
+        {
+          "date": "2026-03-29 00:00:00",
+          "route": "ZUCK-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 25051.1769070849,
+          "plan_alt": 30358.4670231729,
+          "alt_gap": -5307.0
+        },
+        {
+          "date": "2026-03-29 00:00:00",
+          "route": "ZBSJ-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 27601.7883956002,
+          "plan_alt": 26852.4590163934,
+          "alt_gap": 749.0
+        },
+        {
+          "date": "2026-03-24 00:00:00",
+          "route": "ZBSJ-ZSHC",
+          "ci_executed": 1,
+          "actual_alt": 25478.2921031171,
+          "plan_alt": 23317.6,
+          "alt_gap": 2161.0
+        },
+        {
+          "date": "2026-03-24 00:00:00",
+          "route": "ZSHC-ZBSJ",
+          "ci_executed": 0,
+          "actual_alt": 25578.8610161558,
+          "plan_alt": 26264.8979591837,
+          "alt_gap": -686.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "001211",
+      "pilot_name": "胡次汉",
+      "total_flights": 38,
+      "ci_yes": 28,
+      "ci_total": 38,
+      "alt_yes": 28,
+      "alt_total": 38,
+      "ci_rate": 73.7,
+      "alt_rate": 73.7,
+      "ci_below": 10,
+      "alt_below": 10,
+      "euclidean_dist": 37.1938166904124,
+      "ci_zscore": -3.4537970843481323,
+      "alt_zscore": -1.2490121031684434,
+      "combined_zscore": -2.351404593758288,
+      "threshold_product": 0.0,
+      "threshold_sum": 11.299999999999997,
+      "flights": [
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZSSS-ZUGY",
+          "ci_executed": 1,
+          "actual_alt": 28807.7499790739,
+          "plan_alt": 29602.3148148148,
+          "alt_gap": -795.0
+        },
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZUGY-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 23824.9368723728,
+          "plan_alt": 25766.5594855305,
+          "alt_gap": -1942.0
+        },
+        {
+          "date": "2026-04-16 00:00:00",
+          "route": "ZWWW-ZLXY",
+          "ci_executed": 1,
+          "actual_alt": 33252.9067732488,
+          "plan_alt": 31677.4551665243,
+          "alt_gap": 1575.0
+        },
+        {
+          "date": "2026-04-16 00:00:00",
+          "route": "ZLXY-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 24601.68490768,
+          "plan_alt": 27827.0868824532,
+          "alt_gap": -3225.0
+        },
+        {
+          "date": "2026-04-15 00:00:00",
+          "route": "ZLXY-ZWWW",
+          "ci_executed": 1,
+          "actual_alt": 29583.9424195613,
+          "plan_alt": 30687.9848628193,
+          "alt_gap": -1104.0
+        },
+        {
+          "date": "2026-04-15 00:00:00",
+          "route": "ZSSS-ZLXY",
+          "ci_executed": 0,
+          "actual_alt": 28963.2301295036,
+          "plan_alt": 28308.877721943,
+          "alt_gap": 654.0
+        },
+        {
+          "date": "2026-04-10 00:00:00",
+          "route": "ZSYA-ZUGY",
+          "ci_executed": 0,
+          "actual_alt": 24886.1267677908,
+          "plan_alt": 27093.9351198872,
+          "alt_gap": -2208.0
+        },
+        {
+          "date": "2026-04-10 00:00:00",
+          "route": "ZUGY-ZSSS",
+          "ci_executed": 0,
+          "actual_alt": 28500.0716373769,
+          "plan_alt": 33786.0986547085,
+          "alt_gap": -5286.0
+        },
+        {
+          "date": "2026-04-09 00:00:00",
+          "route": "ZSYA-ZGDY",
+          "ci_executed": 1,
+          "actual_alt": 23423.6050815378,
+          "plan_alt": 23149.3333333333,
+          "alt_gap": 274.0
+        },
+        {
+          "date": "2026-04-09 00:00:00",
+          "route": "ZSYA-ZSFZ",
+          "ci_executed": 1,
+          "actual_alt": 23470.1531849606,
+          "plan_alt": 23825.0,
+          "alt_gap": -355.0
+        },
+        {
+          "date": "2026-04-09 00:00:00",
+          "route": "ZSFZ-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 24579.131528734,
+          "plan_alt": 20012.0996441281,
+          "alt_gap": 4567.0
+        },
+        {
+          "date": "2026-04-09 00:00:00",
+          "route": "ZGDY-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 22600.2287781323,
+          "plan_alt": 21701.3071895425,
+          "alt_gap": 899.0
+        },
+        {
+          "date": "2026-04-08 00:00:00",
+          "route": "ZUGY-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 27218.1692910643,
+          "plan_alt": 25766.5594855305,
+          "alt_gap": 1452.0
+        },
+        {
+          "date": "2026-04-08 00:00:00",
+          "route": "ZSSS-ZUGY",
+          "ci_executed": 1,
+          "actual_alt": 25964.2205107742,
+          "plan_alt": 29374.0740740741,
+          "alt_gap": -3410.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZSSS-ZLXY",
+          "ci_executed": 1,
+          "actual_alt": 29048.8520954382,
+          "plan_alt": 28308.877721943,
+          "alt_gap": 740.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZLXY-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 29100.6347301502,
+          "plan_alt": 27827.0868824532,
+          "alt_gap": 1274.0
+        },
+        {
+          "date": "2026-03-23 00:00:00",
+          "route": "ZSSS-ZGCD",
+          "ci_executed": 0,
+          "actual_alt": 25589.8645908269,
+          "plan_alt": 26970.4061895551,
+          "alt_gap": -1381.0
+        },
+        {
+          "date": "2026-03-23 00:00:00",
+          "route": "ZGCD-ZSSS",
+          "ci_executed": 0,
+          "actual_alt": 25655.4803502969,
+          "plan_alt": 25147.5,
+          "alt_gap": 508.0
+        },
+        {
+          "date": "2026-03-23 00:00:00",
+          "route": "ZPPP-ZGCD",
+          "ci_executed": 1,
+          "actual_alt": 24599.7488750716,
+          "plan_alt": 24600.0,
+          "alt_gap": -0.0
+        },
+        {
+          "date": "2026-03-23 00:00:00",
+          "route": "ZGCD-ZPPP",
+          "ci_executed": 1,
+          "actual_alt": 28362.8074553615,
+          "plan_alt": 24287.922705314,
+          "alt_gap": 4075.0
+        },
+        {
+          "date": "2026-03-20 00:00:00",
+          "route": "ZSDY-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 25461.2336502212,
+          "plan_alt": 25121.7294900222,
+          "alt_gap": 340.0
+        },
+        {
+          "date": "2026-03-20 00:00:00",
+          "route": "ZSPD-ZSDY",
+          "ci_executed": 1,
+          "actual_alt": 25572.1410366379,
+          "plan_alt": 22122.5446428571,
+          "alt_gap": 3450.0
+        },
+        {
+          "date": "2026-03-17 00:00:00",
+          "route": "ZSQZ-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 26950.7451549222,
+          "plan_alt": 21492.9032258065,
+          "alt_gap": 5458.0
+        },
+        {
+          "date": "2026-03-17 00:00:00",
+          "route": "ZSSS-ZSAM",
+          "ci_executed": 1,
+          "actual_alt": 25569.7995692292,
+          "plan_alt": 25353.8461538462,
+          "alt_gap": 216.0
+        },
+        {
+          "date": "2026-03-17 00:00:00",
+          "route": "ZSAM-ZSSS",
+          "ci_executed": 0,
+          "actual_alt": 22576.0741886836,
+          "plan_alt": 23553.2934131737,
+          "alt_gap": -977.0
+        },
+        {
+          "date": "2026-03-17 00:00:00",
+          "route": "ZSSS-ZSQZ",
+          "ci_executed": 0,
+          "actual_alt": 26438.6719778134,
+          "plan_alt": 22780.9230769231,
+          "alt_gap": 3658.0
+        },
+        {
+          "date": "2026-03-13 00:00:00",
+          "route": "ZUCK-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 29100.5385581351,
+          "plan_alt": 26600.0,
+          "alt_gap": 2501.0
+        },
+        {
+          "date": "2026-03-13 00:00:00",
+          "route": "ZSSS-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 29352.9630163271,
+          "plan_alt": 28507.4820143885,
+          "alt_gap": 845.0
+        },
+        {
+          "date": "2026-03-12 00:00:00",
+          "route": "ZYCC-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 30561.2591412019,
+          "plan_alt": 30664.2737896494,
+          "alt_gap": -103.0
+        },
+        {
+          "date": "2026-03-12 00:00:00",
+          "route": "ZSPD-ZYCC",
+          "ci_executed": 1,
+          "actual_alt": 30280.8342068136,
+          "plan_alt": 29984.2105263158,
+          "alt_gap": 297.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "012517",
+      "pilot_name": "王昊宇",
+      "total_flights": 40,
+      "ci_yes": 28,
+      "ci_total": 38,
+      "alt_yes": 28,
+      "alt_total": 38,
+      "ci_rate": 73.7,
+      "alt_rate": 73.7,
+      "ci_below": 10,
+      "alt_below": 10,
+      "euclidean_dist": 37.1938166904124,
+      "ci_zscore": -3.4537970843481323,
+      "alt_zscore": -1.2490121031684434,
+      "combined_zscore": -2.351404593758288,
+      "threshold_product": 0.0,
+      "threshold_sum": 11.299999999999997,
+      "flights": [
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZSNB-VTBS",
+          "ci_executed": 1,
+          "actual_alt": 33226.8645173373,
+          "plan_alt": 33350.2106741573,
+          "alt_gap": -123.0
+        },
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "VTBS-ZSNB",
+          "ci_executed": 1,
+          "actual_alt": 32357.4873082715,
+          "plan_alt": 30548.1192334989,
+          "alt_gap": 1809.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "VTBS-ZSNB",
+          "ci_executed": 1,
+          "actual_alt": 32355.9522696004,
+          "plan_alt": 32515.4719659333,
+          "alt_gap": -160.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZSNB-VTBS",
+          "ci_executed": 1,
+          "actual_alt": 33464.5638383016,
+          "plan_alt": 33350.2106741573,
+          "alt_gap": 114.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZSNB-ZGKL",
+          "ci_executed": null,
+          "actual_alt": null,
+          "plan_alt": null,
+          "alt_gap": 0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZGKL-ZSNB",
+          "ci_executed": null,
+          "actual_alt": null,
+          "plan_alt": null,
+          "alt_gap": 0
+        },
+        {
+          "date": "2026-04-25 00:00:00",
+          "route": "ZGKL-ZSNB",
+          "ci_executed": 0,
+          "actual_alt": 28607.5252652267,
+          "plan_alt": 28349.5987158909,
+          "alt_gap": 258.0
+        },
+        {
+          "date": "2026-04-25 00:00:00",
+          "route": "ZSNB-ZGKL",
+          "ci_executed": 1,
+          "actual_alt": 29668.7017820402,
+          "plan_alt": 28582.7315541601,
+          "alt_gap": 1086.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "ZSQD-ZSNB",
+          "ci_executed": 1,
+          "actual_alt": 25599.6782435998,
+          "plan_alt": 23770.3296703297,
+          "alt_gap": 1829.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "ZSNB-ZSQD",
+          "ci_executed": 1,
+          "actual_alt": 23309.9433847428,
+          "plan_alt": 23670.9580838323,
+          "alt_gap": -361.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZJSY-ZSNB",
+          "ci_executed": 1,
+          "actual_alt": 31625.9692643082,
+          "plan_alt": 30611.2866817156,
+          "alt_gap": 1015.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZSNB-ZJSY",
+          "ci_executed": 1,
+          "actual_alt": 31471.3537153836,
+          "plan_alt": 30760.4938271605,
+          "alt_gap": 711.0
+        },
+        {
+          "date": "2026-03-25 00:00:00",
+          "route": "ZYTX-ZSNB",
+          "ci_executed": 1,
+          "actual_alt": 30139.5477455352,
+          "plan_alt": 28792.1595598349,
+          "alt_gap": 1347.0
+        },
+        {
+          "date": "2026-03-25 00:00:00",
+          "route": "ZSNB-ZYTX",
+          "ci_executed": 1,
+          "actual_alt": 26770.9189113093,
+          "plan_alt": 27939.2655367232,
+          "alt_gap": -1168.0
+        },
+        {
+          "date": "2026-03-24 00:00:00",
+          "route": "ZUGY-ZSNB",
+          "ci_executed": 0,
+          "actual_alt": 28626.5906600869,
+          "plan_alt": 32438.1924198251,
+          "alt_gap": -3812.0
+        },
+        {
+          "date": "2026-03-24 00:00:00",
+          "route": "ZSNB-ZUGY",
+          "ci_executed": 0,
+          "actual_alt": 25614.1057257734,
+          "plan_alt": 28229.3233082707,
+          "alt_gap": -2615.0
+        },
+        {
+          "date": "2026-03-20 00:00:00",
+          "route": "ZPPP-ZSNB",
+          "ci_executed": 0,
+          "actual_alt": 29259.0554250035,
+          "plan_alt": 33243.9393939394,
+          "alt_gap": -3985.0
+        },
+        {
+          "date": "2026-03-20 00:00:00",
+          "route": "ZSNB-ZPPP",
+          "ci_executed": 1,
+          "actual_alt": 28955.3752918272,
+          "plan_alt": 29050.9594882729,
+          "alt_gap": -96.0
+        },
+        {
+          "date": "2026-03-19 00:00:00",
+          "route": "ZGNN-ZSNB",
+          "ci_executed": 0,
+          "actual_alt": 27667.5746332462,
+          "plan_alt": 28100.6553079948,
+          "alt_gap": -433.0
+        },
+        {
+          "date": "2026-03-19 00:00:00",
+          "route": "ZSNB-ZGNN",
+          "ci_executed": 1,
+          "actual_alt": 30099.2081378189,
+          "plan_alt": 28290.3598971722,
+          "alt_gap": 1809.0
+        },
+        {
+          "date": "2026-03-18 00:00:00",
+          "route": "ZPPP-ZSNB",
+          "ci_executed": 0,
+          "actual_alt": 29279.4483219768,
+          "plan_alt": 33243.9393939394,
+          "alt_gap": -3964.0
+        },
+        {
+          "date": "2026-03-18 00:00:00",
+          "route": "ZSNB-ZPPP",
+          "ci_executed": 1,
+          "actual_alt": 29820.6566864155,
+          "plan_alt": 29109.5948827292,
+          "alt_gap": 711.0
+        },
+        {
+          "date": "2026-03-17 00:00:00",
+          "route": "ZPPP-ZSNB",
+          "ci_executed": 0,
+          "actual_alt": 29303.6192628409,
+          "plan_alt": 31803.141928494,
+          "alt_gap": -2500.0
+        },
+        {
+          "date": "2026-03-17 00:00:00",
+          "route": "ZSNB-ZPPP",
+          "ci_executed": 1,
+          "actual_alt": 29740.6391981873,
+          "plan_alt": 29050.5319148936,
+          "alt_gap": 690.0
+        },
+        {
+          "date": "2026-03-12 00:00:00",
+          "route": "ZSNB-ZSGS",
+          "ci_executed": 1,
+          "actual_alt": 25601.7439876585,
+          "plan_alt": 22197.5308641975,
+          "alt_gap": 3404.0
+        },
+        {
+          "date": "2026-03-12 00:00:00",
+          "route": "ZUCK-ZSGS",
+          "ci_executed": 1,
+          "actual_alt": 22600.2494242833,
+          "plan_alt": 22179.6095444685,
+          "alt_gap": 421.0
+        },
+        {
+          "date": "2026-03-12 00:00:00",
+          "route": "ZSGS-ZSNB",
+          "ci_executed": 0,
+          "actual_alt": 26600.728002661,
+          "plan_alt": 25328.3950617284,
+          "alt_gap": 1272.0
+        },
+        {
+          "date": "2026-03-12 00:00:00",
+          "route": "ZSGS-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 23600.5579993425,
+          "plan_alt": 23134.9372384937,
+          "alt_gap": 466.0
+        },
+        {
+          "date": "2026-03-10 00:00:00",
+          "route": "ZSNB-ZUMY",
+          "ci_executed": 1,
+          "actual_alt": 28005.4680814694,
+          "plan_alt": 26801.012145749,
+          "alt_gap": 1204.0
+        },
+        {
+          "date": "2026-03-10 00:00:00",
+          "route": "ZUMY-ZSNB",
+          "ci_executed": 0,
+          "actual_alt": 28678.6388478962,
+          "plan_alt": 30854.4224765869,
+          "alt_gap": -2176.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "001034",
+      "pilot_name": "郭增涛",
+      "total_flights": 46,
+      "ci_yes": 40,
+      "ci_total": 43,
+      "alt_yes": 20,
+      "alt_total": 43,
+      "ci_rate": 93.0,
+      "alt_rate": 46.5,
+      "ci_below": 3,
+      "alt_below": 23,
+      "euclidean_dist": 53.956000593075835,
+      "ci_zscore": 0.22566080546002223,
+      "alt_zscore": -4.923282342938457,
+      "combined_zscore": -2.348810768739217,
+      "threshold_product": 0,
+      "threshold_sum": 0,
+      "flights": [
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZSNB-ZSGS",
+          "ci_executed": 1,
+          "actual_alt": 25576.1814432006,
+          "plan_alt": 22159.3846153846,
+          "alt_gap": 3417.0
+        },
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZSGS-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 23573.9431081058,
+          "plan_alt": 22528.3367556468,
+          "alt_gap": 1046.0
+        },
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZSGS-ZSNB",
+          "ci_executed": 1,
+          "actual_alt": 26602.8256048428,
+          "plan_alt": 25583.0508474576,
+          "alt_gap": 1020.0
+        },
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZUCK-ZSGS",
+          "ci_executed": 0,
+          "actual_alt": 22575.8071727467,
+          "plan_alt": 22222.5446428571,
+          "alt_gap": 353.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZLLL-ZHSY",
+          "ci_executed": 1,
+          "actual_alt": 29101.0588008228,
+          "plan_alt": 26138.8732394366,
+          "alt_gap": 2962.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZHSY-ZSNB",
+          "ci_executed": 1,
+          "actual_alt": 22913.1924390624,
+          "plan_alt": 22478.763866878,
+          "alt_gap": 434.0
+        },
+        {
+          "date": "2026-04-28 00:00:00",
+          "route": "ZLLL-ZSHC",
+          "ci_executed": 1,
+          "actual_alt": 28662.0507139862,
+          "plan_alt": 35100.0,
+          "alt_gap": -6438.0
+        },
+        {
+          "date": "2026-04-28 00:00:00",
+          "route": "ZSHC-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 28163.3980482469,
+          "plan_alt": 28663.4201585504,
+          "alt_gap": -500.0
+        },
+        {
+          "date": "2026-04-25 00:00:00",
+          "route": "ZWSH-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 31864.7723057278,
+          "plan_alt": 34312.5603864734,
+          "alt_gap": -2448.0
+        },
+        {
+          "date": "2026-04-25 00:00:00",
+          "route": "ZLLL-ZWSH",
+          "ci_executed": 1,
+          "actual_alt": 31879.2054121886,
+          "plan_alt": 33378.7456445993,
+          "alt_gap": -1500.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "ZLLL-ZWSH",
+          "ci_executed": 1,
+          "actual_alt": 30550.0184534956,
+          "plan_alt": 33378.7456445993,
+          "alt_gap": -2829.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "ZWSH-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 32014.9995753562,
+          "plan_alt": 34225.2236135957,
+          "alt_gap": -2210.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZLLL-ZWTN",
+          "ci_executed": 1,
+          "actual_alt": 30100.3308699566,
+          "plan_alt": 32426.4417845484,
+          "alt_gap": -2326.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZWTN-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 32760.8877055867,
+          "plan_alt": 34004.1095890411,
+          "alt_gap": -1243.0
+        },
+        {
+          "date": "2026-04-19 00:00:00",
+          "route": "ZLLL-ZWSH",
+          "ci_executed": 1,
+          "actual_alt": 29899.046147441,
+          "plan_alt": 33378.7456445993,
+          "alt_gap": -3480.0
+        },
+        {
+          "date": "2026-04-19 00:00:00",
+          "route": "ZWSH-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 35099.4555287368,
+          "plan_alt": 34312.5603864734,
+          "alt_gap": 787.0
+        },
+        {
+          "date": "2026-04-18 00:00:00",
+          "route": "ZLLL-ZWKM",
+          "ci_executed": 1,
+          "actual_alt": 30101.6354182662,
+          "plan_alt": 31300.5847953216,
+          "alt_gap": -1199.0
+        },
+        {
+          "date": "2026-04-18 00:00:00",
+          "route": "ZWKM-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 29935.8491457115,
+          "plan_alt": 31100.0,
+          "alt_gap": -1164.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZUCK-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 28392.2169449638,
+          "plan_alt": 30212.5319693095,
+          "alt_gap": -1820.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZLLL-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 30014.3468764905,
+          "plan_alt": 26207.5794621027,
+          "alt_gap": 3807.0
+        },
+        {
+          "date": "2026-04-07 00:00:00",
+          "route": "ZSPD-ZPJH",
+          "ci_executed": 1,
+          "actual_alt": 32461.5452589923,
+          "plan_alt": 33697.4264705882,
+          "alt_gap": -1236.0
+        },
+        {
+          "date": "2026-04-07 00:00:00",
+          "route": "ZPJH-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 34808.7338395472,
+          "plan_alt": 34859.0788308237,
+          "alt_gap": -50.0
+        },
+        {
+          "date": "2026-04-04 00:00:00",
+          "route": "ZLLL-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 33726.551826735,
+          "plan_alt": 34561.26340882,
+          "alt_gap": -835.0
+        },
+        {
+          "date": "2026-04-04 00:00:00",
+          "route": "ZBAD-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 32100.5328823138,
+          "plan_alt": 30859.3220338983,
+          "alt_gap": 1241.0
+        },
+        {
+          "date": "2026-04-03 00:00:00",
+          "route": "ZLLL-ZUGY",
+          "ci_executed": null,
+          "actual_alt": null,
+          "plan_alt": null,
+          "alt_gap": 0
+        },
+        {
+          "date": "2026-04-03 00:00:00",
+          "route": "ZUGY-ZLLL",
+          "ci_executed": null,
+          "actual_alt": null,
+          "plan_alt": null,
+          "alt_gap": 0
+        },
+        {
+          "date": "2026-04-03 00:00:00",
+          "route": "ZLLL-ZBAD",
+          "ci_executed": null,
+          "actual_alt": null,
+          "plan_alt": null,
+          "alt_gap": 0
+        },
+        {
+          "date": "2026-04-02 00:00:00",
+          "route": "ZLLL-ZWSH",
+          "ci_executed": 1,
+          "actual_alt": 35365.6268920386,
+          "plan_alt": 33378.7456445993,
+          "alt_gap": 1987.0
+        },
+        {
+          "date": "2026-04-02 00:00:00",
+          "route": "ZWSH-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 33607.9164383049,
+          "plan_alt": 34225.2236135957,
+          "alt_gap": -617.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZSPD-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 33930.649295691,
+          "plan_alt": 31956.6964285714,
+          "alt_gap": 1974.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "001050",
+      "pilot_name": "潘峰",
+      "total_flights": 50,
+      "ci_yes": 36,
+      "ci_total": 50,
+      "alt_yes": 40,
+      "alt_total": 50,
+      "ci_rate": 72.0,
+      "alt_rate": 80.0,
+      "ci_below": 14,
+      "alt_below": 10,
+      "euclidean_dist": 34.40930106817051,
+      "ci_zscore": -3.7778944114296804,
+      "alt_zscore": -0.39798627557465394,
+      "combined_zscore": -2.0879403435021673,
+      "threshold_product": 0.0,
+      "threshold_sum": 13.0,
+      "flights": [
+        {
+          "date": "2026-04-21 00:00:00",
+          "route": "ZSPD-ZSQZ",
+          "ci_executed": 0,
+          "actual_alt": 25958.1806269468,
+          "plan_alt": 24502.1917808219,
+          "alt_gap": 1456.0
+        },
+        {
+          "date": "2026-04-21 00:00:00",
+          "route": "ZSQZ-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 24574.5086646477,
+          "plan_alt": 24170.4697986577,
+          "alt_gap": 404.0
+        },
+        {
+          "date": "2026-04-20 00:00:00",
+          "route": "ZSYA-ZUGY",
+          "ci_executed": 1,
+          "actual_alt": 24814.1426535261,
+          "plan_alt": 30100.0,
+          "alt_gap": -5286.0
+        },
+        {
+          "date": "2026-04-20 00:00:00",
+          "route": "ZUGY-ZSSS",
+          "ci_executed": 0,
+          "actual_alt": 29064.9234398422,
+          "plan_alt": 33788.0597014925,
+          "alt_gap": -4723.0
+        },
+        {
+          "date": "2026-04-19 00:00:00",
+          "route": "ZSAM-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 24552.7769108863,
+          "plan_alt": 21872.0682302772,
+          "alt_gap": 2681.0
+        },
+        {
+          "date": "2026-04-19 00:00:00",
+          "route": "ZSYA-ZSAM",
+          "ci_executed": 1,
+          "actual_alt": 25553.5315081676,
+          "plan_alt": 23961.4537444934,
+          "alt_gap": 1592.0
+        },
+        {
+          "date": "2026-04-18 00:00:00",
+          "route": "ZSSS-ZUGY",
+          "ci_executed": 1,
+          "actual_alt": 28462.343999904,
+          "plan_alt": 29622.2222222222,
+          "alt_gap": -1160.0
+        },
+        {
+          "date": "2026-04-18 00:00:00",
+          "route": "ZUGY-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 26554.0725460394,
+          "plan_alt": 26319.8847262248,
+          "alt_gap": 234.0
+        },
+        {
+          "date": "2026-04-14 00:00:00",
+          "route": "ZGHY-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 29077.0350208481,
+          "plan_alt": 26178.624535316,
+          "alt_gap": 2898.0
+        },
+        {
+          "date": "2026-04-14 00:00:00",
+          "route": "ZSSS-ZGHY",
+          "ci_executed": 0,
+          "actual_alt": 27075.434023343,
+          "plan_alt": 26300.0,
+          "alt_gap": 775.0
+        },
+        {
+          "date": "2026-04-13 00:00:00",
+          "route": "ZGOW-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 32892.2864557433,
+          "plan_alt": 27538.1663113006,
+          "alt_gap": 5354.0
+        },
+        {
+          "date": "2026-04-13 00:00:00",
+          "route": "ZHHH-ZGOW",
+          "ci_executed": 1,
+          "actual_alt": 22581.0888403131,
+          "plan_alt": 22227.0103092784,
+          "alt_gap": 354.0
+        },
+        {
+          "date": "2026-04-13 00:00:00",
+          "route": "ZGOW-ZHHH",
+          "ci_executed": 1,
+          "actual_alt": 26041.7474356539,
+          "plan_alt": 25457.8747628084,
+          "alt_gap": 584.0
+        },
+        {
+          "date": "2026-04-12 00:00:00",
+          "route": "ZSAM-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 22576.8515722425,
+          "plan_alt": 23553.2934131737,
+          "alt_gap": -976.0
+        },
+        {
+          "date": "2026-04-12 00:00:00",
+          "route": "ZSSS-ZGOW",
+          "ci_executed": 1,
+          "actual_alt": 28082.5383697982,
+          "plan_alt": 27643.991416309,
+          "alt_gap": 439.0
+        },
+        {
+          "date": "2026-04-12 00:00:00",
+          "route": "ZSSS-ZSAM",
+          "ci_executed": 1,
+          "actual_alt": 26859.4409434545,
+          "plan_alt": 25353.8461538462,
+          "alt_gap": 1506.0
+        },
+        {
+          "date": "2026-04-11 00:00:00",
+          "route": "ZSSS-ZSAM",
+          "ci_executed": 1,
+          "actual_alt": 26053.2165003818,
+          "plan_alt": 25353.8461538462,
+          "alt_gap": 699.0
+        },
+        {
+          "date": "2026-04-11 00:00:00",
+          "route": "ZSAM-ZSSS",
+          "ci_executed": 0,
+          "actual_alt": 24588.6681763157,
+          "plan_alt": 23553.2934131737,
+          "alt_gap": 1035.0
+        },
+        {
+          "date": "2026-04-04 00:00:00",
+          "route": "ZSAM-ZSPD",
+          "ci_executed": 0,
+          "actual_alt": 22585.8052962686,
+          "plan_alt": 22600.0,
+          "alt_gap": -14.0
+        },
+        {
+          "date": "2026-04-04 00:00:00",
+          "route": "ZSPD-ZSAM",
+          "ci_executed": 1,
+          "actual_alt": 26558.4135783812,
+          "plan_alt": 25720.5479452055,
+          "alt_gap": 838.0
+        },
+        {
+          "date": "2026-04-03 00:00:00",
+          "route": "ZSDY-ZSPD",
+          "ci_executed": 0,
+          "actual_alt": 25777.9337899371,
+          "plan_alt": 25121.7294900222,
+          "alt_gap": 656.0
+        },
+        {
+          "date": "2026-04-03 00:00:00",
+          "route": "ZSPD-ZSDY",
+          "ci_executed": 1,
+          "actual_alt": 25162.7939661053,
+          "plan_alt": 22122.5446428571,
+          "alt_gap": 3040.0
+        },
+        {
+          "date": "2026-04-02 00:00:00",
+          "route": "ZSPD-VVTS",
+          "ci_executed": 1,
+          "actual_alt": 32224.3834883141,
+          "plan_alt": 34543.3012583272,
+          "alt_gap": -2319.0
+        },
+        {
+          "date": "2026-04-02 00:00:00",
+          "route": "VVTS-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 33840.1333422336,
+          "plan_alt": 34325.4750175932,
+          "alt_gap": -485.0
+        },
+        {
+          "date": "2026-03-29 00:00:00",
+          "route": "RKSI-ZSPD",
+          "ci_executed": 0,
+          "actual_alt": 28602.0476755431,
+          "plan_alt": 26570.3370786517,
+          "alt_gap": 2032.0
+        },
+        {
+          "date": "2026-03-29 00:00:00",
+          "route": "ZSPD-RKSI",
+          "ci_executed": 1,
+          "actual_alt": 28995.807827382,
+          "plan_alt": 28261.6136919315,
+          "alt_gap": 734.0
+        },
+        {
+          "date": "2026-03-28 00:00:00",
+          "route": "ZSDY-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 26600.0237362103,
+          "plan_alt": 24451.3333333333,
+          "alt_gap": 2149.0
+        },
+        {
+          "date": "2026-03-28 00:00:00",
+          "route": "ZSSS-ZSDY",
+          "ci_executed": 1,
+          "actual_alt": 25598.8665168806,
+          "plan_alt": 23011.4914425428,
+          "alt_gap": 2587.0
+        },
+        {
+          "date": "2026-03-21 00:00:00",
+          "route": "ZSNB-ZUGY",
+          "ci_executed": 1,
+          "actual_alt": 29319.4030897309,
+          "plan_alt": 28229.3233082707,
+          "alt_gap": 1090.0
+        },
+        {
+          "date": "2026-03-21 00:00:00",
+          "route": "ZSNB-ZGSZ",
+          "ci_executed": 0,
+          "actual_alt": 27582.4239093482,
+          "plan_alt": 28825.0,
+          "alt_gap": -1243.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "001227",
+      "pilot_name": "张明实",
+      "total_flights": 36,
+      "ci_yes": 34,
+      "ci_total": 36,
+      "alt_yes": 18,
+      "alt_total": 36,
+      "ci_rate": 94.4,
+      "alt_rate": 50.0,
+      "ci_below": 2,
+      "alt_below": 18,
+      "euclidean_dist": 50.31262267065791,
+      "ci_zscore": 0.4925644865860035,
+      "alt_zscore": -4.450490216497462,
+      "combined_zscore": -1.9789628649557294,
+      "threshold_product": 0,
+      "threshold_sum": 0,
+      "flights": [
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZSPD-RJAA",
+          "ci_executed": 1,
+          "actual_alt": 33503.8841444711,
+          "plan_alt": 33871.1516533637,
+          "alt_gap": -367.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "RJAA-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 29960.2739044265,
+          "plan_alt": 29221.7237308146,
+          "alt_gap": 739.0
+        },
+        {
+          "date": "2026-04-25 00:00:00",
+          "route": "ZSPD-ZPJH",
+          "ci_executed": 1,
+          "actual_alt": 33592.8702285883,
+          "plan_alt": 32100.0,
+          "alt_gap": 1493.0
+        },
+        {
+          "date": "2026-04-25 00:00:00",
+          "route": "ZPJH-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 35102.8796723468,
+          "plan_alt": 34859.2920353982,
+          "alt_gap": 244.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "ZSPD-RJFF",
+          "ci_executed": 1,
+          "actual_alt": 24985.1638941687,
+          "plan_alt": 23011.9402985075,
+          "alt_gap": 1973.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "RJFF-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 27976.1319288152,
+          "plan_alt": 26587.2340425532,
+          "alt_gap": 1389.0
+        },
+        {
+          "date": "2026-04-19 00:00:00",
+          "route": "ZPJH-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 33814.6336067736,
+          "plan_alt": 34859.2920353982,
+          "alt_gap": -1045.0
+        },
+        {
+          "date": "2026-04-19 00:00:00",
+          "route": "ZSPD-ZPJH",
+          "ci_executed": 1,
+          "actual_alt": 31601.9140993493,
+          "plan_alt": 30100.0,
+          "alt_gap": 1502.0
+        },
+        {
+          "date": "2026-04-15 00:00:00",
+          "route": "WMKP-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 34613.0225608365,
+          "plan_alt": 34378.5119667013,
+          "alt_gap": 235.0
+        },
+        {
+          "date": "2026-04-14 00:00:00",
+          "route": "ZSPD-WMKP",
+          "ci_executed": 1,
+          "actual_alt": 34792.8189728937,
+          "plan_alt": 35518.224789916,
+          "alt_gap": -725.0
+        },
+        {
+          "date": "2026-04-13 00:00:00",
+          "route": "ZSPD-ZBTL",
+          "ci_executed": 1,
+          "actual_alt": 28595.0707528187,
+          "plan_alt": 32844.3786982249,
+          "alt_gap": -4249.0
+        },
+        {
+          "date": "2026-04-13 00:00:00",
+          "route": "ZBTL-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 33086.9941114557,
+          "plan_alt": 30796.1950059453,
+          "alt_gap": 2291.0
+        },
+        {
+          "date": "2026-04-06 00:00:00",
+          "route": "RJFF-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 24000.4102984424,
+          "plan_alt": 26587.2340425532,
+          "alt_gap": -2587.0
+        },
+        {
+          "date": "2026-04-06 00:00:00",
+          "route": "ZSPD-RJFF",
+          "ci_executed": 1,
+          "actual_alt": 22413.7511634374,
+          "plan_alt": 23011.9402985075,
+          "alt_gap": -598.0
+        },
+        {
+          "date": "2026-04-05 00:00:00",
+          "route": "ZSPD-ZPJH",
+          "ci_executed": 1,
+          "actual_alt": 32518.1619330779,
+          "plan_alt": 33697.4264705882,
+          "alt_gap": -1179.0
+        },
+        {
+          "date": "2026-04-05 00:00:00",
+          "route": "ZPJH-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 35099.7997998277,
+          "plan_alt": 34859.0788308237,
+          "alt_gap": 241.0
+        },
+        {
+          "date": "2026-04-02 00:00:00",
+          "route": "ZSPD-ZPJH",
+          "ci_executed": 1,
+          "actual_alt": 32390.1238859309,
+          "plan_alt": 33649.0196078432,
+          "alt_gap": -1259.0
+        },
+        {
+          "date": "2026-04-02 00:00:00",
+          "route": "ZPJH-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 33006.974934999,
+          "plan_alt": 34859.0788308237,
+          "alt_gap": -1852.0
+        },
+        {
+          "date": "2026-03-30 00:00:00",
+          "route": "ZPJH-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 30909.0522286451,
+          "plan_alt": 34859.0788308237,
+          "alt_gap": -3950.0
+        },
+        {
+          "date": "2026-03-30 00:00:00",
+          "route": "ZSPD-ZPJH",
+          "ci_executed": 1,
+          "actual_alt": 32670.2884738206,
+          "plan_alt": 33697.4264705882,
+          "alt_gap": -1027.0
+        },
+        {
+          "date": "2026-03-27 00:00:00",
+          "route": "ZSPD-RKPK",
+          "ci_executed": 1,
+          "actual_alt": 26155.393523265,
+          "plan_alt": 27000.0,
+          "alt_gap": -845.0
+        },
+        {
+          "date": "2026-03-27 00:00:00",
+          "route": "RKPK-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 28000.6538845521,
+          "plan_alt": 29279.0273556231,
+          "alt_gap": -1278.0
+        },
+        {
+          "date": "2026-03-26 00:00:00",
+          "route": "ZWWW-ZLXY",
+          "ci_executed": 1,
+          "actual_alt": 30558.6012339818,
+          "plan_alt": 33092.5828970332,
+          "alt_gap": -2534.0
+        },
+        {
+          "date": "2026-03-26 00:00:00",
+          "route": "ZLXY-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 26624.372835009,
+          "plan_alt": 27829.2517006803,
+          "alt_gap": -1205.0
+        },
+        {
+          "date": "2026-03-25 00:00:00",
+          "route": "ZSSS-ZLXY",
+          "ci_executed": 0,
+          "actual_alt": 29486.2730862617,
+          "plan_alt": 28308.877721943,
+          "alt_gap": 1177.0
+        },
+        {
+          "date": "2026-03-25 00:00:00",
+          "route": "ZLXY-ZWWW",
+          "ci_executed": 1,
+          "actual_alt": 34079.1277359478,
+          "plan_alt": 30687.9848628193,
+          "alt_gap": 3391.0
+        },
+        {
+          "date": "2026-03-17 00:00:00",
+          "route": "ZBSJ-ZLXN",
+          "ci_executed": 1,
+          "actual_alt": 32088.7845173446,
+          "plan_alt": 27552.5483304042,
+          "alt_gap": 4536.0
+        },
+        {
+          "date": "2026-03-17 00:00:00",
+          "route": "ZLXN-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 33929.4915880081,
+          "plan_alt": 33905.2472250252,
+          "alt_gap": 24.0
+        },
+        {
+          "date": "2026-03-16 00:00:00",
+          "route": "ZUMY-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 27286.3453323089,
+          "plan_alt": 28300.1610305958,
+          "alt_gap": -1014.0
+        },
+        {
+          "date": "2026-03-16 00:00:00",
+          "route": "ZBSJ-ZUMY",
+          "ci_executed": 1,
+          "actual_alt": 26154.732269492,
+          "plan_alt": 26722.8070175439,
+          "alt_gap": -568.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "003756",
+      "pilot_name": "吴昊",
+      "total_flights": 60,
+      "ci_yes": 44,
+      "ci_total": 59,
+      "alt_yes": 46,
+      "alt_total": 59,
+      "ci_rate": 74.6,
+      "alt_rate": 78.0,
+      "ci_below": 15,
+      "alt_below": 13,
+      "euclidean_dist": 33.60297605867671,
+      "ci_zscore": -3.2822161464814323,
+      "alt_zscore": -0.6681532049695078,
+      "combined_zscore": -1.97518467572547,
+      "threshold_product": 0.0,
+      "threshold_sum": 10.400000000000006,
+      "flights": [
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZSYA-ZGKL",
+          "ci_executed": 1,
+          "actual_alt": 24849.6025287693,
+          "plan_alt": 26098.6342943854,
+          "alt_gap": -1249.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZGKL-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 26599.5394515005,
+          "plan_alt": 23620.6624605678,
+          "alt_gap": 2979.0
+        },
+        {
+          "date": "2026-04-28 00:00:00",
+          "route": "ZSYA-ZGSD",
+          "ci_executed": 1,
+          "actual_alt": 30101.3730696123,
+          "plan_alt": 30100.0,
+          "alt_gap": 1.0
+        },
+        {
+          "date": "2026-04-28 00:00:00",
+          "route": "ZGSD-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 23543.3964755889,
+          "plan_alt": 26463.2930513595,
+          "alt_gap": -2920.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZUCK-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 23782.6494583164,
+          "plan_alt": 25004.7318611987,
+          "alt_gap": -1222.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZSYA-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 30099.5627065519,
+          "plan_alt": 26778.5046728972,
+          "alt_gap": 3321.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZSYA-ZYHB",
+          "ci_executed": 1,
+          "actual_alt": 34122.4769400671,
+          "plan_alt": 33290.0867410161,
+          "alt_gap": 832.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZYHB-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 29702.2148063545,
+          "plan_alt": 30195.8904109589,
+          "alt_gap": -494.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZUCK-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 29101.108766507,
+          "plan_alt": 25004.7318611987,
+          "alt_gap": 4096.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZSYA-ZUCK",
+          "ci_executed": 0,
+          "actual_alt": 24686.7293181513,
+          "plan_alt": 26778.5046728972,
+          "alt_gap": -2092.0
+        },
+        {
+          "date": "2026-04-22 00:00:00",
+          "route": "ZUCK-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 29072.6549775855,
+          "plan_alt": 25004.7318611987,
+          "alt_gap": 4068.0
+        },
+        {
+          "date": "2026-04-22 00:00:00",
+          "route": "ZSYA-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 25201.364733945,
+          "plan_alt": 26925.0,
+          "alt_gap": -1724.0
+        },
+        {
+          "date": "2026-04-20 00:00:00",
+          "route": "ZYHB-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 30767.1777017403,
+          "plan_alt": 30195.8904109589,
+          "alt_gap": 571.0
+        },
+        {
+          "date": "2026-04-20 00:00:00",
+          "route": "ZSYA-ZYHB",
+          "ci_executed": 1,
+          "actual_alt": 34254.8422697692,
+          "plan_alt": 33342.8934010152,
+          "alt_gap": 912.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZSYA-ZSFZ",
+          "ci_executed": 1,
+          "actual_alt": 27602.8979125505,
+          "plan_alt": 23825.0,
+          "alt_gap": 3778.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZSFZ-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 24600.5593138228,
+          "plan_alt": 20012.0996441281,
+          "alt_gap": 4588.0
+        },
+        {
+          "date": "2026-04-16 00:00:00",
+          "route": "ZLLL-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 29100.6680425759,
+          "plan_alt": 26330.6432748538,
+          "alt_gap": 2770.0
+        },
+        {
+          "date": "2026-04-07 00:00:00",
+          "route": "ZLLL-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 29078.8887570482,
+          "plan_alt": 26330.6432748538,
+          "alt_gap": 2748.0
+        },
+        {
+          "date": "2026-04-06 00:00:00",
+          "route": "ZLLL-ZWSH",
+          "ci_executed": 1,
+          "actual_alt": 31455.0497891447,
+          "plan_alt": 31443.2055749129,
+          "alt_gap": 12.0
+        },
+        {
+          "date": "2026-04-06 00:00:00",
+          "route": "ZWSH-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 33267.8889188236,
+          "plan_alt": 30837.5201288245,
+          "alt_gap": 2430.0
+        },
+        {
+          "date": "2026-04-05 00:00:00",
+          "route": "ZUCK-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 30099.7501215699,
+          "plan_alt": 29051.4066496164,
+          "alt_gap": 1048.0
+        },
+        {
+          "date": "2026-04-05 00:00:00",
+          "route": "ZLLL-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 28179.144543021,
+          "plan_alt": 26207.5794621027,
+          "alt_gap": 1972.0
+        },
+        {
+          "date": "2026-04-05 00:00:00",
+          "route": "ZSYA-ZLLL",
+          "ci_executed": null,
+          "actual_alt": null,
+          "plan_alt": null,
+          "alt_gap": 0
+        },
+        {
+          "date": "2026-04-04 00:00:00",
+          "route": "ZSYA-ZUCK",
+          "ci_executed": 0,
+          "actual_alt": 25593.6274662447,
+          "plan_alt": 26919.9036918138,
+          "alt_gap": -1326.0
+        },
+        {
+          "date": "2026-04-04 00:00:00",
+          "route": "ZUCK-ZSYA",
+          "ci_executed": 0,
+          "actual_alt": 23606.0536261686,
+          "plan_alt": 23620.6624605678,
+          "alt_gap": -15.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZSYA-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 24744.9818895702,
+          "plan_alt": 26773.3229329173,
+          "alt_gap": -2028.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZUCK-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 29100.2752054247,
+          "plan_alt": 25004.7318611987,
+          "alt_gap": 4096.0
+        },
+        {
+          "date": "2026-03-31 00:00:00",
+          "route": "ZLLL-ZBTJ",
+          "ci_executed": 0,
+          "actual_alt": 29828.4501830597,
+          "plan_alt": 31425.0,
+          "alt_gap": -1597.0
+        },
+        {
+          "date": "2026-03-31 00:00:00",
+          "route": "ZLLL-ZSYA",
+          "ci_executed": 1,
+          "actual_alt": 29086.9819271836,
+          "plan_alt": 26330.6432748538,
+          "alt_gap": 2756.0
+        },
+        {
+          "date": "2026-03-31 00:00:00",
+          "route": "ZBTJ-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 28667.0146479547,
+          "plan_alt": 30876.3864042934,
+          "alt_gap": -2209.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "012425",
+      "pilot_name": "吕刘成",
+      "total_flights": 64,
+      "ci_yes": 53,
+      "ci_total": 64,
+      "alt_yes": 43,
+      "alt_total": 64,
+      "ci_rate": 82.8,
+      "alt_rate": 67.2,
+      "ci_below": 11,
+      "alt_below": 21,
+      "euclidean_dist": 37.03619850902628,
+      "ci_zscore": -1.7189231570292625,
+      "alt_zscore": -2.1270546237017185,
+      "combined_zscore": -1.9229888903654904,
+      "threshold_product": 0.0,
+      "threshold_sum": 2.200000000000003,
+      "flights": [
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZHHH-ZGOW",
+          "ci_executed": 1,
+          "actual_alt": 22600.097442646,
+          "plan_alt": 21901.4403292181,
+          "alt_gap": 699.0
+        },
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZGOW-ZHHH",
+          "ci_executed": 0,
+          "actual_alt": 26562.0782952604,
+          "plan_alt": 25457.8747628084,
+          "alt_gap": 1104.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZGHA-ZGOW",
+          "ci_executed": 1,
+          "actual_alt": 27602.3253338551,
+          "plan_alt": 26693.6555891239,
+          "alt_gap": 909.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZLLL-ZGHA",
+          "ci_executed": 1,
+          "actual_alt": 29071.7059843853,
+          "plan_alt": 25600.2873563218,
+          "alt_gap": 3471.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZWSH-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 30157.4792959075,
+          "plan_alt": 32575.040257649,
+          "alt_gap": -2418.0
+        },
+        {
+          "date": "2026-04-26 00:00:00",
+          "route": "ZLLL-ZWSH",
+          "ci_executed": 1,
+          "actual_alt": 29673.934608395,
+          "plan_alt": 33378.7456445993,
+          "alt_gap": -3705.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "ZLLL-ZPPP",
+          "ci_executed": 1,
+          "actual_alt": 28920.6788609845,
+          "plan_alt": 33092.3728813559,
+          "alt_gap": -4172.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "ZPPP-ZLLL",
+          "ci_executed": 0,
+          "actual_alt": 29756.3909568001,
+          "plan_alt": 32618.0505415162,
+          "alt_gap": -2862.0
+        },
+        {
+          "date": "2026-04-18 00:00:00",
+          "route": "ZSOF-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 28433.3701734216,
+          "plan_alt": 28887.3831775701,
+          "alt_gap": -454.0
+        },
+        {
+          "date": "2026-04-18 00:00:00",
+          "route": "ZLLL-ZSOF",
+          "ci_executed": 0,
+          "actual_alt": 29096.8513010365,
+          "plan_alt": 26975.9615384615,
+          "alt_gap": 2121.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZLLL-ZSCN",
+          "ci_executed": 1,
+          "actual_alt": 26281.4030763177,
+          "plan_alt": 25913.6305732484,
+          "alt_gap": 368.0
+        },
+        {
+          "date": "2026-04-17 00:00:00",
+          "route": "ZSCN-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 25600.825911304,
+          "plan_alt": 25471.5672676838,
+          "alt_gap": 129.0
+        },
+        {
+          "date": "2026-04-16 00:00:00",
+          "route": "ZSCN-ZLLL",
+          "ci_executed": 0,
+          "actual_alt": 26262.980655267,
+          "plan_alt": 25471.5672676838,
+          "alt_gap": 791.0
+        },
+        {
+          "date": "2026-04-16 00:00:00",
+          "route": "ZLLL-ZSCN",
+          "ci_executed": 1,
+          "actual_alt": 29093.3690048589,
+          "plan_alt": 25913.6305732484,
+          "alt_gap": 3180.0
+        },
+        {
+          "date": "2026-04-15 00:00:00",
+          "route": "ZLLL-ZSCN",
+          "ci_executed": 1,
+          "actual_alt": 26328.391355697,
+          "plan_alt": 25921.1464968153,
+          "alt_gap": 407.0
+        },
+        {
+          "date": "2026-04-15 00:00:00",
+          "route": "ZSCN-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 27542.0222039559,
+          "plan_alt": 25476.8055555556,
+          "alt_gap": 2065.0
+        },
+        {
+          "date": "2026-04-12 00:00:00",
+          "route": "ZLLL-ZSNJ",
+          "ci_executed": 1,
+          "actual_alt": 29144.279057202,
+          "plan_alt": 25536.5384615385,
+          "alt_gap": 3608.0
+        },
+        {
+          "date": "2026-04-12 00:00:00",
+          "route": "ZSNJ-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 29720.0641320654,
+          "plan_alt": 28666.3407821229,
+          "alt_gap": 1054.0
+        },
+        {
+          "date": "2026-04-11 00:00:00",
+          "route": "ZLLL-ZWKL",
+          "ci_executed": 1,
+          "actual_alt": 31272.2497414139,
+          "plan_alt": 29858.883248731,
+          "alt_gap": 1413.0
+        },
+        {
+          "date": "2026-04-11 00:00:00",
+          "route": "ZWKL-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 32114.4215150713,
+          "plan_alt": 32530.2325581395,
+          "alt_gap": -416.0
+        },
+        {
+          "date": "2026-04-10 00:00:00",
+          "route": "ZLLL-ZSFZ",
+          "ci_executed": 0,
+          "actual_alt": 28562.7279844499,
+          "plan_alt": 31354.9603174603,
+          "alt_gap": -2792.0
+        },
+        {
+          "date": "2026-04-10 00:00:00",
+          "route": "ZSFZ-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 30305.1279634093,
+          "plan_alt": 32092.270531401,
+          "alt_gap": -1787.0
+        },
+        {
+          "date": "2026-04-09 00:00:00",
+          "route": "ZLLL-ZSNJ",
+          "ci_executed": 1,
+          "actual_alt": 29154.6117738615,
+          "plan_alt": 25536.5384615385,
+          "alt_gap": 3618.0
+        },
+        {
+          "date": "2026-04-09 00:00:00",
+          "route": "ZSNJ-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 30100.2285187503,
+          "plan_alt": 28666.3407821229,
+          "alt_gap": 1434.0
+        },
+        {
+          "date": "2026-04-06 00:00:00",
+          "route": "ZYCC-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 32099.6255433138,
+          "plan_alt": 32100.0,
+          "alt_gap": -0.0
+        },
+        {
+          "date": "2026-04-06 00:00:00",
+          "route": "ZLLL-ZYCC",
+          "ci_executed": 1,
+          "actual_alt": 28816.0109903269,
+          "plan_alt": 31500.8964143426,
+          "alt_gap": -2685.0
+        },
+        {
+          "date": "2026-04-05 00:00:00",
+          "route": "ZLLL-ZSNJ",
+          "ci_executed": 1,
+          "actual_alt": 29171.8054106955,
+          "plan_alt": 25536.5384615385,
+          "alt_gap": 3635.0
+        },
+        {
+          "date": "2026-04-05 00:00:00",
+          "route": "ZSNJ-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 29571.5775472137,
+          "plan_alt": 28666.3407821229,
+          "alt_gap": 905.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZLLL-ZSNJ",
+          "ci_executed": 1,
+          "actual_alt": 29244.5455289516,
+          "plan_alt": 25536.5384615385,
+          "alt_gap": 3708.0
+        },
+        {
+          "date": "2026-04-01 00:00:00",
+          "route": "ZSNJ-ZLLL",
+          "ci_executed": 1,
+          "actual_alt": 28625.360928409,
+          "plan_alt": 28666.3407821229,
+          "alt_gap": -41.0
+        }
+      ]
+    },
+    {
+      "pilot_code": "029360",
+      "pilot_name": "MARTINS BORGES NETO RUBENS",
+      "total_flights": 43,
+      "ci_yes": 35,
+      "ci_total": 43,
+      "alt_yes": 30,
+      "alt_total": 43,
+      "ci_rate": 81.4,
+      "alt_rate": 69.8,
+      "ci_below": 8,
+      "alt_below": 13,
+      "euclidean_dist": 35.4682957019364,
+      "ci_zscore": -1.9858268381552409,
+      "alt_zscore": -1.7758376154884092,
+      "combined_zscore": -1.8808322268218252,
+      "threshold_product": 0.0,
+      "threshold_sum": 3.5999999999999943,
+      "flights": [
+        {
+          "date": "2026-04-30 00:00:00",
+          "route": "ZBSJ-ZSSS",
+          "ci_executed": 1,
+          "actual_alt": 27501.4973133507,
+          "plan_alt": 22162.4254473161,
+          "alt_gap": 5339.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZUCK-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 28815.9711092231,
+          "plan_alt": 30358.4670231729,
+          "alt_gap": -1542.0
+        },
+        {
+          "date": "2026-04-29 00:00:00",
+          "route": "ZBSJ-ZUCK",
+          "ci_executed": 1,
+          "actual_alt": 26942.9063503983,
+          "plan_alt": 26852.4590163934,
+          "alt_gap": 90.0
+        },
+        {
+          "date": "2026-04-28 00:00:00",
+          "route": "ZUCK-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 33101.6317742284,
+          "plan_alt": 30358.4670231729,
+          "alt_gap": 2743.0
+        },
+        {
+          "date": "2026-04-28 00:00:00",
+          "route": "ZBSJ-ZUCK",
+          "ci_executed": 0,
+          "actual_alt": 26783.8276972017,
+          "plan_alt": 26852.4590163934,
+          "alt_gap": -69.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZBSJ-ZUGY",
+          "ci_executed": 1,
+          "actual_alt": 27971.5722474934,
+          "plan_alt": 29616.8612191959,
+          "alt_gap": -1645.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZUGY-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 28976.3899690944,
+          "plan_alt": 28127.0448548813,
+          "alt_gap": 849.0
+        },
+        {
+          "date": "2026-04-27 00:00:00",
+          "route": "ZSSS-ZBSJ",
+          "ci_executed": 1,
+          "actual_alt": 29285.3573509588,
+          "plan_alt": 31171.7592592593,
+          "alt_gap": -1886.0
+        },
+        {
+          "date": "2026-04-24 00:00:00",
+          "route": "WSSS-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 34034.6036449889,
+          "plan_alt": 34626.7123287671,
+          "alt_gap": -592.0
+        },
+        {
+          "date": "2026-04-23 00:00:00",
+          "route": "ZSPD-WSSS",
+          "ci_executed": 1,
+          "actual_alt": 34551.5617730192,
+          "plan_alt": 35275.0,
+          "alt_gap": -723.0
+        },
+        {
+          "date": "2026-04-22 00:00:00",
+          "route": "VTBS-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 32979.0529107865,
+          "plan_alt": 33617.4859550562,
+          "alt_gap": -638.0
+        },
+        {
+          "date": "2026-04-21 00:00:00",
+          "route": "ZSPD-VTBS",
+          "ci_executed": 1,
+          "actual_alt": 34064.2344280107,
+          "plan_alt": 33713.3564013841,
+          "alt_gap": 351.0
+        },
+        {
+          "date": "2026-03-25 00:00:00",
+          "route": "ZGSZ-ZSSH",
+          "ci_executed": 1,
+          "actual_alt": 27539.1906451809,
+          "plan_alt": 28039.7106109325,
+          "alt_gap": -501.0
+        },
+        {
+          "date": "2026-03-25 00:00:00",
+          "route": "ZSSH-ZYHB",
+          "ci_executed": 1,
+          "actual_alt": 33539.6643425344,
+          "plan_alt": 31951.0781671159,
+          "alt_gap": 1589.0
+        },
+        {
+          "date": "2026-03-25 00:00:00",
+          "route": "ZYHB-ZSPD",
+          "ci_executed": 0,
+          "actual_alt": 29731.707416914,
+          "plan_alt": 30608.0552359033,
+          "alt_gap": -876.0
+        },
+        {
+          "date": "2026-03-24 00:00:00",
+          "route": "ZLXY-ZGSZ",
+          "ci_executed": 1,
+          "actual_alt": 32754.3183605607,
+          "plan_alt": 30445.7858769932,
+          "alt_gap": 2309.0
+        },
+        {
+          "date": "2026-03-24 00:00:00",
+          "route": "ZGSZ-ZLXY",
+          "ci_executed": 1,
+          "actual_alt": 32144.4967143037,
+          "plan_alt": 30371.2643678161,
+          "alt_gap": 1773.0
+        },
+        {
+          "date": "2026-03-22 00:00:00",
+          "route": "ZSPD-ZYHB",
+          "ci_executed": 1,
+          "actual_alt": 34083.8082538669,
+          "plan_alt": 33651.4066496164,
+          "alt_gap": 432.0
+        },
+        {
+          "date": "2026-03-22 00:00:00",
+          "route": "ZYHB-ZSSH",
+          "ci_executed": 1,
+          "actual_alt": 33373.5471228755,
+          "plan_alt": 30114.7058823529,
+          "alt_gap": 3259.0
+        },
+        {
+          "date": "2026-03-22 00:00:00",
+          "route": "ZSSH-ZGSZ",
+          "ci_executed": 1,
+          "actual_alt": 29754.6687516837,
+          "plan_alt": 26035.5584082157,
+          "alt_gap": 3719.0
+        },
+        {
+          "date": "2026-03-19 00:00:00",
+          "route": "ZSPD-ZUCK",
+          "ci_executed": 0,
+          "actual_alt": 33421.3389241274,
+          "plan_alt": 29620.2877697842,
+          "alt_gap": 3801.0
+        },
+        {
+          "date": "2026-03-19 00:00:00",
+          "route": "ZUCK-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 33527.6727644853,
+          "plan_alt": 32570.4992435703,
+          "alt_gap": 957.0
+        },
+        {
+          "date": "2026-03-18 00:00:00",
+          "route": "VDTI-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 31852.7074258604,
+          "plan_alt": 34134.3549536707,
+          "alt_gap": -2282.0
+        },
+        {
+          "date": "2026-03-18 00:00:00",
+          "route": "ZGGG-VDTI",
+          "ci_executed": 1,
+          "actual_alt": 30000.1975511683,
+          "plan_alt": 33472.6507713885,
+          "alt_gap": -3472.0
+        },
+        {
+          "date": "2026-03-16 00:00:00",
+          "route": "VDTI-ZGGG",
+          "ci_executed": 1,
+          "actual_alt": 28680.3596118767,
+          "plan_alt": 29697.2322503008,
+          "alt_gap": -1017.0
+        },
+        {
+          "date": "2026-03-16 00:00:00",
+          "route": "ZSPD-VDTI",
+          "ci_executed": 1,
+          "actual_alt": 32680.9441323858,
+          "plan_alt": 33327.1276595745,
+          "alt_gap": -646.0
+        },
+        {
+          "date": "2026-03-13 00:00:00",
+          "route": "ZGSZ-ZSSH",
+          "ci_executed": 0,
+          "actual_alt": 28863.1499348061,
+          "plan_alt": 28220.0607902736,
+          "alt_gap": 643.0
+        },
+        {
+          "date": "2026-03-13 00:00:00",
+          "route": "ZYHB-ZSPD",
+          "ci_executed": 1,
+          "actual_alt": 32777.8718419638,
+          "plan_alt": 30593.8132733408,
+          "alt_gap": 2184.0
+        },
+        {
+          "date": "2026-03-13 00:00:00",
+          "route": "ZSSH-ZYHB",
+          "ci_executed": 1,
+          "actual_alt": 34450.3062704161,
+          "plan_alt": 32351.6869095816,
+          "alt_gap": 2099.0
+        },
+        {
+          "date": "2026-03-12 00:00:00",
+          "route": "ZLXY-ZGSZ",
+          "ci_executed": 1,
+          "actual_alt": 33801.8319519346,
+          "plan_alt": 30445.7858769932,
+          "alt_gap": 3356.0
+        }
+      ]
+    }
+  ],
+  "total_pilots": 649
+}
