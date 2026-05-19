@@ -62,37 +62,29 @@
 ## 目录结构
 
 ```
-航油成本分析/                          # 航油成本分析项目根目录
+航油成本分析/
 ├── CLAUDE.md                         # 本文件
 ├── metadata/                         # 数据字典和元数据
-│   ├── table_summary.md              # 表清单和字段信息
-│   └── 指标说明.md                   # 核心指标定义
 ├── raw/                              # 原始数据文件（Excel/CSV）
 ├── scripts/                          # 分析脚本模板
-│   ├── pilot_ci_analysis/            # 飞行员CI与高度执行率分析
-│   │   ├── README.md                 # 指标口径文档
-│   │   ├── analyze_dual_low_pilots.py
-│   │   ├── generate_dual_low_report.py
-│   │   ├── scientific_dual_low_top10.json
-│   │   └── report_scientific_dual_low_20260519.html
-│   ├── analysis_template.py          # 分析脚本模板
-│   ├── convert_text_to_real.py       # 数值类型转换
-│   └── load_from_csv.py              # CSV加载脚本
-├── charts/                           # 输出图表（模板）
-└── <YYYYMMDD>/                      # 每次分析任务子目录
+│   ├── analysis_template.py
+│   ├── convert_text_to_real.py
+│   └── load_from_csv.py
+└── <分析主题>-<YYYY-MM>/             # 每次分析任务子目录
+    ├── README.md                     # 指标口径文档
     ├── analyze_*.py                  # 分析脚本
     ├── data.json                     # 分析数据
     ├── index.html                    # HTML报告
     └── charts/                       # 图表输出
 ```
 
-**命名规范**：每次分析任务在 `航油成本分析/` 下创建独立子目录，格式 `<YYYYMMDD>`（8位日期），不得在其他位置创建。
+**命名规范**：`航油成本分析/<分析主题>-<YYYY-MM>/`，如 `pilot-ci-analysis-2026-05`、`route-fuel-analysis-2026-06`
 
 ---
 
 ## 分析子项目
 
-### 飞行员CI与高度执行率分析
+### pilot-ci-analysis-2026-05（飞行员CI与高度执行率分析）
 
 | 文件 | 说明 |
 |------|------|
@@ -112,10 +104,10 @@
 ## 分析流程
 
 1. **数据确认** — 检查 `/Users/fox/DB/analysis.db` 中数据完整性
-2. **创建任务目录** — 在 `航油成本分析/<YYYYMMDD>/` 下创建本次分析目录
+2. **创建任务目录** — 在 `航油成本分析/<主题>-<YYYY-MM>/` 下创建本次分析目录
 3. **编写脚本** — 在本次任务目录下创建分析脚本
-4. **执行分析** — `python3 <YYYYMMDD>/analyze_*.py`
-5. **生成报告** — 输出 HTML 报告到 `航油成本分析/<YYYYMMDD>/`
+4. **执行分析** — `python3 <主题>-<YYYY-MM>/analyze_*.py`
+5. **生成报告** — 输出 HTML 报告到 `航油成本分析/<主题>-<YYYY-MM>/`
 
 ---
 
