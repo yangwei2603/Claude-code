@@ -1,0 +1,18 @@
+[Unit]
+Description=需求池管理系统
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/requirement-pool-hermes
+# 根据实际 python 虚拟环境路径修改
+Environment="PATH=/opt/requirement-pool-hermes/venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=/opt/requirement-pool-hermes/venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/requirement-pool/hermes.log
+StandardError=append:/var/log/requirement-pool/hermes.log
+
+[Install]
+WantedBy=multi-user.target

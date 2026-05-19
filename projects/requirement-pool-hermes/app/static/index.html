@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>需求池管理系统</title>
+  <style>
+    /* ============================================
+       Design System — CSS Variables
+       ============================================ */
+    :root {
+      /* Colors */
+      --color-primary-dark: #1E3A5F;
+      --color-primary: #2563EB;
+      --color-primary-light: #3B82F6;
+      --color-primary-bg: #DBEAFE;
+      --color-danger: #DC2626;
+      --color-danger-bg: #FEF2F2;
+      --color-warning: #F59E0B;
+      --color-warning-bg: #FFFBEB;
+      --color-success: #10B981;
+      --color-success-bg: #ECFDF5;
+      --color-closed: #6B7280;
+      --color-closed-bg: #F9FAFB;
+      --color-active: #3B82F6;
+      --color-text-primary: #111827;
+      --color-text-secondary: #374151;
+      --color-text-muted: #9CA3AF;
+      --color-bg-page: #F3F4F6;
+      --color-bg-card: #FFFFFF;
+      --color-border: #E5E7EB;
+
+      /* Typography */
+      --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      --font-size-h1: 24px;
+      --font-size-h2: 18px;
+      --font-size-h3: 14px;
+      --font-size-body: 14px;
+      --font-size-small: 12px;
+      --font-size-tag: 12px;
+      --font-weight-bold: 600;
+      --font-weight-normal: 400;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+
+      /* Border Radius */
+      --radius-button: 6px;
+      --radius-card: 8px;
+      --radius-modal: 12px;
+      --radius-tag: 4px;
+
+      /* Shadows */
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-card-hover: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-modal: 0 20px 25px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.04);
+      --shadow-dropdown: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+
+      /* Transitions */
+      --transition-fast: 150ms ease-out;
+      --transition-normal: 250ms ease-out;
+      --transition-slow: 300ms ease-out;
+      --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* ============================================
+       Reset & Base
+       ============================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-family);
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-body);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================
+       Layout — Top Nav + Main
+       ============================================ */
+    .app-shell { display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* Top Navigation */
+    .topnav {
+      height: 64px;
+      background: var(--color-primary-dark);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-xl);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .topnav-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: #fff;
+      font-size: 16px;
+      font-weight: var(--font-weight-bold);
+      margin-right: var(--space-xl);
+      text-decoration: none;
+    }
+    .topnav-logo svg { width: 28px; height: 28px; }
+    .topnav-menu {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      flex: 1;
+    }
+    .topnav-menu a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 14px;
+      border-radius: var(--radius-button);
+      transition: background var(--transition-fast), color var(--transition-fast);
+      position: relative;
+    }
+    .topnav-menu a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .topnav-menu a.active { color: #fff; }
+    .topnav-menu a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 14px;
+      right: 14px;
+      height: 3px;
+      background: var(--color-primary-light);
+      border-radius: 2px;
+    }
+
+    /* Main Area */
+    .main-content {
+      margin-top: 64px;
+      padding: var(--space-xl);
+      flex: 1;
+    }
+
+    /* ============================================
+       Page Header
+       ============================================ */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-lg);
+    }
+    .page-header h1 {
+      font-size: var(--font-size-h1);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      line-height: 32px;
+    }
+    .page-header-actions { display: flex; gap: var(--space-sm); align-items: center; }
+
+    /* ============================================
+       KPI Cards Grid
+       ============================================ */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .kpi-card {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-card);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      border: 1px solid var(--color-border);
+    }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
+    .kpi-card:active { transform: scale(0.98); }
+    .kpi-card .label {
+      font-size: var(--font-size-small);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-sm);
+    }
+    .kpi-card .value {
+      font-size: 28px;
+      font-weight: var(--font-weight-bold);
+      line-height: 36px;
+    }
+    .kpi-card .sub {
+      font-size: var(--font-size-small);
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+    .kpi-card.clickable:hover { border-color: var(--color-primary-light); }
+
+    /* ============================================
+       Warning / Alert Cards
+       ============================================ */
+    .alert-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-lg); }
+    .alert-card {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+    }
+    .alert-card.danger { border-left: 4px solid var(--color-danger); }
+    .alert-card.warning { border-left: 4px solid var(--color-warning); }
+    .alert-card-header {
+      padding: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .alert-card-header h3 { font-size: var(--font-size-body); font-weight: var(--font-weight-bold); }
+    .alert-card.danger .alert-card-header h3 { color: var(--color-danger); }
+    .alert-card.warning .alert-card-header h3 { color: var(--color-warning); }
+    .alert-card-body { padding: var(--space-md); }
+    .alert-list { list-style: none; }
+    .alert-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: var(--font-size-small);
+    }
+    .alert-list li:last-child { border-bottom: none; }
+    .alert-list li .demand-id { font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+    .alert-list li .meta { color: var(--color-text-muted); font-size: 12px; }
+
+    /* ============================================
+       Distribution Section (CSS Charts)
+       ============================================ */
+    .dist-section {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+    .dist-section h3 { font-size: var(--font-size-h3); font-weight: var(--font-weight-bold); margin-bottom: var(--space-md); color: var(--color-text-secondary); }
+    .dist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+    .dist-chart-wrap { }
+    .pie-chart-container { display: flex; align-items: center; gap: var(--space-md); }
+    .pie-chart {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .pie-chart::after {
+      content: '';
+      position: absolute;
+      inset: 35%;
+      background: var(--color-bg-card);
+      border-radius: 50%;
+    }
+    .pie-legend { display: flex; flex-direction: column; gap: var(--space-xs); }
+    .pie-legend-item { display: flex; align-items: center; gap: 6px; font-size: var(--font-size-small); color: var(--color-text-secondary); }
+    .pie-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .bar-chart { display: flex; flex-direction: column; gap: var(--space-sm); }
+    .bar-row { display: flex; align-items: center; gap: var(--space-sm); }
+    .bar-label { font-size: var(--font-size-small); color: var(--color-text-secondary); width: 80px; flex-shrink: 0; text-align: right; }
+    .bar-track { flex: 1; height: 16px; background: var(--color-border); border-radius: 8px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 8px; transition: width var(--transition-slow); }
+    .bar-count { font-size: var(--font-size-small); color: var(--color-text-muted); width: 40px; flex-shrink: 0; }
+
+    /* ============================================
+       Tables
+       ============================================ */
+    .table-wrap { background: var(--color-bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; border: 1px solid var(--color-border); }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--color-bg-page); }
+    th {
+      padding: 12px var(--space-md);
+      text-align: left;
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-muted);
+      border-bottom: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+    td { padding: 12px var(--space-md); border-bottom: 1px solid var(--color-border); font-size: var(--font-size-body); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--color-primary-bg); }
+    .col-id { font-family: monospace; font-size: 13px; color: var(--color-primary); }
+    .col-name { font-weight: var(--font-weight-bold); }
+    .col-actions { display: flex; gap: var(--space-sm); }
+
+    /* ============================================
+       Buttons
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--radius-button);
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-bold);
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      white-space: nowrap;
+      line-height: 1.5;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--color-primary); color: #fff; }
+    .btn-primary:hover { background: var(--color-primary-light); box-shadow: var(--shadow-dropdown); }
+    .btn-secondary { background: var(--color-bg-card); color: var(--color-text-secondary); border-color: var(--color-border); }
+    .btn-secondary:hover { background: var(--color-bg-page); border-color: var(--color-primary); }
+    .btn-danger { background: var(--color-danger); color: #fff; }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-ghost { background: transparent; color: var(--color-text-secondary); }
+    .btn-ghost:hover { background: var(--color-bg-page); }
+    .btn-sm { padding: 4px 10px; font-size: var(--font-size-small); }
+    .btn-icon { padding: 8px; border-radius: var(--radius-button); }
+
+    /* ============================================
+       Forms
+       ============================================ */
+    .form-group { margin-bottom: var(--space-md); }
+    .form-group label { display: block; font-size: var(--font-size-small); color: var(--color-text-secondary); margin-bottom: 6px; font-weight: var(--font-weight-bold); }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-button);
+      font-size: var(--font-size-body);
+      font-family: var(--font-family);
+      background: var(--color-bg-card);
+      color: var(--color-text-primary);
+      transition: border-color var(--transition-fast);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+    .form-hint { font-size: var(--font-size-small); color: var(--color-text-muted); margin-top: 4px; }
+
+    /* ============================================
+       Filter Bar
+       ============================================ */
+    .filter-bar {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-card);
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      align-items: center;
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-card);
+    }
+    .filter-bar input, .filter-bar select {
+      padding: 6px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-button);
+      font-size: var(--font-size-small);
+      background: var(--color-bg-card);
+      color: var(--color-text-primary);
+    }
+    .filter-bar input:focus, .filter-bar select:focus { outline: none; border-color: var(--color-primary); }
+    .filter-toggle { margin-left: auto; color: var(--color-primary); font-size: var(--font-size-small); cursor: pointer; }
+    .filter-advanced { display: none; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-sm); padding-top: var(--space-sm); border-top: 1px solid var(--color-border); }
+    .filter-advanced.show { display: flex; }
+
+    /* ============================================
+       Tabs
+       ============================================ */
+    .tabs { display: flex; gap: 2px; background: var(--color-bg-page); border-radius: var(--radius-card); padding: 4px; margin-bottom: var(--space-md); border: 1px solid var(--color-border); }
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 5px;
+      border: none;
+      background: transparent;
+      color: var(--color-text-muted);
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-bold);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .tab-btn:hover { color: var(--color-text-secondary); }
+    .tab-btn.active { background: var(--color-bg-card); color: var(--color-primary); box-shadow: var(--shadow-card); }
+
+    /* ============================================
+       Tags / Badges
+       ============================================ */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: var(--radius-tag);
+      font-size: var(--font-size-tag);
+      font-weight: var(--font-weight-bold);
+    }
+    .tag-red { background: var(--color-danger-bg); color: var(--color-danger); }
+    .tag-yellow { background: var(--color-warning-bg); color: #b45309; }
+    .tag-green { background: var(--color-success-bg); color: var(--color-success); }
+    .tag-blue { background: var(--color-primary-bg); color: var(--color-primary); }
+    .tag-gray { background: var(--color-closed-bg); color: var(--color-closed); }
+
+    /* ============================================
+       Modal
+       ============================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 80px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-modal);
+      padding: var(--space-lg);
+      width: 90%;
+      max-width: 560px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      box-shadow: var(--shadow-modal);
+      animation: modalIn var(--transition-slow) var(--ease-out);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(-16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+    .modal-header h2 { font-size: var(--font-size-h2); font-weight: var(--font-weight-bold); }
+    .modal-footer { display: flex; justify-content: flex-end; gap: var(--space-sm); margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border); }
+    .modal-close { background: none; border: none; font-size: 20px; color: var(--color-text-muted); cursor: pointer; padding: 4px; }
+
+    /* ============================================
+       Upload Zone
+       ============================================ */
+    .upload-zone {
+      border: 2px dashed var(--color-border);
+      border-radius: var(--radius-card);
+      padding: var(--space-2xl) var(--space-xl);
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: var(--space-lg);
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+      background: var(--color-bg-card);
+    }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--color-primary); background: var(--color-primary-bg); }
+    .upload-zone-icon { font-size: 40px; margin-bottom: var(--space-md); }
+    .upload-zone p { color: var(--color-text-muted); margin-bottom: var(--space-sm); font-size: var(--font-size-small); }
+
+    /* ============================================
+       Kanban Board
+       ============================================ */
+    .kanban-board { display: flex; gap: var(--space-md); overflow-x: auto; padding-bottom: var(--space-md); }
+    .kanban-col { flex: 1; min-width: 220px; background: var(--color-bg-page); border-radius: var(--radius-card); padding: var(--space-md); border: 1px solid var(--color-border); }
+    .kanban-col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); padding-bottom: var(--space-sm); border-bottom: 2px solid var(--color-border); }
+    .kanban-col-header h4 { font-size: var(--font-size-small); font-weight: var(--font-weight-bold); color: var(--color-text-secondary); }
+    .kanban-col-header .count { background: var(--color-border); border-radius: 10px; padding: 1px 8px; font-size: 11px; color: var(--color-text-muted); }
+    .kanban-item {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-button);
+      padding: var(--space-sm) var(--space-md);
+      margin-bottom: var(--space-sm);
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+    .kanban-item:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-1px); }
+    .kanban-item .kid { font-size: 11px; color: var(--color-text-muted); }
+    .kanban-item .kname { font-size: var(--font-size-small); font-weight: var(--font-weight-bold); margin: 4px 0; }
+    .kanban-item .kmeta { font-size: 11px; color: var(--color-text-muted); }
+
+    /* ============================================
+       QA Chat
+       ============================================ */
+    .qa-container { background: var(--color-bg-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); display: flex; flex-direction: column; height: calc(100vh - 128px); border: 1px solid var(--color-border); }
+    .qa-messages { flex: 1; overflow-y: auto; padding: var(--space-lg); }
+    .qa-hint { color: var(--color-text-muted); font-size: var(--font-size-body); text-align: center; padding: 40px; }
+    .qa-msg { margin-bottom: var(--space-md); animation: fadeIn var(--transition-normal) var(--ease-out); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .qa-msg.user { text-align: right; }
+    .qa-msg .bubble { display: inline-block; max-width: 80%; padding: 10px 16px; border-radius: 12px; font-size: var(--font-size-body); line-height: 1.6; }
+    .qa-msg.user .bubble { background: var(--color-primary); color: #fff; border-bottom-right-radius: 2px; }
+    .qa-msg.ai .bubble { background: var(--color-bg-page); color: var(--color-text-primary); border-bottom-left-radius: 2px; text-align: left; white-space: pre-wrap; }
+    .qa-input-area { display: flex; gap: var(--space-sm); padding: var(--space-md); border-top: 1px solid var(--color-border); }
+    .qa-input-area input { flex: 1; padding: 10px 16px; border: 1px solid var(--color-border); border-radius: 24px; font-size: var(--font-size-body); outline: none; }
+    .qa-input-area input:focus { border-color: var(--color-primary); }
+
+    /* ============================================
+       Page sections
+       ============================================ */
+    .page { display: none; }
+    .page.active { display: block; }
+    .page-hidden { display: none; }
+
+    .section-title { font-size: var(--font-size-body); font-weight: var(--font-weight-bold); margin: var(--space-lg) 0 var(--space-md); color: var(--color-text-primary); }
+
+    /* ============================================
+       Info Grid
+       ============================================ */
+    .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); margin-bottom: var(--space-md); }
+    .info-item .label { font-size: var(--font-size-small); color: var(--color-text-muted); margin-bottom: 2px; }
+    .info-item .value { font-size: var(--font-size-body); }
+
+    /* ============================================
+       Project List Table
+       ============================================ */
+    .project-list { background: var(--color-bg-card); border-radius: var(--radius-card); padding: var(--space-lg); box-shadow: var(--shadow-card); margin-bottom: var(--space-lg); border: 1px solid var(--color-border); }
+
+    /* ============================================
+       Pagination
+       ============================================ */
+    .pagination { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md); background: var(--color-bg-card); border-top: 1px solid var(--color-border); }
+    .pagination-info { font-size: var(--font-size-small); color: var(--color-text-muted); }
+    .pagination-controls { display: flex; gap: var(--space-xs); }
+    .pagination-controls button { padding: 4px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-button); background: var(--color-bg-card); cursor: pointer; font-size: var(--font-size-small); }
+    .pagination-controls button:hover { background: var(--color-bg-page); }
+    .pagination-controls button.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+    .pagination-controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ============================================
+       Empty State
+       ============================================ */
+    .empty-state { text-align: center; padding: var(--space-2xl); color: var(--color-text-muted); }
+    .empty-state-icon { font-size: 48px; margin-bottom: var(--space-md); }
+    .empty-state-text { font-size: var(--font-size-body); }
+
+    /* ============================================
+       Tabs
+       ============================================ */
+    .tabs { display: flex; gap: 4px; margin-bottom: var(--space-lg); border-bottom: 2px solid var(--color-border); }
+    .tab-btn {
+      padding: 8px 16px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: var(--font-size-body);
+      color: var(--color-text-muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover { color: var(--color-primary); }
+    .tab-btn.active { color: var(--color-primary); border-bottom-color: var(--color-primary); font-weight: var(--font-weight-bold); }
+    .tab-badge { background: var(--color-danger); color: #fff; border-radius: 10px; padding: 1px 6px; font-size: 11px; margin-left: 4px; }
+
+    /* ============================================
+       Review Stats Cards
+       ============================================ */
+    .review-stats-row { display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); }
+    .review-stat-card {
+      flex: 1; background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg); padding: var(--space-lg) var(--space-xl);
+      text-align: center; min-width: 0;
+    }
+    .review-stat-num { font-size: 28px; font-weight: var(--font-weight-bold); color: var(--color-text); line-height: 1.2; }
+    .review-stat-label { font-size: 12px; color: var(--color-text-muted); margin-top: 4px; }
+    .review-stat-card.pass { border-left: 3px solid #22c55e; }
+    .review-stat-card.reject { border-left: 3px solid #ef4444; }
+    .review-stat-card.future { border-left: 3px solid #94a3b8; }
+    .review-stat-card.pending { border-left: 3px solid #f59e0b; }
+
+    /* ============================================
+       Utilities
+       ============================================ */
+    .mt-md { margin-top: var(--space-md); }
+    .mb-md { margin-bottom: var(--space-md); }
+    .text-muted { color: var(--color-text-muted); }
+    .text-danger { color: var(--color-danger); }
+    .text-success { color: var(--color-success); }
+    .text-warning { color: var(--color-warning); }
+    .font-bold { font-weight: var(--font-weight-bold); }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <!-- Top Navigation -->
+  <header class="topnav">
+    <a class="topnav-logo" onclick="navigate('dashboard')">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#3B82F6"/><path d="M7 14l5 5 9-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      需求池管理系统
+    </a>
+    <nav class="topnav-menu">
+      <a onclick="navigate('dashboard')" id="nav-dashboard" class="active">📊 首页看板</a>
+      <a onclick="navigate('import')" id="nav-import">📥 CSV 导入</a>
+      <a onclick="navigate('review')" id="nav-review">✅ 评审管理</a>
+      <a onclick="navigate('list')" id="nav-list">📋 需求列表</a>
+      <a onclick="navigate('lifecycle')" id="nav-lifecycle">🔄 生命周期</a>
+      <a onclick="navigate('export')" id="nav-export">📤 评审导出</a>
+      <a onclick="navigate('qa')" id="nav-qa">🤖 智能问答</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Dashboard -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <h1>首页看板</h1>
+        <button class="btn btn-secondary" onclick="loadDashboard()">🔄 刷新</button>
+      </div>
+
+      <div class="kpi-grid" id="kpi-grid"></div>
+
+      <div id="urgent-warning" class="alert-card danger" style="display:none;">
+        <div class="alert-card-header"><h3>⚠️ 过期紧急需求（5 天以上未处理 + 高优先级）</h3></div>
+        <div class="alert-card-body"><ul class="alert-list" id="urgent-list"></ul></div>
+      </div>
+
+      <div id="backlog-warning" class="alert-card warning" style="display:none;">
+        <div class="alert-card-header"><h3>⏰ 积压超时需求（未关联业务 ID + 20 工作日未处理）</h3></div>
+        <div class="alert-card-body"><ul class="alert-list" id="backlog-list"></ul></div>
+      </div>
+
+      <div class="dist-section">
+        <h3>📊 分布统计</h3>
+        <div class="dist-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="dist-chart-wrap">
+            <h4>优先级分布</h4>
+            <div id="chart-priority" style="height:220px;"></div>
+          </div>
+          <div class="dist-chart-wrap">
+            <h4>描述质量分布</h4>
+            <div id="chart-quality" style="height:220px;"></div>
+          </div>
+          <div class="dist-chart-wrap">
+            <h4>按部门分布</h4>
+            <div id="chart-dept" style="height:220px;"></div>
+          </div>
+          <div class="dist-chart-wrap">
+            <h4>按重要性分布</h4>
+            <div id="chart-importance" style="height:220px;"></div>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-lg);">
+          <h4 style="color:var(--color-text-secondary);margin-bottom:var(--space-md);">按创建人分布</h4>
+          <div id="chart-creator" style="height:140px;"></div>
+        </div>
+      </div>
+
+      <div class="dist-section">
+        <h3>📅 本月评审统计</h3>
+        <div class="review-stats-row" id="review-stats-row">
+          <div class="review-stat-card pass"><div class="review-stat-num" id="stat-month-pass">0</div><div class="review-stat-label">本月通过</div></div>
+          <div class="review-stat-card reject"><div class="review-stat-num" id="stat-month-reject">0</div><div class="review-stat-label">本月驳回</div></div>
+          <div class="review-stat-card future"><div class="review-stat-num" id="stat-month-future">0</div><div class="review-stat-label">本月规划</div></div>
+          <div class="review-stat-card pending"><div class="review-stat-num" id="stat-month-pending">0</div><div class="review-stat-label">待评审</div></div>
+          <div class="review-stat-card">
+            <div class="review-stat-num" id="stat-month-rate">0%</div>
+            <div class="review-stat-label">本月评审率</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dist-section">
+        <h3>📂 进行中项目</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>业务ID</th><th>业务名称</th><th>项目编号</th><th>总需求</th><th>已评审</th><th>通过</th><th>驳回</th><th>待评审</th></tr></thead>
+            <tbody id="business-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Import -->
+    <div class="page" id="page-import">
+      <div class="page-header">
+        <h1>CSV 导入</h1>
+        <button class="btn btn-secondary" onclick="downloadTemplate()">📥 下载模板</button>
+      </div>
+
+      <div class="upload-zone" onclick="document.getElementById('csv-file').click()">
+        <p>📁 点击选择或拖拽 CSV 文件到这里</p>
+        <input type="file" id="csv-file" accept=".csv" style="display:none" onchange="handleFileSelect(this)">
+        <button class="btn btn-primary">选择文件</button>
+      </div>
+
+      <div id="import-result" style="display:none;" class="table-wrap">
+        <h3 class="section-title">导入报告</h3>
+        <table>
+          <thead><tr><th>指标</th><th>数值</th></tr></thead>
+          <tbody id="import-result-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Review -->
+    <div class="page" id="page-review">
+      <div class="page-header">
+        <h1>评审管理</h1>
+        <button class="btn btn-secondary" onclick="loadReviewList()">🔄 刷新</button>
+      </div>
+
+      <!-- Review Tabs -->
+      <div class="tabs" id="review-tabs">
+        <button class="tab-btn active" data-tab="pending" onclick="switchReviewTab('pending')">待评审 <span class="tab-badge" id="tab-pending-count"></span></button>
+        <button class="tab-btn" data-tab="reviewed" onclick="switchReviewTab('reviewed')">已评审</button>
+        <button class="tab-btn" data-tab="closed" onclick="switchReviewTab('closed')">已关闭</button>
+      </div>
+
+      <div class="filter-bar">
+        <input type="text" id="review-search" placeholder="搜索需求编号或名称" oninput="loadReviewList()">
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>需求编号</th>
+              <th>需求名称</th>
+              <th>优先级</th>
+              <th>评审状态</th>
+              <th>评审时间</th>
+              <th>评审人</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="review-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Requirement List -->
+    <div class="page" id="page-list">
+      <div class="page-header">
+        <h1>需求列表</h1>
+        <button class="btn btn-secondary" onclick="loadRequirementList()">🔄 刷新</button>
+      </div>
+
+      <div class="filter-bar">
+        <input type="text" id="list-search" placeholder="搜索需求编号或名称" oninput="loadRequirementList()">
+        <select id="list-status" onchange="loadRequirementList()">
+          <option value="">全部状态</option>
+          <option value="active">进行中</option>
+          <option value="closed">已关闭</option>
+        </select>
+        <select id="list-reviewed" onchange="loadRequirementList()">
+          <option value="">全部</option>
+          <option value="1">已评审</option>
+          <option value="0">未评审</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>需求编号</th>
+              <th>需求名称</th>
+              <th>部门</th>
+              <th>状态</th>
+              <th>业务状态</th>
+              <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="list-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Export -->
+    <div class="page" id="page-export">
+      <div class="page-header">
+        <h1>评审导出</h1>
+      </div>
+
+      <div class="table-wrap" style="padding: var(--space-lg);">
+        <div class="form-row">
+          <div class="form-group">
+            <label>开始日期</label>
+            <input type="date" id="export-start">
+          </div>
+          <div class="form-group">
+            <label>结束日期</label>
+            <input type="date" id="export-end">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>评审分类</label>
+          <select id="export-category">
+            <option value="all">全部</option>
+            <option value="pass">通过</option>
+            <option value="reject">驳回</option>
+            <option value="future">未来规划</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" onclick="doExport()">⬇️ 导出 Excel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lifecycle -->
+    <div class="page" id="page-lifecycle">
+      <div class="page-header">
+        <h1>需求全生命周期</h1>
+        <button class="btn btn-secondary" onclick="loadLifecycle()">🔄 刷新</button>
+      </div>
+
+      <!-- Lifecycle Tabs -->
+      <div class="tabs" id="lifecycle-tabs">
+        <button class="tab-btn active" data-tab="approved" onclick="switchLifecycleTab('approved')">已通过</button>
+        <button class="tab-btn" data-tab="projected" onclick="switchLifecycleTab('projected')">已立项</button>
+        <button class="tab-btn" data-tab="online" onclick="switchLifecycleTab('online')">已上线</button>
+        <button class="tab-btn" data-tab="closed" onclick="switchLifecycleTab('closed')">已关闭</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>需求编号</th>
+              <th>需求名称</th>
+              <th>关联项目</th>
+              <th>通过/立项日期</th>
+              <th>计划上线</th>
+              <th>实际上线</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="lifecycle-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- QA -->
+    <div class="page" id="page-qa">
+      <div class="page-header">
+        <h1>智能问答</h1>
+      </div>
+      <div class="qa-container">
+        <div class="qa-messages" id="qa-messages">
+          <div class="qa-hint">💬 问我关于需求池的问题，例如："本月新增了多少需求？"、"哪些需求已过期？"、"按部门统计需求分布"</div>
+        </div>
+        <div class="qa-input-area">
+          <input type="text" id="qa-input" placeholder="输入问题，按回车发送..." onkeydown="if(event.key==='Enter')sendQA()">
+          <button class="btn btn-primary" onclick="sendQA()">发送</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Project Modal (after review pass) -->
+  <div class="modal-overlay" id="project-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>关联项目</h2>
+        <button class="modal-close" onclick="closeModal('project-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom:var(--space-md);color:var(--color-text-secondary);font-size:13px;">需求评审通过，请选择或创建关联项目</p>
+        <div class="form-group">
+          <label>从已有项目选择</label>
+          <select id="project-select" class="form-control">
+            <option value="">— 暂不选择 —</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>或新建项目名称</label>
+          <input type="text" id="project-new" class="form-control" placeholder="输入新项目名称">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="skipProjectSelect()">跳过</button>
+        <button class="btn btn-primary" onclick="confirmProjectSelect()">确认关联</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Online Modal -->
+  <div class="modal-overlay" id="online-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>标记上线</h2>
+        <button class="modal-close" onclick="closeModal('online-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>实际上线日期 <span style="color:red;">*</span></label>
+          <input type="date" id="online-date" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('online-modal')">取消</button>
+        <button class="btn btn-primary" onclick="confirmOnline()">确认上线</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Close Stage Modal -->
+  <div class="modal-overlay" id="close-stage-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>标记关闭</h2>
+        <button class="modal-close" onclick="closeModal('close-stage-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>关闭日期 <span style="color:red;">*</span></label>
+          <input type="date" id="close-stage-date" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>关闭原因</label>
+          <textarea id="close-stage-reason" class="form-control" rows="3" placeholder="请输入关闭原因"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('close-stage-modal')">取消</button>
+        <button class="btn btn-danger" onclick="confirmCloseStage()">确认关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="detail-modal">
+    <div class="modal" style="max-width:700px;">
+      <div class="modal-header">
+        <h2>需求详情</h2>
+        <button class="modal-close" onclick="closeModal('detail-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="detail-content" style="max-height:70vh;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Review Modal -->
+<div class="modal-overlay" id="review-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="review-modal-title">评审录入</h2>
+      <button class="modal-close" onclick="closeModal('review-modal')">✕</button>
+    </div>
+    <div id="review-req-info" style="background:var(--color-bg-page);padding:12px;border-radius:6px;margin-bottom:16px;font-size:var(--font-size-small);color:var(--color-text-secondary);"></div>
+    <div class="form-group">
+      <label>决策</label>
+      <select id="review-decision" onchange="onDecisionChange()">
+        <option value="pass">通过</option>
+        <option value="reject">驳回</option>
+        <option value="future">未来规划</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>优先级</label>
+      <select id="review-priority">
+        <option value="">未设置</option>
+        <option value="高">高</option>
+        <option value="中">中</option>
+        <option value="低">低</option>
+      </select>
+    </div>
+    <div class="form-group" id="pass-date-group" style="display:none;">
+      <label>计划上线时间</label>
+      <input type="date" id="review-date">
+    </div>
+    <div class="form-group" id="reject-reason-group" style="display:none;">
+      <label>驳回原因</label>
+      <select id="review-rejection-type">
+        <option value="">请选择</option>
+      </select>
+    </div>
+    <div class="form-group" id="reject-detail-group" style="display:none;">
+      <label>详细说明</label>
+      <textarea id="review-rejection-reason" placeholder="请输入驳回详细原因"></textarea>
+    </div>
+    <div class="form-group">
+      <label>评审备注</label>
+      <textarea id="review-notes" placeholder="可选"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('review-modal')">取消</button>
+      <button class="btn btn-primary" onclick="submitReview()">提交</button>
+    </div>
+  </div>
+</div>
+
+// Global state
+const API_BASE = '/api';
+let currentDemandId = null;
+let currentDemandName = null;
+let reviewFilterMode = 'pending'; // pending | pass | reject | future
+
+// Navigation
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nav-' + page).classList.add('active');
+
+  if (page === 'dashboard') loadDashboard();
+  else if (page === 'review') loadReviewList();
+  else if (page === 'list') loadRequirementList();
+  else if (page === 'lifecycle') loadLifecycle();
+  else if (page === 'qa') { /* init qa */ }
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+// Dashboard
+async function loadDashboard() {
+  async function safeFetch(url) {
+    try { const r = await fetch(url); return r.ok ? await r.json() : null; } catch { return null; }
+  }
+  const [stats, quality, backlog, monthReview, bizData, creatorData] = await Promise.all([
+    safeFetch(API_BASE + '/requirements/stats'),
+    safeFetch(API_BASE + '/requirements/quality-dist'),
+    safeFetch(API_BASE + '/requirements/backlog'),
+    safeFetch(API_BASE + '/reviews/monthly-review-stats'),
+    safeFetch(API_BASE + '/business/summary'),
+    safeFetch(API_BASE + '/requirements/distribution?group_by=creator')
+  ]);
+
+  const d = stats?.data || {};
+  document.getElementById('kpi-grid').innerHTML = `
+    <div class="kpi-card"><div class="label">总需求数</div><div class="value">${d.total}</div></div>
+    <div class="kpi-card"><div class="label">进行中</div><div class="value">${d.active}</div></div>
+    <div class="kpi-card"><div class="label">已关闭</div><div class="value">${d.closed}</div></div>
+    <div class="kpi-card"><div class="label">已评审</div><div class="value">${d.reviewed}</div></div>
+    <div class="kpi-card"><div class="label">待评审</div><div class="value" style="color:#f59e0b;">${d.unreviewed}</div></div>
+    <div class="kpi-card"><div class="label">本月新增</div><div class="value">${d.month_new}</div></div>
+  `;
+
+  // Urgent warnings
+  if (d.urgent_list && d.urgent_list.length > 0) {
+    document.getElementById('urgent-warning').style.display = 'block';
+    document.getElementById('urgent-list').innerHTML = d.urgent_list.map(r =>
+      `<li><span class="tag tag-red">紧急</span> <strong>${r.demand_id}</strong> - ${r.demand_name}</li>`
+    ).join('');
+  } else {
+    document.getElementById('urgent-warning').style.display = 'none';
+  }
+
+  // Backlog
+  const bData = backlog?.data;
+  if (bData && bData.length > 0) {
+    document.getElementById('backlog-warning').style.display = 'block';
+    document.getElementById('backlog-list').innerHTML = bData.map(r =>
+      `<li><span>${r.demand_id}</span><span style="color:#888;font-size:12px;">${r.working_days}工作日未处理</span></li>`
+    ).join('');
+  } else {
+    document.getElementById('backlog-warning').style.display = 'none';
+  }
+
+  // Monthly review stats
+  const mr = monthReview.data || {};
+  const totalReviews = (mr.total || 0) + (d.unreviewed || 0);
+  const reviewRate = totalReviews > 0 ? Math.round((mr.total || 0) / totalReviews * 100) : 0;
+  document.getElementById('stat-month-pass').textContent = mr.passed || 0;
+  document.getElementById('stat-month-reject').textContent = mr.rejected || 0;
+  document.getElementById('stat-month-future').textContent = mr.future || 0;
+  document.getElementById('stat-month-pending').textContent = d.unreviewed || 0;
+  document.getElementById('stat-month-rate').textContent = reviewRate + '%';
+
+  // Business table
+  const bizList = bizData?.data || [];
+  document.getElementById('business-tbody').innerHTML = bizList.length
+    ? bizList.map(b =>
+    `<tr>
+      <td>${b.business_id}</td>
+      <td>${b.business_name || '-'}</td>
+      <td>${b.project_number || '-'}</td>
+      <td>${b.total || 0}</td>
+      <td>${b.reviewed || 0}</td>
+      <td><span style="color:#22c55e;">${b.pass || 0}</span></td>
+      <td><span style="color:#ef4444;">${b.reject || 0}</span></td>
+      <td><span style="color:#f59e0b;">${b.pending || 0}</span></td>
+    </tr>`
+  ).join('') : '<tr><td colspan="8" style="text-align:center;color:#888;padding:16px;">暂无数据</td></tr>';
+
+  // Charts
+  initPriorityChart(d.priority_distribution);
+  initQualityChart(quality?.data);
+  initCreatorChart(creatorData?.data?.distribution || []);
+  loadDistCharts();
+}
+
+async function loadDistCharts() {
+  async function sf(url) {
+    try { const r = await fetch(url); return r.ok ? await r.json() : null; } catch { return null; }
+  }
+  const [dept, imp] = await Promise.all([
+    sf(API_BASE + '/requirements/distribution?group_by=department'),
+    sf(API_BASE + '/requirements/distribution?group_by=importance')
+  ]);
+  initDeptChart(dept?.data?.distribution);
+  initImportanceChart(imp?.data?.distribution);
+}
+
+function initPriorityChart(data) {
+  const container = document.getElementById('chart-priority');
+  const items = Object.entries(data || {});
+  if (!items.length) { container.innerHTML = '<div class="empty-state"><div class="empty-state-text">暂无数据</div></div>'; return; }
+  const total = items.reduce((s,[,v]) => s+v, 0);
+  let html = '<div style="display:flex;flex-direction:column;gap:8px;height:100%;justify-content:center;">';
+  const colors = { '高': '#ef4444', '中': '#f59e0b', '低': '#22c55e', '未标注': '#94a3b8' };
+  items.forEach(([k, v]) => {
+    const pct = total ? Math.round(v/total*100) : 0;
+    const color = colors[k] || '#6366f1';
+    html += `<div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+      <span style="width:50px;color:#64748b;">${k}</span>
+      <div style="flex:1;height:16px;background:#f1f5f9;border-radius:4px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:${color};border-radius:4px;"></div>
+      </div>
+      <span style="width:40px;text-align:right;color:#475569;">${pct}%</span>
+      <span style="width:24px;text-align:right;color:#94a3b8;font-size:12px;">${v}</span>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function initQualityChart(data) {
+  const container = document.getElementById('chart-quality');
+  if (!data || (data.short === 0 && data.medium === 0 && data.good === 0)) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-text">暂无数据</div></div>'; return;
+  }
+  const total = data.short + data.medium + data.good;
+  const items = [
+    { label: '质量差 (<50字)', value: data.short, color: '#ef4444' },
+    { label: '质量中 (50-200字)', value: data.medium, color: '#f59e0b' },
+    { label: '质量好 (>200字)', value: data.good, color: '#22c55e' },
+  ];
+  let html = '<div style="display:flex;flex-direction:column;gap:8px;height:100%;justify-content:center;">';
+  items.forEach(({ label, value, color }) => {
+    const pct = total ? Math.round(value/total*100) : 0;
+    html += `<div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+      <span style="width:140px;color:#64748b;">${label}</span>
+      <div style="flex:1;height:16px;background:#f1f5f9;border-radius:4px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:${color};border-radius:4px;"></div>
+      </div>
+      <span style="width:40px;text-align:right;color:#475569;">${pct}%</span>
+      <span style="width:24px;text-align:right;color:#94a3b8;font-size:12px;">${value}</span>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function initDeptChart(data) {
+  const container = document.getElementById('chart-dept');
+  if (!data || !data.length) { container.innerHTML = '<div class="empty-state"><div class="empty-state-text">暂无数据</div></div>'; return; }
+  const max = Math.max(...data.map(d => d.count));
+  let html = '<div style="display:flex;align-items:flex-end;gap:4px;height:180px;padding-top:8px;">';
+  data.slice(0, 10).forEach(d => {
+    const h = max ? Math.round(d.count / max * 160) : 0;
+    html += `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+      <span style="font-size:11px;color:#64748b;">${d.count}</span>
+      <div style="width:100%;height:${h}px;background:#4f46e5;border-radius:3px 3px 0 0;min-height:2px;"></div>
+      <span style="font-size:10px;color:#475569;word-break:break-all;text-align:center;overflow:hidden;max-height:32px;">${d.name}</span>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function initImportanceChart(data) {
+  const container = document.getElementById('chart-importance');
+  if (!data || !data.length) { container.innerHTML = '<div class="empty-state"><div class="empty-state-text">暂无数据</div></div>'; return; }
+  const max = Math.max(...data.map(d => d.count));
+  let html = '<div style="display:flex;align-items:flex-end;gap:4px;height:180px;padding-top:8px;">';
+  data.slice(0, 10).forEach(d => {
+    const h = max ? Math.round(d.count / max * 160) : 0;
+    html += `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+      <span style="font-size:11px;color:#64748b;">${d.count}</span>
+      <div style="width:100%;height:${h}px;background:#10b981;border-radius:3px 3px 0 0;min-height:2px;"></div>
+      <span style="font-size:10px;color:#475569;word-break:break-all;text-align:center;overflow:hidden;max-height:32px;">${d.name}</span>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function initCreatorChart(data) {
+  const container = document.getElementById('chart-creator');
+  if (!data || !data.length) { container.innerHTML = '<div class="empty-state"><div class="empty-state-text">暂无数据</div></div>'; return; }
+  const max = Math.max(...data.map(d => d.count));
+  let html = '<div style="display:flex;flex-direction:column;gap:6px;height:100%;justify-content:center;">';
+  data.slice(0, 8).forEach(d => {
+    const pct = max ? Math.round(d.count / max * 100) : 0;
+    html += `<div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+      <span style="width:60px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.name || '未知'}</span>
+      <div style="flex:1;height:14px;background:#f1f5f9;border-radius:3px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:#8b5cf6;border-radius:3px;"></div>
+      </div>
+      <span style="width:28px;text-align:right;color:#475569;">${d.count}</span>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// Import
+let selectedFile = null;
+function handleFileSelect(input) {
+  selectedFile = input.files[0];
+  if (selectedFile) {
+    uploadCSV();
+  }
+}
+
+async function uploadCSV() {
+  if (!selectedFile) return;
+  const formData = new FormData();
+  formData.append('file', selectedFile);
+
+  const res = await fetch(API_BASE + '/import/csv', { method: 'POST', body: formData });
+  const json = await res.json();
+  const d = json.data;
+
+  document.getElementById('import-result').style.display = 'block';
+  document.getElementById('import-result-body').innerHTML = `
+    <tr><td>总记录数</td><td>${d.total}</td></tr>
+    <tr><td>新增</td><td>${d.new}</td></tr>
+    <tr><td>有更新</td><td>${d.updated}</td></tr>
+    <tr><td>未变化</td><td>${d.unchanged}</td></tr>
+    <tr><td>待评审</td><td>${d.unreviewed_count}</td></tr>
+  `;
+}
+
+// Review List
+let reviewCurrentReq = null;
+let currentReviewTab = 'pending';
+
+async function switchReviewTab(tab) {
+  currentReviewTab = tab;
+  document.querySelectorAll('#review-tabs .tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  await loadReviewList();
+}
+
+async function loadReviewList() {
+  const search = document.getElementById('review-search').value;
+
+  let url;
+  if (currentReviewTab === 'pending') {
+    url = API_BASE + '/requirements?is_reviewed=0&limit=200';
+  } else if (currentReviewTab === 'reviewed') {
+    url = API_BASE + '/reviews?limit=200';
+  } else {
+    url = API_BASE + '/requirements?demand_status=closed&limit=200';
+  }
+
+  const res = await fetch(url);
+  const json = await res.json();
+  const items = json.data || [];
+
+  const filtered = search
+    ? items.filter(i => (i.demand_id+'').includes(search) || (i.demand_name||'').includes(search))
+    : items;
+
+  document.getElementById('review-tbody').innerHTML = filtered.map(r => {
+    const isPending = currentReviewTab === 'pending';
+    const status = isPending
+      ? '<span class="tag tag-yellow">待评审</span>'
+      : getStatusLabel(r);
+    const actions = isPending
+      ? `<button class="btn btn-sm btn-primary" onclick="openReviewModal('${r.demand_id}', '${(r.demand_name||'').replace(/'/g,"\\'")}')">评审</button>
+         <button class="btn btn-sm btn-secondary" onclick="showDetail('${r.demand_id}')">详情</button>`
+      : `<button class="btn btn-sm btn-secondary" onclick="showDetail('${r.demand_id}')">详情</button>`;
+    return `<tr>
+      <td>${r.demand_id}</td>
+      <td>${r.demand_name || ''}</td>
+      <td>${r.priority || '-'}</td>
+      <td>${status}</td>
+      <td>${r.reviewed_at || '-'}</td>
+      <td>${r.reviewer || '-'}</td>
+      <td>
+        <div class="actions">
+          ${actions}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Update pending count badge
+  if (currentReviewTab === 'pending') {
+    const countSpan = document.getElementById('tab-pending-count');
+    if (countSpan) countSpan.textContent = items.length > 0 ? items.length : '';
+  }
+}
+
+function getStatusLabel(r) {
+  if (r.plan_status === '未来规划') return '<span class="tag" style="background:#fef3c7;color:#d97706;">📅 未来规划</span>';
+  if (r.rejection_type) return '<span class="tag tag-red">❌ 驳回</span>';
+  return '<span class="tag tag-green">✅ 通过</span>';
+}
+
+async function openReviewModal(demandId, demandName) {
+  currentDemandId = demandId;
+  currentDemandName = demandName;
+  document.getElementById('review-req-info').innerHTML = `<strong>${demandId}</strong> — ${demandName}`;
+  document.getElementById('review-decision').value = 'pass';
+  document.getElementById('review-priority').value = '';
+  document.getElementById('review-date').value = '';
+  document.getElementById('review-notes').value = '';
+  document.getElementById('review-rejection-type').value = '';
+  document.getElementById('review-rejection-reason').value = '';
+  document.getElementById('reject-reason-group').style.display = 'none';
+  document.getElementById('reject-detail-group').style.display = 'none';
+  document.getElementById('pass-date-group').style.display = 'none';
+  document.getElementById('review-modal').classList.add('show');
+
+  // Load rejection types
+  try {
+    const res = await fetch(API_BASE + '/reviews/rejection-types');
+    const json = await res.json();
+    document.getElementById('review-rejection-type').innerHTML = '<option value="">请选择</option>' +
+      json.data.map(t => `<option value="${t.code}">${t.name} — ${t.description}</option>`).join('');
+  } catch (e) { console.error(e); }
+
+  onDecisionChange();
+}
+
+function showRejectionForm() {
+  document.getElementById('reject-reason-group').style.display = 'block';
+}
+
+function onDecisionChange() {
+  const decision = document.getElementById('review-decision').value;
+  const rejectGroup = document.getElementById('reject-reason-group');
+  const rejectDetail = document.getElementById('reject-detail-group');
+  const passDate = document.getElementById('pass-date-group');
+  if (decision === 'reject') {
+    rejectGroup.style.display = 'block';
+    rejectDetail.style.display = 'block';
+    passDate.style.display = 'none';
+  } else if (decision === 'pass') {
+    rejectGroup.style.display = 'none';
+    rejectDetail.style.display = 'none';
+    passDate.style.display = 'block';
+  } else {
+    rejectGroup.style.display = 'none';
+    rejectDetail.style.display = 'none';
+    passDate.style.display = 'none';
+  }
+}
+
+async function submitReview() {
+  const decision = document.getElementById('review-decision').value;
+  const rejectionType = document.getElementById('review-rejection-type').value;
+  const rejectionReason = document.getElementById('review-rejection-reason').value;
+  const notes = document.getElementById('review-notes').value;
+  const priority = document.getElementById('review-priority').value;
+  const reviewDate = document.getElementById('review-date').value;
+
+  if (decision === 'reject' && !rejectionType) {
+    alert('请选择驳回原因'); return;
+  }
+  if (decision === 'reject' && !rejectionReason) {
+    alert('请输入驳回详细原因'); return;
+  }
+
+  const data = {
+    action: decision,
+    priority,
+    review_date: reviewDate || null,
+    review_notes: notes,
+    reviewer: 'current_user',
+    rejection_type: decision === 'reject' ? rejectionType : null,
+    rejection_reason: decision === 'reject' ? rejectionReason : null,
+  };
+
+  const res = await fetch(API_BASE + '/reviews/' + currentDemandId, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+
+  if (res.ok) {
+    closeModal('review-modal');
+    if (decision === 'pass') {
+      openProjectModal(currentDemandId);
+    } else {
+      loadReviewList();
+    }
+  } else {
+    const json = await res.json().catch(() => ({}));
+    alert('提交失败：' + (json.detail || res.status));
+  }
+}
+
+// Project selection modal (shown after review pass)
+async function openProjectModal(demandId) {
+  currentDemandId = demandId;
+  const res = await fetch(API_BASE + '/requirements?limit=500');
+  const json = await res.json();
+  const items = json.data || [];
+
+  const projects = [...new Set(items.map(i => i.project).filter(Boolean))];
+
+  const select = document.getElementById('project-select');
+  select.innerHTML = '<option value="">— 暂不选择 —</option>' +
+    projects.map(p => `<option value="${p}">${p}</option>`).join('');
+
+  document.getElementById('project-new').value = '';
+  document.getElementById('project-modal').classList.add('show');
+}
+
+function skipProjectSelect() {
+  closeModal('project-modal');
+  loadLifecycle();
+}
+
+async function confirmProjectSelect() {
+  const selected = document.getElementById('project-select').value;
+  const newProject = document.getElementById('project-new').value.trim();
+  const projectName = newProject || selected;
+
+  if (projectName && currentDemandId) {
+    await fetch(API_BASE + '/requirements/' + currentDemandId + '/stage', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stage: '已立项', project: projectName })
+    });
+  }
+
+  closeModal('project-modal');
+  loadLifecycle();
+}
+
+// Online modal
+function openOnlineModal(demandId) {
+  currentDemandId = demandId;
+  document.getElementById('online-date').value = '';
+  document.getElementById('online-modal').classList.add('show');
+}
+
+async function confirmOnline() {
+  const date = document.getElementById('online-date').value;
+  if (!date) { alert('请选择实际上线日期'); return; }
+  if (!currentDemandId) return;
+
+  await fetch(API_BASE + '/requirements/' + currentDemandId + '/online', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ actual_launch_date: date })
+  });
+
+  closeModal('online-modal');
+  loadLifecycle();
+}
+
+// Close stage modal
+function openCloseStageModal(demandId) {
+  currentDemandId = demandId;
+  document.getElementById('close-stage-date').value = '';
+  document.getElementById('close-stage-reason').value = '';
+  document.getElementById('close-stage-modal').classList.add('show');
+}
+
+async function confirmCloseStage() {
+  const date = document.getElementById('close-stage-date').value;
+  const reason = document.getElementById('close-stage-reason').value;
+  if (!date) { alert('请选择关闭日期'); return; }
+  if (!currentDemandId) return;
+
+  await fetch(API_BASE + '/requirements/' + currentDemandId + '/close', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ close_date: date, close_reason: reason })
+  });
+
+  closeModal('close-stage-modal');
+  loadLifecycle();
+}
+
+// Requirement List
+async function loadRequirementList() {
+  const search = document.getElementById('list-search').value;
+  const status = document.getElementById('list-status').value;
+  const reviewed = document.getElementById('list-reviewed').value;
+
+  let url = API_BASE + '/requirements?limit=200';
+  if (status) url += '&demand_status=' + status;
+  if (reviewed !== '') url += '&is_reviewed=' + reviewed;
+
+  const res = await fetch(url);
+  const json = await res.json();
+  const items = json.data || [];
+
+  const filtered = search
+    ? items.filter(i => (i.demand_id+'').includes(search) || (i.demand_name||'').includes(search))
+    : items;
+
+  document.getElementById('list-tbody').innerHTML = filtered.map(r => {
+    const rev = r.review || {};
+    const statusTag = r.demand_status === 'closed'
+      ? '<span class="tag tag-green">已关闭</span>'
+      : rev.is_reviewed ? '<span class="tag tag-green">已评审</span>'
+      : '<span class="tag tag-yellow">待评审</span>';
+    const bizStatus = r.business_status || '-';
+    return `<tr>
+      <td>${r.demand_id}</td>
+      <td>${r.demand_name || ''}</td>
+      <td>${r.department || '-'}</td>
+      <td>${statusTag}</td>
+      <td>${bizStatus}</td>
+      <td>${r.business_created_date || '-'}</td>
+      <td>
+        <button class="btn btn-sm btn-secondary" onclick="showDetail('${r.demand_id}')">详情</button>
+        ${r.demand_status !== 'closed' ? `<button class="btn btn-sm btn-danger" onclick="deleteRequirement('${r.demand_id}')">删除</button>` : ''}
+        ${r.demand_status !== 'closed' ? `<button class="btn btn-sm btn-danger" style="background:#fff5f5;color:#c00;" onclick="closeRequirement('${r.demand_id}')">关闭</button>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// Detail
+async function showDetail(demandId) {
+  const res = await fetch(API_BASE + '/requirements/' + demandId);
+  const json = await res.json();
+  const d = json.data;
+
+  const rev = d.review || {};
+  const bizInfo = `
+    <div class="section-title">📋 下游状态（仅供参考）</div>
+    <div class="info-grid">
+      <div class="info-item"><div class="label">业务ID</div><div class="value">${d.business_id || '-'}</div></div>
+      <div class="info-item"><div class="label">业务名称</div><div class="value">${d.business_name || '-'}</div></div>
+      <div class="info-item"><div class="label">业务状态</div><div class="value">${d.business_status || '-'}</div></div>
+      <div class="info-item"><div class="label">评审状态</div><div class="value">${d.business_review_status || '-'}</div></div>
+      <div class="info-item"><div class="label">审批状态</div><div class="value">${d.approval_status || '-'}</div></div>
+      <div class="info-item"><div class="label">审批人</div><div class="value">${d.approval_name || '-'}</div></div>
+    </div>
+  `;
+
+  const projInfo = d.project || d.stage ? `
+    <div class="section-title">📁 项目信息（仅供参考）</div>
+    <div class="info-grid">
+      <div class="info-item"><div class="label">项目名称</div><div class="value">${d.project || '-'}</div></div>
+      <div class="info-item"><div class="label">阶段</div><div class="value">${d.stage || '-'}</div></div>
+      <div class="info-item"><div class="label">负责人</div><div class="value">${d.business_pm_name || '-'}</div></div>
+      <div class="info-item"><div class="label">责任部门</div><div class="value">${d.responsible_dept_name || '-'}</div></div>
+    </div>
+  ` : '';
+
+  const logs = (d.status_logs || []).map(l =>
+    `<li>${l.from_status||'?'} → ${l.to_status} | ${l.operator} | ${l.operated_at} | ${l.remark||''}</li>`
+  ).join('');
+
+  document.getElementById('detail-content').innerHTML = `
+    <div class="info-grid">
+      <div class="info-item"><div class="label">需求编号</div><div class="value">${d.demand_id}</div></div>
+      <div class="info-item"><div class="label">需求名称</div><div class="value">${d.demand_name || '-'}</div></div>
+      <div class="info-item"><div class="label">状态</div><div class="value">${d.demand_status || '-'}</div></div>
+      <div class="info-item"><div class="label">部门</div><div class="value">${d.department || '-'}</div></div>
+      <div class="info-item"><div class="label">创建时间</div><div class="value">${d.business_created_date || '-'}</div></div>
+      <div class="info-item"><div class="label">最后修改</div><div class="value">${d.last_modified || '-'}</div></div>
+    </div>
+
+    <div class="section-title">📝 需求描述</div>
+    <div style="background:#f9f9f9;padding:12px;border-radius:6px;white-space:pre-wrap;font-size:14px;">${d.demand_desc || '(无)'}</div>
+
+    ${bizInfo}
+    ${projInfo}
+
+    ${rev.is_reviewed ? `
+    <div class="section-title">✅ 评审信息</div>
+    <div class="info-grid">
+      <div class="info-item"><div class="label">优先级</div><div class="value">${rev.priority || '-'}</div></div>
+      <div class="info-item"><div class="label">计划上线</div><div class="value">${rev.review_date || '-'}</div></div>
+      <div class="info-item"><div class="label">评审状态</div><div class="value">${getStatusLabel(rev)}</div></div>
+      <div class="info-item"><div class="label">评审人</div><div class="value">${rev.reviewer || '-'}</div></div>
+    </div>
+    ${rev.review_notes ? `<div style="background:#f0fdf4;padding:12px;border-radius:6px;margin-bottom:12px;font-size:14px;">${rev.review_notes}</div>` : ''}
+    ${rev.rejection_type ? `<div style="background:#fef2f2;padding:12px;border-radius:6px;font-size:14px;"><strong>驳回类型：</strong>${rev.rejection_type}<br><strong>原因：</strong>${rev.rejection_reason||''}</div>` : ''}
+    ` : ''}
+
+    ${logs ? `<div class="section-title">📜 状态变更记录</div><ul style="font-size:13px;color:#666;">${logs}</ul>` : ''}
+  `;
+
+  document.getElementById('detail-modal').classList.add('show');
+}
+
+// Close Requirement
+async function closeRequirement(demandId) {
+  if (!confirm('确定要关闭此需求吗？')) return;
+  const res = await fetch(API_BASE + '/requirements/' + demandId + '/close', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ operator: 'current_user', remark: '' })
+  });
+  if (res.ok) {
+    loadRequirementList();
+    closeModal('detail-modal');
+  } else {
+    alert('关闭失败');
+  }
+}
+
+// Delete Requirement
+async function deleteRequirement(demandId) {
+  if (!confirm('确定要删除需求 ' + demandId + '？此操作不可恢复。')) return;
+  const res = await fetch(API_BASE + '/requirements/' + demandId, { method: 'DELETE' });
+  if (res.ok) {
+    loadRequirementList();
+  } else {
+    const json = await res.json().catch(() => ({}));
+    alert('删除失败：' + (json.detail || res.status));
+  }
+}
+
+// Export
+async function doExport() {
+  const start = document.getElementById('export-start').value;
+  const end = document.getElementById('export-end').value;
+  const category = document.getElementById('export-category').value;
+
+  let url = API_BASE + '/reviews/export?';
+  if (start) url += 'start_date=' + start + '&';
+  if (end) url += 'end_date=' + end + '&';
+  if (category !== 'all') url += 'category=' + category + '&';
+
+  window.location.href = url;
+}
+
+// Init
+loadDashboard();
+
+// Lifecycle
+let currentLifecycleTab = 'approved';
+
+async function switchLifecycleTab(tab) {
+  currentLifecycleTab = tab;
+  document.querySelectorAll('#lifecycle-tabs .tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  await loadLifecycle();
+}
+
+async function loadLifecycle() {
+  const res = await fetch(API_BASE + '/requirements?limit=500&is_reviewed=1');
+  if (!res.ok) return;
+  const json = await res.json();
+  const items = json.data || [];
+
+  const filtered = items.filter(r => {
+    if (currentLifecycleTab === 'closed') return r.demand_status === 'closed';
+    if (currentLifecycleTab === 'approved') return r.review?.is_reviewed && r.review.plan_status === '正常' && !r.project;
+    if (currentLifecycleTab === 'projected') return r.project && r.stage !== '已上线' && r.demand_status !== 'closed';
+    if (currentLifecycleTab === 'online') return r.stage === '已上线' || r.review?.plan_status === '已上线';
+    return true;
+  });
+
+  document.getElementById('lifecycle-tbody').innerHTML = filtered.length === 0
+    ? '<tr><td colspan="7" style="text-align:center;color:#888;padding:24px;">暂无数据</td></tr>'
+    : filtered.map(r => {
+      const rev = r.review || {};
+      let actions = '';
+      if (currentLifecycleTab === 'approved')
+        actions = `<button class="btn btn-sm btn-primary" onclick="openProjectModal('${r.demand_id}')">关联项目</button>`;
+      else if (currentLifecycleTab === 'projected')
+        actions = `<button class="btn btn-sm btn-secondary" onclick="openOnlineModal('${r.demand_id}')">标记上线</button>`;
+      else if (currentLifecycleTab === 'online')
+        actions = `<button class="btn btn-sm btn-secondary" onclick="openCloseStageModal('${r.demand_id}')">标记关闭</button>`;
+      actions += ` <button class="btn btn-sm btn-secondary" onclick="showDetail('${r.demand_id}')">详情</button>`;
+      return `<tr>
+        <td>${r.demand_id}</td>
+        <td>${r.demand_name || ''}</td>
+        <td>${r.project || '-'}</td>
+        <td>${rev.review_date || rev.reviewed_at || '-'}</td>
+        <td>${rev.plan_release_date || '-'}</td>
+        <td>${r.end_time || '-'}</td>
+        <td>${actions}</td>
+      </tr>`;
+    }).join('');
+}
+
+function skipProjectSelect() {
+  closeModal('project-modal');
+  loadReviewList();
+}
+
+// QA
+let qaHistory = [];
+
+async function sendQA() {
+  const input = document.getElementById('qa-input');
+  const question = input.value.trim();
+  if (!question) return;
+  input.value = '';
+
+  // Show user message
+  const msgs = document.getElementById('qa-messages');
+  msgs.innerHTML += `<div class="qa-msg user"><div class="bubble">${escapeHtml(question)}</div></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  qaHistory.push({ role: 'user', content: question });
+
+  try {
+    const res = await fetch(API_BASE + '/qa/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, history: qaHistory.slice(-10) })
+    });
+    const json = await res.json();
+    const answer = json.data?.answer || json.message || '抱歉，暂无法回答这个问题。';
+    msgs.innerHTML += `<div class="qa-msg ai"><div class="bubble">${escapeHtml(answer)}</div></div>`;
+    qaHistory.push({ role: 'assistant', content: answer });
+  } catch (e) {
+    msgs.innerHTML += `<div class="qa-msg ai"><div class="bubble">⚠️ 请求失败：${e.message}</div></div>`;
+  }
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
