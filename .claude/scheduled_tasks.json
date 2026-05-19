@@ -5,10 +5,21 @@
       "cron": "0 9 * * *",
       "prompt": "Run /Users/fox/Claude\\ Code/.claude/scripts/daily-push.sh and push Claude Code repo to GitHub.",
       "createdAt": 1778898848011,
+      "lastFiredAt": 1779159943744,
       "recurring": true,
       "createdBySessionId": "e8a877f4-3d94-4b92-954e-57cf13565ccc",
       "createdByPid": 6633,
       "createdByProcStart": "Sat May 16 02:30:16 2026"
+    },
+    {
+      "id": "800edc80",
+      "cron": "0 9 * * 1",
+      "prompt": "清理 .playwright-mcp 目录下超过7天的日志文件：\n- console-*.log\n- page-*.yml  \n- page-*.png\n\n命令：\nfind /Users/fox/Claude\\ Code/.playwright-mcp -name \"console-*.log\" -mtime +7 -delete\nfind /Users/fox/Claude\\ Code/.playwright-mcp -name \"page-*.yml\" -mtime +7 -delete\nfind /Users/fox/Claude\\ Code/.playwright-mcp -name \"page-*.png\" -mtime +7 -delete\n\n每周一上午9点执行一次。",
+      "createdAt": 1779169550450,
+      "recurring": true,
+      "createdBySessionId": "2f929a3a-01ee-4b00-a2c5-3ccc79e496f2",
+      "createdByPid": 16442,
+      "createdByProcStart": "Tue May 19 05:55:42 2026"
     }
   ]
 }
