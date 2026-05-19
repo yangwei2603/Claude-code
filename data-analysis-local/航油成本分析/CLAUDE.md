@@ -69,7 +69,15 @@
 │   └── 指标说明.md                   # 核心指标定义
 ├── raw/                              # 原始数据文件（Excel/CSV）
 ├── scripts/                          # 分析脚本模板
-│   └── *.py                         # Python分析脚本
+│   ├── pilot_ci_analysis/            # 飞行员CI与高度执行率分析
+│   │   ├── README.md                 # 指标口径文档
+│   │   ├── analyze_dual_low_pilots.py
+│   │   ├── generate_dual_low_report.py
+│   │   ├── scientific_dual_low_top10.json
+│   │   └── report_scientific_dual_low_20260519.html
+│   ├── analysis_template.py          # 分析脚本模板
+│   ├── convert_text_to_real.py       # 数值类型转换
+│   └── load_from_csv.py              # CSV加载脚本
 ├── charts/                           # 输出图表（模板）
 └── <YYYYMMDD>/                      # 每次分析任务子目录
     ├── analyze_*.py                  # 分析脚本
@@ -79,6 +87,25 @@
 ```
 
 **命名规范**：每次分析任务在 `航油成本分析/` 下创建独立子目录，格式 `<YYYYMMDD>`（8位日期），不得在其他位置创建。
+
+---
+
+## 分析子项目
+
+### 飞行员CI与高度执行率分析
+
+| 文件 | 说明 |
+|------|------|
+| `analyze_dual_low_pilots.py` | 数据提取脚本 |
+| `generate_dual_low_report.py` | 报告生成脚本 |
+| `scientific_dual_low_top10.json` | Z分数法分析数据 |
+| `report_scientific_dual_low_20260519.html` | HTML报告（可展开航班明细） |
+
+**指标口径**：
+- CI执行率 = is_execute_ci=1 的航班占比（分子分母同时排除NULL）
+- 高度执行率 = 实际高度≥计划高度-500ft 的航班占比
+- 分析方法：Z分数法综合排序（综合Z= (CI_Z + Alt_Z)/2）
+- 过滤条件：is_valid=0, flight_status=0, flight_type IN (1,2,3,4), 航班量≥20
 
 ---
 
