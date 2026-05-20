@@ -302,6 +302,6 @@ WHERE t.dr = 0;
 
 | Skill | 用途 |
 |-------|------|
-| `financial-analysis` | 数据分析 + 报告生成 |
+| `data-analysis` | 数据分析 + 报告生成 |
 | `neodata-financial-search` | 自然语言财务数据查询 |
 | `xlsx` | SQL 导出数据的 Excel 处理 |

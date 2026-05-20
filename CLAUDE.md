@@ -10,7 +10,7 @@ Claude Code/
 ├── .claude/hooks/             # Session lifecycle hooks (session-start.sh 等)
 ├── skills/
 │   ├── engineering/           # 21 工程技能（技能名/SKILL.md）
-│   └── domain/                 # 4 领域技能：data-analysis, financial-analysis, sql-generation, machine-learning
+│   └── domain/                # 2 领域技能：data-analysis（含ML建模 + 财务分析）, sql-generation
 ├── agents/
 │   ├── personas/             # code-reviewer, security-auditor, test-engineer
 │   └── orchestration/        # Python 多 Agent 框架（9 agents + llm_client）
@@ -48,8 +48,7 @@ Claude Code/
 | CI/CD / 自动化 | `ci-cd-and-automation` |
 | 文档 / ADR | `documentation-and-adrs` |
 | 部署发布 | `shipping-and-launch` |
-| **数据分析流程** | `data-analysis`（domain）|
-| **财务数据 / 报表** | `financial-analysis`（domain）|
+| **数据分析流程（含财务分析）** | `data-analysis`（domain）|
 | **SQL 生成** | `sql-generation`（domain）|
 
 **规则**：任务匹配技能时，**必须**调用该技能，不直接实现。技能是工作流，不是建议。
@@ -119,8 +118,7 @@ Claude Code/
 ├── skills/                            # Skills layer: engineering + domain skills
 │   ├── engineering/                   # 21 engineering skills (spec-driven, code-review, etc.)
 │   └── domain/                        # Domain skills
-│       ├── data-analysis/            # 通用数据分析流程（清洗→EDA→建模→可视化→报告）
-│       ├── financial-analysis/       # 春秋财务部通用分析（供应商、成本多维、报表发布、竞争情报）
+│       ├── data-analysis/            # 通用数据分析流程（含财务分析、ML建模）
 │       └── sql-generation/           # SQL生成：公司内部系统全业务域（合同/税务/共享/资金）
 ├── agents/                            # Agents layer: personas + orchestration framework
 │   ├── personas/                     # Reusable personas: code-reviewer, test-engineer, security-auditor
@@ -198,10 +196,9 @@ Task arrives
     ├── Deploying / launching? ─────────────→ shipping-and-launch
     │
     │   ── 数据分析 / 自动化场景 (Data Analysis & Automation) ──
-    ├── 分析财务数据 / 报表解读? ──────────→ financial-analysis (domain)
     ├── 生成/优化 SQL 查询? ────────────────→ sql-generation (domain)
     ├── 通用数据分析流程? ──────────────────→ data-analysis (domain)
-    │   └── 航司财务专项? ─────────────────→ financial-analysis (domain)
+    │   └── 财务专项（供应商/成本/竞争）? ──→ data-analysis (domain)
     ├── 流程自动化 / RPA / 定时任务? ───────→ ci-cd-and-automation
     └── 技术文档优化 / ADR? ────────────────→ documentation-and-adrs
 ```
@@ -220,8 +217,7 @@ Task arrives
 | Security review | `security-and-hardening` |
 | Performance issues | `performance-optimization` |
 | Shipping / deployment | `shipping-and-launch` |
-| **通用数据分析流程** | `data-analysis` (domain) |
-| **财务数据 / 报表解读 / 供应商分析** | `financial-analysis` (domain) |
+| **通用数据分析流程（含财务专项）** | `data-analysis` (domain) |
 | **SQL 生成 / 数据查询** | `sql-generation` (domain) |
 | **流程自动化 / RPA / 定时任务** | `ci-cd-and-automation` |
 | **文档优化 / ADR / 技术写作** | `documentation-and-adrs` |
@@ -256,8 +252,7 @@ Domain skills are located at `skills/domain/<skill-name>/SKILL.md`.
 | **Ship** | `documentation-and-adrs` | engineering | Document the why, not just the what |
 | **Ship** | `shipping-and-launch` | engineering | Pre-launch checklist, monitoring, rollback plan |
 | **Meta** | `using-agent-skills` | engineering | Meta-skill: discover and invoke the right skill |
-| **数据分析** | `data-analysis` | domain | 通用数据分析流程：数据获取→清洗→EDA→建模→可视化→报告 |
-| **数据分析** | `financial-analysis` | domain | 春秋财务部通用分析：供应商评估、成本多维钻取、报表发布清单、竞争情报 |
+| **数据分析** | `data-analysis` | domain | 通用数据分析流程：数据获取→清洗→EDA→建模（含ML/深度学习/运筹优化）→可视化→报告，含财务专项分析 |
 | **数据分析** | `sql-generation` | domain | SQL生成：根据数据字典生成查询（合同/税务/共享/资金），字典路径见 `data-analysis-local/CLAUDE.md` |
 
 ### Skill Rules
@@ -480,7 +475,7 @@ When creating a new project, use this template for `projects/<name>/CLAUDE.md`:
 
 数据分析工作的详细约束（本地模型要求、输出规范、报告格式等）见 `data-analysis-local/CLAUDE.md`。
 
-相关 Skills：`data-analysis` / `financial-analysis` / `sql-generation`（均在 `skills/domain/` 下）。
+相关 Skills：`data-analysis` / `sql-generation`（均在 `skills/domain/` 下）。
 
 ## Capability Domains
 
@@ -489,7 +484,7 @@ When creating a new project, use this template for `projects/<name>/CLAUDE.md`:
 ## Quick Reference
 
 - Engineering skills: `skills/engineering/<name>/SKILL.md`
-- Domain skills: `skills/domain/data-analysis/` | `skills/domain/financial-analysis/` | `skills/domain/sql-generation/`
+- Domain skills: `skills/domain/data-analysis/` | `skills/domain/sql-generation/`
 - Slash commands: `/spec` `/plan` `/build` `/test` `/review` `/code-simplify` `/ship`
 - Agent personas: `agents/personas/`
 - Multi-agent system: `agents/orchestration/main.py`

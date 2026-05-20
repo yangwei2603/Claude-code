@@ -65,10 +65,8 @@ skills/
 │   ├── shipping-and-launch.md
 │   └── source-driven-development.md
 │
-└── domain/              # 4 领域技能（企业定制）
-    ├── data-analysis.md          # 通用数据分析流程
-    ├── financial-analysis.md     # 春秋财务专项分析
-    ├── machine-learning.md       # 机器学习
+└── domain/              # 2 领域技能（企业定制）
+    ├── data-analysis.md          # 通用数据分析流程（含ML建模+财务分析）
     └── sql-generation.md        # SQL生成（合同/税务/共享/资金）
 ```
 
@@ -108,10 +106,9 @@ Map the user's intent to the appropriate skill(s):
 
 | Intent | Skill |
 |--------|-------|
-| 分析财务数据 / 报表解读 / 供应商分析 | `financial-analysis` |
+| 分析财务数据 / 报表解读 / 供应商分析 | `data-analysis` |
 | 生成 / 优化 SQL 查询 | `sql-generation` |
-| 通用数据分析流程（清洗→EDA→建模→可视化） | `data-analysis` |
-| 机器学习建模 | `machine-learning` |
+| 通用数据分析流程（清洗→EDA→建模→可视化，含ML/深度学习/运筹优化） | `data-analysis` |
 
 ---
 

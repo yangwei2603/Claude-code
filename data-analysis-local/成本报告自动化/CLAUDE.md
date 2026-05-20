@@ -28,4 +28,4 @@
 ## 相关文档
 
 - data-analysis-local CLAUDE.md：工作区总体规范
-- skills/domain/financial-analysis/：财务分析技能
+- skills/domain/data-analysis/：财务分析技能

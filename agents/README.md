@@ -7,6 +7,8 @@ Specialist personas that play a single role with a single perspective. Each pers
 | [code-reviewer](code-reviewer.md) | Senior Staff Engineer | Five-axis review before merge |
 | [security-auditor](security-auditor.md) | Security Engineer | Vulnerability detection, OWASP-style audit |
 | [test-engineer](test-engineer.md) | QA Engineer | Test strategy, coverage analysis, Prove-It pattern |
+| [data-analyst](data-analyst.md) | Senior Financial Analyst | Airline cost analysis, SQL generation, narrative reports |
+| [git-specialist](git-specialist.md) | Git Engineer | Repository diagnosis, conflict resolution, multi-repo management |
 
 ## How personas relate to skills and commands
 

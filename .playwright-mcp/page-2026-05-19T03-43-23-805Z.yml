@@ -1,0 +1,295 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link [ref=e5] [cursor=pointer]:
+        - /url: /new/index
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "首页" [ref=e9] [cursor=pointer]:
+            - /url: /new/index
+        - listitem [ref=e10]:
+          - text: 公告
+          - list [ref=e13]:
+            - listitem [ref=e14]:
+              - link "深市" [ref=e15] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#szse
+            - listitem [ref=e16]:
+              - link "深主板" [ref=e17] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#szseMain
+            - listitem [ref=e18]:
+              - link "创业板" [ref=e19] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#szseGem
+            - listitem [ref=e20]:
+              - link "沪市" [ref=e21] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#sse
+            - listitem [ref=e22]:
+              - link "沪主板" [ref=e23] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#sseMain
+            - listitem [ref=e24]:
+              - link "科创板" [ref=e25] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#sseKcp
+            - listitem [ref=e26]:
+              - link "北交所" [ref=e27] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#bj
+            - listitem [ref=e28]:
+              - link "基金" [ref=e29] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#fund
+            - listitem [ref=e30]:
+              - link "债券" [ref=e31] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#bond
+            - listitem [ref=e32]:
+              - link "港股" [ref=e33] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#hke/1_hkeMain
+            - listitem [ref=e34]:
+              - link "调研" [ref=e35] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/list/notice#dy%2F1
+            - listitem [ref=e36]:
+              - link "发行上市" [ref=e37] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/ipo/register
+            - listitem [ref=e38]:
+              - link "摇号抽签" [ref=e39] [cursor=pointer]:
+                - /url: /new/lottery/commonUrl?url=disclosure/lotteryList
+            - listitem [ref=e40]:
+              - link "深市问询函" [ref=e41] [cursor=pointer]:
+                - /url: http://www.szse.cn/disclosure/supervision/inquire/index.html
+            - listitem [ref=e42]:
+              - link "沪市问询函" [ref=e43] [cursor=pointer]:
+                - /url: http://www.sse.com.cn/disclosure/credibility/supervision/inquiries/
+            - listitem [ref=e44]:
+              - link "北交所问询函" [ref=e45] [cursor=pointer]:
+                - /url: https://www.bse.cn/disclosure/enquiry_letter.html
+            - listitem [ref=e46]:
+              - link "深市监管措施" [ref=e47] [cursor=pointer]:
+                - /url: http://www.szse.cn/disclosure/supervision/measure/measure/index.html
+            - listitem [ref=e48]:
+              - link "沪市监管措施" [ref=e49] [cursor=pointer]:
+                - /url: http://www.sse.com.cn/disclosure/credibility/supervision/measures/
+            - listitem [ref=e50]:
+              - link "北交所监管措施" [ref=e51] [cursor=pointer]:
+                - /url: https://www.bse.cn/disclosure/supervise.html
+            - listitem [ref=e52]:
+              - link "深市纪律处分" [ref=e53] [cursor=pointer]:
+                - /url: http://www.szse.cn/disclosure/supervision/measure/pushish/index.html
+            - listitem [ref=e54]:
+              - link "沪市纪律处分" [ref=e55] [cursor=pointer]:
+                - /url: http://www.sse.com.cn/disclosure/credibility/review/
+            - listitem [ref=e56]:
+              - link "北交所纪律处分" [ref=e57] [cursor=pointer]:
+                - /url: https://www.bse.cn/disclosure/disciplinary_aciton.html
+        - listitem [ref=e58]:
+          - text: 资讯
+          - list [ref=e61]:
+            - listitem [ref=e62]:
+              - link "个股F10" [ref=e63] [cursor=pointer]:
+                - /url: /new/disclosure/stock?tabName=data&f002v=001001&stockCode=000002&type=info
+            - listitem [ref=e64]:
+              - link "公开信息" [ref=e65] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/public-information
+            - listitem [ref=e66]:
+              - link "融资融券" [ref=e67] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/rzrq-zjlx#rzrq
+            - listitem [ref=e68]:
+              - link "大宗交易" [ref=e69] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/dzjy
+            - listitem [ref=e70]:
+              - link "限售解禁" [ref=e71] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/person-stock-data-tables#xsjj
+            - listitem [ref=e72]:
+              - link "公司要览" [ref=e73] [cursor=pointer]:
+                - /url: /new/snapshot/companyListCn
+            - listitem [ref=e74]:
+              - link "深市日历" [ref=e75] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/tradingTips
+            - listitem [ref=e76]:
+              - link "终止/退市" [ref=e77] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/person-stock-data-tables#zzts
+            - listitem [ref=e78]:
+              - link "预约披露" [ref=e79] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/yypl
+            - listitem [ref=e80]:
+              - link "IPO查询" [ref=e81] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/ipo/area
+            - listitem [ref=e82]:
+              - link "IPO招股书" [ref=e83] [cursor=pointer]:
+                - /url: /new/commonUrl?url=disclosure/ipo/list
+            - listitem [ref=e84]:
+              - link "股权质押" [ref=e85] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/person-stock-data-tables#gqzy
+            - listitem [ref=e86]:
+              - link "股东数据" [ref=e87] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/person-stock-data-tables#gdsj
+            - listitem [ref=e88]:
+              - link "股东增减持" [ref=e89] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/person-stock-data-tables#gdzjc
+            - listitem [ref=e90]:
+              - link "高管持股" [ref=e91] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/person-stock-data-tables#ggcg
+            - listitem [ref=e92]:
+              - link "基金持股" [ref=e93] [cursor=pointer]:
+                - /url: /new/commonUrl?url=data/person-stock-data-tables#jjcg
+        - listitem [ref=e94]:
+          - text: 数据
+          - list [ref=e97]:
+            - listitem [ref=e98]:
+              - link "数据平台" [ref=e99] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn
+            - listitem [ref=e100]:
+              - link "数据商城" [ref=e101] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/home/data-center
+            - listitem [ref=e102]:
+              - link "智能公告" [ref=e103] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/smartNotice
+            - listitem [ref=e104]:
+              - link "上市公司嵌入" [ref=e105] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/listedCompany
+            - listitem [ref=e106]:
+              - link "For Overseas Clients" [ref=e107] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/enDataServices
+            - listitem [ref=e108]:
+              - link "专题统计" [ref=e109] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/thematicStatistics
+            - listitem [ref=e110]:
+              - link "数据浏览器" [ref=e111] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/dataBrowse
+            - listitem [ref=e112]:
+              - link "固定收益" [ref=e113] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/bond
+            - listitem [ref=e114]:
+              - link "金融科技" [ref=e115] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/fintech
+            - listitem [ref=e116]:
+              - link "数据API" [ref=e117] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/apiDoc
+            - listitem [ref=e118]:
+              - link "企业图谱" [ref=e119] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/qiyetupu
+            - listitem [ref=e120]:
+              - link "行情中心" [ref=e121] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn/#/marketData
+        - listitem [ref=e122]:
+          - text: 服务
+          - list [ref=e125]:
+            - listitem [ref=e126]:
+              - link "互动易" [ref=e127] [cursor=pointer]:
+                - /url: http://irm.cninfo.com.cn
+            - listitem [ref=e128]:
+              - link "网络投票" [ref=e129] [cursor=pointer]:
+                - /url: http://wltp.cninfo.com.cn
+            - listitem [ref=e130]:
+              - link "国证指数" [ref=e131] [cursor=pointer]:
+                - /url: http://www.cnindex.com.cn/
+            - listitem [ref=e132]:
+              - link "行情授权公示" [ref=e133] [cursor=pointer]:
+                - /url: http://www.szsi.cn/cpfw/fwsq/hq/index.htm
+            - listitem [ref=e134]:
+              - link "深证信数据服务平台" [ref=e135] [cursor=pointer]:
+                - /url: http://webapi.cninfo.com.cn
+            - listitem [ref=e136]:
+              - link "科融通" [ref=e137] [cursor=pointer]:
+                - /url: https://www.chinahtz.com/index.do
+            - listitem [ref=e138]:
+              - link "V-Next" [ref=e139] [cursor=pointer]:
+                - /url: https://www.v-next.cn/index.do
+            - listitem [ref=e140]:
+              - link "行情服务" [ref=e141] [cursor=pointer]:
+                - /url: http://www.szsi.cn/cpfw/fwsq/hq/hlsdkfw.htm
+            - listitem [ref=e142]:
+              - link "成长通" [ref=e143] [cursor=pointer]:
+                - /url: https://list.cninfo.com.cn
+            - listitem [ref=e144]:
+              - link "股东权利网络征集" [ref=e145] [cursor=pointer]:
+                - /url: https://gkzj.cninfo.com.cn/index
+      - generic [ref=e146]:
+        - generic [ref=e147]:
+          - link "登录" [ref=e148] [cursor=pointer]:
+            - /url: https://owssso.szse.cn/sso/login?locale=zh&service=https://uc.cninfo.com.cn/api/callback?client_name=CasClient
+          - link "注册" [ref=e149] [cursor=pointer]:
+            - /url: https://www.szse.cn/application/register/?source=https://uc.cninfo.com.cn/api/callback&locale=zh
+        - generic [ref=e150]:
+          - img [ref=e151]
+          - text: 退出
+      - generic [ref=e153]:
+        - generic [ref=e154]:
+          - generic [ref=e155]:
+            - generic [ref=e156]: 站内消息
+            - generic [ref=e157]: x
+          - list [ref=e159]:
+            - listitem [ref=e160]:
+              - generic [ref=e161]: 最新公告
+              - generic [ref=e162]:
+                - text: "更新{{newsNew&&newsNew.announce}}条"
+                - generic [ref=e163]: 
+            - listitem [ref=e164]:
+              - generic [ref=e165]: 公开信息
+              - generic [ref=e166]:
+                - text: "更新{{newsNew&&newsNew.publicInfo}}条"
+                - generic [ref=e167]: 
+            - listitem [ref=e168]:
+              - generic [ref=e169]: 大宗交易
+              - generic [ref=e170]:
+                - text: "更新{{newsNew&&newsNew.ints}}条"
+                - generic [ref=e171]: 
+            - listitem [ref=e172]:
+              - generic [ref=e173]: 我的问答
+              - generic [ref=e174]:
+                - text: "更新{{newsNew&&newsNew.myQuestion}}条"
+                - generic [ref=e175]: 
+        - generic [ref=e177]: 
+  - generic [ref=e179]:
+    - generic [ref=e180]: 很抱歉，您访问的页面不存在
+    - generic [ref=e181]: 请尝试刷新页面，或稍后再试
+  - contentinfo [ref=e182]:
+    - generic [ref=e183]:
+      - generic [ref=e184]:
+        - paragraph [ref=e185]: 关于我们
+        - generic [ref=e186]: 巨潮资讯网是深圳证券交易所法定信息披露平台，由深交所全资子公司深圳证券信息有限公司运营，平台始终致力于保护投资者的知情权和参与权，为投资者提供一站式的证券市场信息服务。
+        - list [ref=e187]:
+          - listitem [ref=e188]:
+            - link [ref=e189] [cursor=pointer]:
+              - /url: http://www.szsi.cn/gywm/gsjs/gsjj/
+          - listitem [ref=e190]:
+            - link [ref=e191] [cursor=pointer]:
+              - /url: http://www.szsi.cn/cpfw/jczxw/
+      - generic [ref=e192]:
+        - paragraph [ref=e193]: 友情链接
+        - list [ref=e194]:
+          - listitem [ref=e195]:
+            - link "深圳证券交易所" [ref=e196] [cursor=pointer]:
+              - /url: http://www.szse.cn/
+            - link "上海证券交易所" [ref=e197] [cursor=pointer]:
+              - /url: http://www.sse.com.cn/
+            - link "深圳证券信息有限公司" [ref=e198] [cursor=pointer]:
+              - /url: http://www.szsi.cn/
+          - listitem [ref=e199]:
+            - link "国证指数" [ref=e200] [cursor=pointer]:
+              - /url: http://www.cnindex.com.cn/
+            - link "科融通" [ref=e201] [cursor=pointer]:
+              - /url: https://www.chinahtz.com/index.do
+            - link "V-Next" [ref=e202] [cursor=pointer]:
+              - /url: https://www.v-next.cn/index.do
+          - listitem [ref=e203]:
+            - link "深证信数据服务平台" [ref=e204] [cursor=pointer]:
+              - /url: http://webapi.cninfo.com.cn/
+            - link "CNINFO Data Service" [ref=e205] [cursor=pointer]:
+              - /url: http://webapi.cninfo.com.cn/#/home-en
+      - generic [ref=e206]:
+        - paragraph [ref=e207]: 关注我们
+        - list [ref=e208]:
+          - listitem [ref=e209]: 公众号
+          - listitem [ref=e211]: APP
+    - generic [ref=e213]:
+      - generic [ref=e214]:
+        - link "粤公网安备 44030002001497 号" [ref=e215] [cursor=pointer]:
+          - /url: http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030002001497
+        - text: 深圳证券信息有限公司 版权所有
+        - link "粤B2-20050313号" [ref=e216] [cursor=pointer]:
+          - /url: https://beian.miit.gov.cn
+        - generic [ref=e217]:
+          - text: 免责声明
+          - generic "免责声明" [ref=e218]:
+            - generic [ref=e219]:
+              - paragraph [ref=e220]: 本网站竭力保证所提供的证券市场信息准确可靠，但并不担保（无论提示、默示、法定或其他形式）其准确性和完整性。任何使用方不得就全部或部分使用其中的证券市场信息作为依据对于由此而引起的任何损失向本公司提出索赔。
+              - paragraph [ref=e221]: 本网站亦不保证所设置的外部链接的准确性和完整性。任何机构或者个人通过本网站与其他网站的链接而获得其他网站内容，其风险责任自负。本公司不对此承担任何法律责任。
+              - paragraph [ref=e222]: 本声明在本网站首页及相关页面发布。本网站郑重提示：任何机构或者个人进入本网站，即被视为已完全知悉、理解并接受本声明的全部内容。
+            - generic [ref=e223]: 确认
+      - generic [ref=e224]: 建议使用IE11及以上浏览器，1280*800以上分辨率 本网站支持ipv6访问

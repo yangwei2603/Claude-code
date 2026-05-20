@@ -1,0 +1,298 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - heading "飞机票" [level=1] [ref=e4]:
+      - link "飞机票" [ref=e5] [cursor=pointer]:
+        - /url: https://www.ch.com
+        - img "飞机票" [ref=e6]
+    - generic [ref=e7]:
+      - list:
+        - listitem [ref=e8]:
+          - link "机票" [ref=e9] [cursor=pointer]:
+            - /url: javascript:;
+            - text: 机票
+            - generic [ref=e10]: 
+        - listitem [ref=e11]:
+          - link "旅游" [ref=e12] [cursor=pointer]:
+            - /url: javascript:;
+            - text: 旅游
+            - generic [ref=e13]: 
+        - listitem [ref=e14]:
+          - link "会员" [ref=e15] [cursor=pointer]:
+            - /url: https://account.ch.com/CN/MemberRights/NewIndex
+        - listitem [ref=e16]:
+          - link "省钱卡专享" [ref=e17] [cursor=pointer]:
+            - /url: https://pages.ch.com/acts/24083011_yy_ss_sqk79?inpid=20250307_yy_ft_sqk_pczhuanxiang
+        - listitem [ref=e18]:
+          - link "服务中心" [ref=e19] [cursor=pointer]:
+            - /url: javascript:;
+            - text: 服务中心
+            - generic [ref=e20]: 
+        - listitem [ref=e21]:
+          - link "政企客户/团队" [ref=e22] [cursor=pointer]:
+            - /url: javascript:;
+            - text: 政企客户/团队
+            - generic [ref=e23]: 
+        - listitem [ref=e24]:
+          - link "金融" [ref=e25] [cursor=pointer]:
+            - /url: javascript:;
+            - text: 金融
+            - generic [ref=e26]: 
+    - generic [ref=e28]:
+      - generic [ref=e29]: 
+      - generic [ref=e30]:
+        - link "登录" [ref=e31] [cursor=pointer]:
+          - /url: javascript:void(0);
+        - link "注册" [ref=e32] [cursor=pointer]:
+          - /url: https://account.ch.com/NonRegistrations-Regist?ReturnUrl=https://www.ch.com/invester/period-report
+  - generic [ref=e35]:
+    - generic [ref=e36]:
+      - text: 您的位置：
+      - link "首页" [ref=e37] [cursor=pointer]:
+        - /url: https://www.ch.com
+      - link "投资者关系" [ref=e39] [cursor=pointer]:
+        - /url: javascript:;
+    - generic [ref=e41]:
+      - heading "投资者关系" [level=2] [ref=e42] [cursor=pointer]
+      - list [ref=e43]:
+        - listitem [ref=e44] [cursor=pointer]:
+          - link "公司介绍" [ref=e45]:
+            - /url: javascript:;
+        - listitem [ref=e47] [cursor=pointer]:
+          - link "证券发行" [ref=e48]:
+            - /url: javascript:;
+        - listitem [ref=e50] [cursor=pointer]:
+          - link "公司治理" [ref=e51]:
+            - /url: javascript:;
+        - listitem [ref=e53] [cursor=pointer]:
+          - link "定期报告" [ref=e54]:
+            - /url: javascript:;
+        - listitem [ref=e56] [cursor=pointer]:
+          - link "运营数据" [ref=e57]:
+            - /url: javascript:;
+        - listitem [ref=e59] [cursor=pointer]:
+          - link "投资者沟通" [ref=e60]:
+            - /url: javascript:;
+        - listitem [ref=e62] [cursor=pointer]:
+          - link "联系我们" [ref=e63]:
+            - /url: javascript:;
+    - list [ref=e67]:
+      - listitem [ref=e68]:
+        - heading "公司介绍" [level=1] [ref=e69]
+        - paragraph [ref=e71] [cursor=pointer]: 公司介绍
+        - generic [ref=e73]:
+          - img [ref=e75]
+          - paragraph [ref=e76]: 春秋航空股份有限公司（以下简称“春秋航空”或“公司”）作为中国首批民营航空公司之一，于2004年经中国民用航空总局批准在上海成立，定位于低成本航空业务模式，主要从事国内、国际及港澳台航空客货运输业务及与航空运输业务相关的服务。
+          - paragraph [ref=e77]: 公司于2005年首航，设立初期主要提供国内航线的客运业务，于2010年开始经营国际及地区航线，并于2011年开始加快开辟国际及地区航线的步伐。截至2025年一季度末，公司在飞航线共251条，其中国内在飞航线188条，国内各线城市往返东北亚和东南亚国际在飞航线60条，港澳台航线3条。截至2025年一季度末，公司已拥有131架A320系列飞机机队，成为国内在飞航线、载运旅客人次、旅客周转量等规模最大的民营航空公司之一，同时也是东北亚地区领先的低成本航空公司。
+          - paragraph [ref=e78]: 目前，国内枢纽建设方面，公司已形成以服务长三角区域经济一体化建设的上海基地为核心、扬州和宁波基地为支撑的华东枢纽，以服务粤港澳大湾区建设的广州基地、深圳分公司为核心、揭阳基地为支撑的华南机场枢纽，以服务京津冀一体化建设的石家庄河北分公司为核心的华北机场枢纽，以服务东北全面振兴战略建设的沈阳和大连基地为核心的东北枢纽，以服务新时代西部大开发建设的兰州基地、西安分公司为核心的西北枢纽，以服务成渝双城经济圈等重要市场的成都天府基地为核心的西南枢纽，南昌基地的建设也为服务中部地区崛起战略创造了更多机遇。国际航线目前则仍以日本大阪和韩国济州为境外过夜航站，未来将择机恢复泰国曼谷过夜航站，背靠国内各主要基地和目的地网络，聚焦东北亚和东南亚地区重要市场，主动服务“一带一路”“RCEP”建设等国家重大战略。
+          - paragraph [ref=e79]: 公司拥有国内最早独立于中航信体系的分销、订座、结算和离港系统，每年为公司节省大量的销售费用支出。此外，公司还拥有自主研发的收益管理系统、航线网络系统、航班调配系统、机组排班系统、维修管理系统、地面管控系统和安全管理系统等，覆盖主要业务流程点，并仍在不断优化和完善。凭借自身强大的互联网航空信息系统所拥有的全面开发、运营和维护能力，公司已经具备向国内其他航空公司输出具有自主知识产权的系统解决方案的技术能力。
+          - paragraph [ref=e80]: 区别于全服务航空公司，公司定位于低成本航空经营模式，凭借价格优势吸引大量由对价格较为敏感的自费旅客以及追求高性价比的商务旅客构成的细分市场客户。自成立以来，在严格确保飞行安全和服务质量的前提下，最大限度地利用现有资产，实现高效率的航空生产运营。公司的经营模式可归纳为下述特点：
+          - generic [ref=e81]:
+            - heading "◆ “两单”——单一机型与单一舱位" [level=3] [ref=e82]
+            - paragraph [ref=e83]: – 单一机型可通过集中采购降低飞机购买和租赁成本
+            - paragraph [ref=e84]: – 单一经济舱布局可使公司较两舱机型飞机高出约10%~15%座位数
+          - generic [ref=e85]:
+            - heading "◆ “两高”——高客座率与高飞机日利用率" [level=3] [ref=e86]
+            - paragraph [ref=e87]: – 客座率和飞机日利用率均显著高于行业平均水平
+          - generic [ref=e88]:
+            - heading "◆ “两低”——低销售费用和低管理费用" [level=3] [ref=e89]
+            - paragraph [ref=e90]: – 98%以上散客机票通过电子商务或直销渠道销售
+            - paragraph [ref=e91]: – 使用自主研发且独立于中航信系统的分销、订座、结算和离港系统
+            - paragraph [ref=e92]: – 最大程度地利用第三方服务商在各地机场的资源与服务，在确保飞行安全、运行品质和服务质量的前提下尽可能降低日常管理费用
+          - paragraph [ref=e93]: 此外，公司利用差异化经营模式，不断丰富利润率较高的创新辅助产品和服务项目，将包括客舱餐饮、行李、选座等全服务航空含入票价内的产品和服务作为机上有偿服务供乘客选择，并推出一系列出行相关的产品和服务项目，在客户从订票、支付、登机、乘机和出行的过程中为其提供更多的自主权与便利性。
+          - paragraph [ref=e94]: 公司拥有先进的管理理念，是国内民航上市公司中首家推出股权激励制度的公司，高级管理层及核心技术人员通过上海春翔投资有限公司及上海春翼投资有限公司持有公司股份，并于2016年9月实施第一期限制性股票股权激励计划，之后从2018年开始连续每年实施员工持股计划。多层次的股权激励制度确保了中高管理层与核心技术团队的稳定性与积极性。公司恪守勤俭奋斗原则，在保证安全飞行的前提下，倡导环保、节俭、高效的低成本运营理念，在全公司营造“奋斗、远虑、节俭、感恩”的企业文化。
+          - paragraph [ref=e95]: 未来几年，公司将继续优化和加强低成本航空的业务模式与竞争优势，在确保飞行安全和准点的前提下，积极扩大机队规模和航线网络，致力于实现“成为具有竞争力的国际化低成本航空公司，为旅客提供实惠且有品质的航空服务”的战略目标。
+  - generic [ref=e96]:
+    - generic [ref=e98]:
+      - link "便宜机票" [ref=e99] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "航班信息" [ref=e100] [cursor=pointer]:
+        - /url: https://flights.ch.com/flight-date
+      - link "城市出发机票" [ref=e101] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-city-from.html
+      - link "行李托运" [ref=e102] [cursor=pointer]:
+        - /url: https://flights.ch.com/baggage-rule
+      - link "飞机托运行李规定" [ref=e103] [cursor=pointer]:
+        - /url: https://flights.ch.com/baggage-rule/
+      - link "机票预订查询" [ref=e104] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "特价飞机票查询" [ref=e105] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "寒假机票" [ref=e106] [cursor=pointer]:
+        - /url: https://flights.ch.com/jieri-hanjia/
+      - link "上海到乌兰巴托特价机票" [ref=e107] [cursor=pointer]:
+        - /url: https://flights.ch.com/SHA-ULN.html?FDate=&MType=0&SType=0&IsNew=1
+      - link "订机票" [ref=e108] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "航班动态查询" [ref=e109] [cursor=pointer]:
+        - /url: https://flights.ch.com/flight-info/
+      - link "打折机票查询" [ref=e110] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "飞机票" [ref=e111] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "机票预订" [ref=e112] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "打折机票价格" [ref=e113] [cursor=pointer]:
+        - /url: https://flights.ch.com/
+      - link "特价飞机票" [ref=e114] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "廉价机票网" [ref=e115] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "机场航班动态" [ref=e116] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-info-airport.html
+      - link "机票" [ref=e117] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "订机票官网" [ref=e118] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "打折机票" [ref=e119] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "定机票" [ref=e120] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "折扣机票" [ref=e121] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "买飞机票" [ref=e122] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "特价机票" [ref=e123] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "机票预定" [ref=e124] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "航班查询" [ref=e125] [cursor=pointer]:
+        - /url: https://flights.ch.com/flight-date
+      - link "特价一折机票查询" [ref=e126] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "泰国机票" [ref=e127] [cursor=pointer]:
+        - /url: https://flights.ch.com/Thailand.html
+      - link "订飞机票" [ref=e128] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "飞机票预订" [ref=e129] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "飞机票网上订票官网" [ref=e130] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "便宜飞机票" [ref=e131] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "城市到达机票" [ref=e132] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-city-to.html
+      - link "机票改签" [ref=e133] [cursor=pointer]:
+        - /url: https://flights.ch.com/Service/RefundTicket
+      - link "查机票" [ref=e134] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "飞机票预定" [ref=e135] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "机票打折" [ref=e136] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "打折飞机票" [ref=e137] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "往返机票" [ref=e138] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-city-to-city-round.html
+      - link "机票查询" [ref=e139] [cursor=pointer]:
+        - /url: https://flights.ch.com/
+      - link "航班查询时刻表" [ref=e140] [cursor=pointer]:
+        - /url: https://flights.ch.com/flight-date
+      - link "低价机票" [ref=e141] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "日本机票" [ref=e142] [cursor=pointer]:
+        - /url: https://flights.ch.com/Japan.html
+      - link "买机票" [ref=e143] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "机票预订官网" [ref=e144] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "机票特价" [ref=e145] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "飞机航班查询" [ref=e146] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "城市航班动态" [ref=e147] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-info-city.html
+      - link "特价机票预订" [ref=e148] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "航班" [ref=e149] [cursor=pointer]:
+        - /url: https://flights.ch.com/flight-date
+      - link "台湾机票" [ref=e150] [cursor=pointer]:
+        - /url: https://flights.ch.com/Taiwan.html
+      - link "航班号航班动态" [ref=e151] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-info-num.html
+      - link "城市特价机票" [ref=e152] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-city-to-city.html
+      - link "特价机票查询" [ref=e153] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "飞机票查询" [ref=e154] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "韩国机票" [ref=e155] [cursor=pointer]:
+        - /url: https://flights.ch.com/Korea.html
+      - link "城市机票查询" [ref=e156] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-city-to-city-select.html
+      - link "低价飞机票" [ref=e157] [cursor=pointer]:
+        - /url: https://www.ch.com/
+      - link "航班动态" [ref=e158] [cursor=pointer]:
+        - /url: https://flights.ch.com/flight-info/
+      - link "城市机票" [ref=e159] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap/flights-city.html
+      - link "国内机票" [ref=e160] [cursor=pointer]:
+        - /url: https://flights.ch.com/China.html
+      - link "机场大全" [ref=e161] [cursor=pointer]:
+        - /url: https://flights.ch.com/airports/
+      - link "飞机票查询预订" [ref=e162] [cursor=pointer]:
+        - /url: https://www.ch.com/
+    - generic [ref=e163]:
+      - link "关于春秋" [ref=e164] [cursor=pointer]:
+        - /url: https://www.ch.com/Static/AboutUs
+      - text: 丨
+      - link "联系我们" [ref=e165] [cursor=pointer]:
+        - /url: https://flights.ch.com/business-place
+      - text: 丨
+      - link "投资者关系" [ref=e166] [cursor=pointer]:
+        - /url: https://www.ch.com/invester/
+      - text: 丨
+      - link "广告招商" [ref=e167] [cursor=pointer]:
+        - /url: https://pages.ch.com/act/chunqiuwenhuazhaoshang
+      - text: 丨
+      - link "诚聘英才" [ref=e168] [cursor=pointer]:
+        - /url: https://job.ch.com
+      - text: 丨
+      - link "网站地图" [ref=e169] [cursor=pointer]:
+        - /url: https://www.ch.com/sitemap.html
+      - text: 丨
+      - link "友情链接" [ref=e170] [cursor=pointer]:
+        - /url: https://www.ch.com/links.html
+      - text: 丨
+      - link "春秋旅游" [ref=e171] [cursor=pointer]:
+        - /url: https://www.springtour.com/
+      - text: 丨
+      - link "春秋商旅通" [ref=e172] [cursor=pointer]:
+        - /url: https://money.ch.com
+      - text: 丨
+      - link "内部社区" [ref=e173] [cursor=pointer]:
+        - /url: https://ask.ch.com/tourcom/login
+      - text: 丨
+      - link "隐私政策" [ref=e174] [cursor=pointer]:
+        - /url: https://www.ch.com/privacy-regulation
+      - text: 丨
+      - link "儿童个人信息保护规则" [ref=e175] [cursor=pointer]:
+        - /url: https://www.ch.com/child-protection-rules
+      - text: 丨
+      - link "用户服务协议" [ref=e176] [cursor=pointer]:
+        - /url: https://www.ch.com/reg-rule
+      - text: 丨
+      - link "法律声明" [ref=e177] [cursor=pointer]:
+        - /url: https://www.ch.com/law/
+      - text: 丨
+      - link "营业执照" [ref=e178] [cursor=pointer]:
+        - /url: https://www.ch.com/Static/Company
+    - paragraph [ref=e179]:
+      - text: Copyright ©1998-2026 版权所有 CH.COM 春秋航空服务及投诉热线 95524 投诉受理电子邮件：cs@ch.com 丨
+      - link "沪ICP备11008880号-1" [ref=e180] [cursor=pointer]:
+        - /url: https://beian.miit.gov.cn/
+    - link "沪公网安备 31010502000060号" [ref=e182] [cursor=pointer]:
+      - /url: http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010502000060
+      - img [ref=e183]
+      - paragraph [ref=e184]: 沪公网安备 31010502000060号
+    - generic [ref=e185]:
+      - link:
+        - /url: https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&dn=*.ch.com&lang=zh_CN
+      - link [ref=e186] [cursor=pointer]:
+        - /url: https://www.ugtech.com.cn/PCI%20DSS-Certificate--UG251224M01(springairlines).jpg
+        - img [ref=e187]
+      - link:
+        - /url: https://kxlogo.knet.cn/verifyseal.dll?sn=e12031931010014878308178&ct=df&pa=250084
+      - link [ref=e188] [cursor=pointer]:
+        - /url: https://www.12377.cn
+        - img [ref=e189]
+      - img [ref=e190]

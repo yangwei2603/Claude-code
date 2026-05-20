@@ -428,7 +428,7 @@ class TaskScheduler:
 def generate_daily_report():
     """Generate daily financial report"""
     print(f"[{datetime.now()}] Generating daily report...")
-    # Call data-analysis skill or financial-analysis skill
+    # Call data-analysis skill
     # Save to data-analysis-local/daily-report-<YYYYMMDD>/
 
 scheduler = TaskScheduler()
@@ -491,7 +491,7 @@ class AutomatedReport:
     """
     Automated report generation
     - Fetch data using sql-generation skill
-    - Analyze using financial-analysis or data-analysis skill
+    - Analyze using data-analysis skill
     - Generate charts and markdown report
     - Sync to Obsidian Vault
     """
